@@ -11,14 +11,14 @@
         public function Add($keeper) {
             $this->RetrieveData();
 
-            $cellphone->setId($this->GetNextId());
+            $keeper->setId($this->GetNextId());
 
             array_push($this->keepersList, $keeper);
 
             $this->SaveData();
         }
 
-        public function Remove($id) {
+        public function Remove($idKeeper) {
             $this->RetrieveData();
 
             $this->keepersList = array_filter($this->keepersList, function($keeper) use($idKeeper) {
@@ -92,8 +92,8 @@
         private function GetNextId() {
             $id = 0;
 
-            foreach($this->cellphoneList as $cellphone) {
-                $id = ($cellphone->getId() > $id) ? $cellphone->getId() : $id;
+            foreach($this->keepersList as $keeper) {
+                $id = ($keeper->getIdKeeper() > $id) ? $keeper->getIdKeeper() : $id;
             }
 
             return $id + 1;

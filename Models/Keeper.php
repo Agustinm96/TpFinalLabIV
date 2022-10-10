@@ -7,7 +7,7 @@ use Models\Person;
 class Keeper extends Person{
     private $idKeeper; //auto_increment
     private $petSizeToKeep; //small, medium or big
-    private $isAvailable; //boolean, chequea disponibilidad
+    private $isAvailable; //calendario, chequea disponibilidad
 
     public function getIdKeeper(){
         return $this->idKeeper;
