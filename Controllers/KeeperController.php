@@ -35,7 +35,6 @@
             $array = array();
             if(!empty($petSizeToKeep)){
                 foreach($petSizeToKeep as $selected){
-                    echo $selected;
                     array_push($array,$selected);
                 }
             }

@@ -11,7 +11,7 @@
         public function Add($keeper) {
             $this->RetrieveData();
 
-            $keeper->setId($this->GetNextId());
+            $keeper->setIdKeeper($this->GetNextId());
 
             array_push($this->keepersList, $keeper);
 
@@ -22,7 +22,7 @@
             $this->RetrieveData();
 
             $this->keepersList = array_filter($this->keepersList, function($keeper) use($idKeeper) {
-                return $keeper->getId() != $idKeeper;
+                return $keeper->getIdKeeper() != $idKeeper;
             });
 
             $this->SaveData();
