@@ -30,7 +30,7 @@ require_once('nav-bar.php');
                         <th style="width: 5%">DNI</th>
                         <th style="width: 5%">Email</th>
                         <th style="width: 5%">Phone Number</th>
-                        <!--tamaño que esta dispuesto a cuidar--> 
+                        <th style="width: 5%">Pet Size willing to keep</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,10 @@ require_once('nav-bar.php');
                                 <td><?php echo $keeper->getDni()?></td>
                                 <td><?php echo $keeper->getEmail()?></td>
                                 <td><?php echo $keeper->getPhoneNumber()?></td>
-                                <!-- tamaño-->
+                                <td><?php $array =  $keeper->getPetSizeToKeep();
+                                foreach($array as $sizeValue){
+                                    echo ucfirst($sizeValue). "<br>";}
+                                    ?></td>
                             </tr>
                             <?php
                         }

@@ -17,7 +17,7 @@ abstract class Person{
         $this->firstName = $firstName;
     }
 
-    public function getLastName($lastName){
+    public function getLastName(){
         return $this->lastName;
     }
 
