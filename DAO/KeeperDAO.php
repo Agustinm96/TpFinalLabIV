@@ -37,7 +37,7 @@
             $this->RetrieveData();
 
             $aux = array_filter($this->keepersList, function($keeper) use($idKeeper) {
-                return $keeper->getIdKeeper() == $id;
+                return $keeper->getIdKeeper() == $idKeeper;
             });
 
             $aux = array_values($aux);
