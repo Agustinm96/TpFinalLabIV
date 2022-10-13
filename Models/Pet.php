@@ -1,0 +1,138 @@
+<?php 
+namespace Models;
+
+abstract Class Pet{
+private $petType;  // enum de mascota (gato perro cobayo tortuga etc.)
+private $name;
+private $birthDate;
+private $picture; /// VER COMO GUARDAR FOTO
+private $observation;
+private $IDPET;
+
+
+
+
+
+/**
+ * Get the value of name
+ */ 
+public function getName()
+{
+return $this->name;
+}
+
+/**
+ * Set the value of name
+ *
+ * @return  self
+ */ 
+public function setName($name)
+{
+$this->name = $name;
+
+return $this;
+}
+
+/**
+ * Get the value of birthDate
+ */ 
+public function getBirthDate()
+{
+return $this->birthDate;
+}
+
+/**
+ * Set the value of birthDate
+ *
+ * @return  self
+ */ 
+public function setBirthDate($birthDate)
+{
+$this->birthDate = $birthDate;
+
+return $this;
+}
+
+/**
+ * Get the value of picture
+ */ 
+public function getPicture()
+{
+return $this->picture;
+}
+
+/**
+ * Set the value of picture
+ *
+ * @return  self
+ */ 
+public function setPicture($picture)
+{
+$this->picture = $picture;
+
+return $this;
+}
+
+/**
+ * Get the value of observation
+ */ 
+public function getObservation()
+{
+return $this->observation;
+}
+
+/**
+ * Set the value of observation
+ *
+ * @return  self
+ */ 
+public function setObservation($observation)
+{
+$this->observation = $observation;
+
+return $this;
+}
+
+/**
+ * Get the value of IDPET
+ */ 
+public function getIDPET()
+{
+return $this->IDPET;
+}
+
+/**
+ * Set the value of IDPET
+ *
+ * @return  self
+ */ 
+public function setIDPET($IDPET)
+{
+$this->IDPET = $IDPET;
+
+return $this;
+}
+
+/**
+ * Get the value of petType
+ */ 
+public function getPetType()
+{
+return $this->petType;
+}
+
+/**
+ * Set the value of petType
+ *
+ * @return  self
+ */ 
+public function setPetType($petType)
+{
+$this->petType = $petType;
+
+return $this;
+}
+}
+
+
+?>
