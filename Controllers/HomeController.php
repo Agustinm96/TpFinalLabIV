@@ -4,11 +4,10 @@
     class HomeController
     {
         public function Index($message = "") {
-            require_once(VIEWS_PATH . "home.php");
+            require_once(VIEWS_PATH . "user-login.php");
         }
 
-
-        /*public function Login($userName, $password) {
+        public function Login($userName, $password) {
             $user = $this->userDAO->GetByUserName($userName);
 
             if(($user != null) && ($user->getPassword() === $password)) {
@@ -17,8 +16,7 @@
             } else {
                 $this->Index("Usuario y/o contraseña incorrecta");
             }
-
-        }*/
+        }
 
         public function Logout() {
             session_destroy();

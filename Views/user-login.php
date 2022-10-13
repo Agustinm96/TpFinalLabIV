@@ -2,7 +2,7 @@
     include_once('header.php');
 ?>
 <main>
-    <form action="">
+    <form action="<?php echo FRONT_ROOT?>Home/Login" method="POST">
         <p>Username</p>
     <input type="text">
         <p>Password</p>
@@ -13,5 +13,5 @@
             </div>
         </form>
         <p>or</p>
-        <a href="add-owner.php">Create new owner</a>
+        <a href="<?php echo VIEWS_PATH?>add-user.php">Create new user</a>
 </main>

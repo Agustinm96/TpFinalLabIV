@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Models\Person;
+use Models\User;
 
-class Keeper extends Person{
+class Keeper extends User{
     private $idKeeper; //auto_increment
     private $petSizeToKeep; //small, medium or big
     private $isAvailable; //boolean, falta CALENDARIO??
