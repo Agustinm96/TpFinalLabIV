@@ -1,19 +1,20 @@
+
 <?php 
 include_once('header.php');
-//include_once('nav-bar.php');
+include_once('nav-bar.php');
 ?>
 
-<div id="" class=""> 
-    <h6 class="heading">Ingreso de Tipos de Usuarios</h6>
+<div id="breadcrumb" class="hoc clear"> 
+    <h6 class="heading">Ingreso de Tipos Usuarios</h6>
   </div>
 </div>
-<div class="" >
-  <main class=""> 
+<div class="wrapper row3" >
+  <main class="container" style="width: 90%;"> 
     <!-- main body -->
-    <div class="" > 
-      <div id="" style="align-items:center;">
+    <div class="content" > 
+      <div id="comments" style="align-items:center;">
         <h2>Ingresar Tipo de Usuario</h2>
-        <form action="<?php echo 'FRONT_ROOT'."UserType/Add" ?>" method="POST"  style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT."UserType/Add" ?>" method="post"  style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>
@@ -33,7 +34,7 @@ include_once('header.php');
               </tbody>
           </table>
           <div>
-            <input type="submit" class="btn" value="Crear" style="background-color:#DC8E47;color:white;"/>
+            <input type="submit" class="btn" value="Agregar" style="background-color:#DC8E47;color:white;"/>
           </div>
         </form>
       </div>
@@ -47,3 +48,4 @@ include_once('header.php');
 <?php 
 include_once('footer.php');
 ?>
+  

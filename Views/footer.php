@@ -1,12 +1,12 @@
 <footer id="footer" class="hoc clear"> 
     <div class="center">
-      <h6 class="heading">PET HERO</h6> 
+      <h6 class="heading">Pet Hero</h6> 
       <nav>
         <ul class="nospace inline pushright uppercase">
-          <li><a href="home.php"><i class="fas fa-lg fa-home"></i></a></li>
-          <li><a href="">Home</a></li>
-          <li><a href="">Usuarios</a></li>
-          <li><a href="">Tipos de usuario</a></li>
+          <li><a href="<?php echo FRONT_ROOT ?>"><i class="fas fa-lg fa-home"></i></a></li>
+          <li><a href="<?php echo FRONT_ROOT ?>">Home</a></li>
+          <li><a href="<?php echo FRONT_ROOT?>User/showListView">Users</a></li>
+          <li><a href="<?php echo FRONT_ROOT?>UserType/showListView">User Types</a></li>
         </ul>
       </nav>
     </div>

@@ -1,19 +1,19 @@
+
 <?php 
     include_once('header.php');
-    //include_once('nav-bar.php');
 ?>
 
-<div id="" class=""> 
+<div id="breadcrumb" class="hoc clear"> 
     <h6 class="heading">Ingreso de Usuarios</h6>
   </div>
 </div>
-<div class="" >
-  <main class=""> 
+<div class="wrapper row3" >
+  <main class="container" style="width: 95%;"> 
     <!-- main body -->
-    <div class="" > 
-      <div id="" style="align-items:center;">
+    <div class="content" > 
+      <div id="comments" style="align-items:center;">
         <h2>Ingresar Usuario</h2>
-        <form action="<?php ECHO 'FRONT_ROOT' . "User/Add"?>" method="POST" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT."User/Add" ?>" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>              
               <tr>
@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody align="center">
-              <tr>
+            <tr>
                 <td style="max-width: 120px;">    
                   <input type="text" name="firstname" size="22" min="0" required>
                 </td>
@@ -70,13 +70,13 @@
           </div>
         </form>
       </div>
+      <?php if ($message) {
+      echo $message;
+    } ?>
     </div>
     <!-- / main body -->
     <div class="clear"></div>
   </main>
 </div>
 
-
-<?php 
-    include_once('footer.php');
-?>
+  

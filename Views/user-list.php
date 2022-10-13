@@ -1,10 +1,11 @@
+
 <?php 
   include_once('header.php');
-  //include_once('nav-bar.php');
+  include_once('nav-bar.php');
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
-    <h6 class="heading">Listado de Usuarios</h6>
+    <h6 class="heading">User List</h6>
   </div>
 </div>
 <div class="wrapper row3">
@@ -14,7 +15,7 @@
       <div class="scrollable">
           <table style="text-align:center;">
             <thead>
-              <tr>
+            <tr>
                 <th style="width: 100px;">First Name</th>
                 <th style="width: 170px;">Last Name</th>
                 <th style="width: 120px;">DNI</th>
@@ -74,3 +75,4 @@
 <?php 
   include_once('footer.php');
 ?>
+  

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "Owner",
+        "description": "Pet Owner"
+    },
+    {
+        "id": 2,
+        "name": "Keeper",
+        "description": "Pet Keeper"
+    },
+    {
+        "id": 3,
+        "name": "Admin",
+        "description": "Manager"
+    }
+]

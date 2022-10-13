@@ -28,12 +28,12 @@
             return $this->userList;
         }
 
-        function GetById($id)
+        function GetByDNI($dni)
         {
             $this->RetrieveData();
 
-            $user = array_filter($this->userList, function($user) use($id){
-                return $user->getId() == $id;
+            $user = array_filter($this->userList, function($user) use($dni){
+                return $user->getDni() == $dni;
             });
 
             $users = array_values($user); //Reorderding array
@@ -91,7 +91,7 @@
             {
                 $valuesArray = array();
                 $valuesArray["id"] = $user->getId();
-                $valuesArray["beerTypeId"] = $user->getBeerType()->getId();
+                $valuesArray["userTypeId"] = $user->getUserType()->getId();
                 $valuesArray["firstName"] = $user->getFirstName();
                 $valuesArray["lastName"] = $user->getLastName();
                 $valuesArray["dni"] = $user->getDni();

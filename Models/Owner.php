@@ -1,23 +1,11 @@
 <?php 
-namespace Models;
+    namespace Models;
 
-use Models\User;
-class Owner extends User{
+    use Models\User;
 
-    private $idOwner;
+    class Owner{
+        private $idUser;
+        //owner properties
 
-
-    public function getIdOwner()
-    {
-        return $this->idOwner;
     }
-
-    public function setIdOwner($idOwner): self
-    {
-        $this->idOwner = $idOwner;
-
-        return $this;
-    }
-}
-
 ?>

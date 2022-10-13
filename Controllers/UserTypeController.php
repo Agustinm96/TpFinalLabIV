@@ -15,13 +15,13 @@
 
         public function ShowAddView()
         {
-            require_once(VIEWS_PATH."add-userType.php");
+            require_once(VIEWS_PATH."add-usertype.php");
         }
 
         public function ShowListView()
         {
             $userTypeList = $this->userTypeDAO->GetAll();
-            require_once(VIEWS_PATH."userType-list.php");
+            require_once(VIEWS_PATH."usertype-list.php");
         }
 
         public function Add($name, $description)

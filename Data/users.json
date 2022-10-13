@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "userTypeId": "3",
+        "firstName": "Daniel",
+        "lastName": "Diaz",
+        "dni": "42946306",
+        "email": "danielferdiazz@gmail.com",
+        "phoneNumber": "2235051934",
+        "username": "admin1",
+        "password": "1232"
+    },
+    {
+        "id": 2,
+        "userTypeId": "2",
+        "firstName": "Agustin",
+        "lastName": "Alvarez",
+        "dni": "4312241",
+        "email": "agustin@gmail.com",
+        "phoneNumber": "4315341",
+        "username": "agus_alvarez",
+        "password": "1234"
+    },
+    {
+        "id": 3,
+        "userTypeId": "1",
+        "firstName": "Matias",
+        "lastName": "de Andrade",
+        "dni": "5251241",
+        "email": "matute@gmail.com",
+        "phoneNumber": "35163221",
+        "username": "matute",
+        "password": "12345"
+    }
+]

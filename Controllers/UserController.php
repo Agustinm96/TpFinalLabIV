@@ -17,7 +17,7 @@
             $this->userTypeDAO = new UserTypeDAO();
         }
 
-        public function ShowAddView()
+        public function ShowAddView($message="")
         {
             $userTypeList = $this->userTypeDAO->GetAll();
 
@@ -40,7 +40,7 @@
 
                 $userType = (count($userTypes) > 0) ? $userTypes[0] : new UserType(); //If beerType does not exist, we create an empty object to avid null reference
 
-                $user->setBeerType($userType);
+                $user->setUserType($userType);
             }
             
             require_once(VIEWS_PATH."user-list.php");
@@ -61,10 +61,16 @@
             $user->setUserName($username);
             $user->setPassword($password);
             
+            if($this->userDAO->GetByUserName($user->getUsername())){
+                $this->ShowAddView("Ya existe un usuario con ese Username");
+            }elseif($this->userDAO->getByDNI($user->getDni())){
+                $this->ShowAddView("Ya existe un usuario con ese DNI");
+            }
+            else{
+                $this->userDAO->Add($user);
+                $this->ShowAddView("Usuario creado exitosamente!");
+            }
 
-            $this->userDAO->Add($user);
-
-            $this->ShowAddView();
         }
 
         public function Remove($dni)

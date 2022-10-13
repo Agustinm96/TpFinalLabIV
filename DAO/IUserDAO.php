@@ -8,7 +8,7 @@
         function Add(User $userType);
         function getByUserName($userName);
         function GetAll();
-        function GetById($id);
-        function Remove($id);
+        function GetByDNI($dni);
+        function Remove($dni);
     }
 ?>

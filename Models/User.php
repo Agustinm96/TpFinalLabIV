@@ -4,7 +4,7 @@ namespace Models;
 
 use Models\UserType;
 
-abstract class User{
+ class User{
     private $id;
     private $firstName;
     private $lastName;
@@ -14,8 +14,6 @@ abstract class User{
     private $userType;
     private $username;
     private $password;
-
-    
 
     public function getFirstName()
     {

@@ -1,10 +1,11 @@
+
 <?php 
-//include_once('header.php');
-//include_once('nav-bar.php');
+include_once('header.php');
+include_once('nav-bar.php');
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
-    <h6 class="heading">Listado de Tipos de Usuarios</h6>
+    <h6 class="heading">User Types list</h6>
   </div>
 </div>
 <div class="wrapper row3">
@@ -12,7 +13,7 @@
     <!-- main body -->
     <div class="content"> 
       <div class="scrollable">
-      <form action="<?php echo FRONT_ROOT?>UserType/Remove" method="GET"> 
+      <form action="<?php echo FRONT_ROOT."UserType/Remove" ?>" method="get">
         <table style="text-align:center;">
           <thead>
             <tr>
@@ -45,5 +46,6 @@
 </div>
 
 <?php 
-//include_once('footer.php');
+include_once('footer.php');
 ?>
+  
