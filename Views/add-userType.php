@@ -13,7 +13,7 @@ include_once('header.php');
     <div class="" > 
       <div id="" style="align-items:center;">
         <h2>Ingresar Tipo de Usuario</h2>
-        <form action="<?php echo FRONT_ROOT."UserType/Add" ?>" method="POST"  style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo 'FRONT_ROOT'."UserType/Add" ?>" method="POST"  style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>

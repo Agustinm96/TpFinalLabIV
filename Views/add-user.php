@@ -13,7 +13,7 @@
     <div class="" > 
       <div id="" style="align-items:center;">
         <h2>Ingresar Usuario</h2>
-        <form action="<?php echo FRONT_ROOT?>User/Add" method="POST" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php ECHO 'FRONT_ROOT' . "User/Add"?>" method="POST" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>              
               <tr>
@@ -21,7 +21,8 @@
                 <th>Last Name</th>
                 <th>DNI</th>
                 <th>Email</th>
-                <th>Phone Number</th>                
+                <th>Phone Number</th>     
+                <th>User Type</th>            
                 <th>Username</th>
                 <th>Password</th>
               </tr>
@@ -41,7 +42,7 @@
                   <input type="email" name="email" min="0" style="max-width: 120px" required>
                 </td>   
                 <td>
-                  <input type="number" name="phone" min="0" style="max-width: 120px" required>
+                  <input type="text" name="phone" min="0" style="max-width: 120px" required>
                 </td>      
                 <td>
                   <select name="userTypeId" style="margin-top: 3%;min-height: 35px;height: 20px" required>
@@ -49,7 +50,7 @@
                       foreach($userTypeList as $userType)
                       {
                         ?>
-                           <option value="<?php echo $userType->getId() ?>"><?php echo $userType->getName() ?></option>
+                          <option value="<?php echo $userType->getId() ?>"><?php echo $userType->getName() ?></option>
                         <?php
                       }
                     ?>                                
