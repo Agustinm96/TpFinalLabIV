@@ -50,6 +50,8 @@ class PetDAO{
              
              foreach($contentArray as $content)
              {
+                /// SETEAR APARTE EL CHECKTYPE();
+                /// Y PUSHEAR.
                 if($content->getPetType()=="dog"){
                  $dog = new Dog();
                  $dog->setIDPET($content["IDPET"]);

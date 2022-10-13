@@ -2,7 +2,7 @@
 namespace Models;
 
 class Dog extends Pet {
-private enum $size;
+private $size;
 private $vaccinationPlan; /// Picture Format
 private $race;
 
