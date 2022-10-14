@@ -1,0 +1,19 @@
+[
+    {
+        "idUser": 2,
+        "idKeeper": 1,
+        "adress": "Palma 1320",
+        "petSizeToKeep": [
+            "small",
+            "medium"
+        ],
+        "priceToKeep": "25000",
+        "initDate": "2022-10-21",
+        "lastDate": "2022-10-28",
+        "daysToWork": [
+            "Tuesday",
+            "Wednesday"
+        ],
+        "isAvailable": true
+    }
+]

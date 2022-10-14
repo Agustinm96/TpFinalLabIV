@@ -17,8 +17,7 @@
             if($idType==1){
                 require_once(VIEWS_PATH."owner-home.php");
             }else if($idType==2){
-                echo "Soy un keeper";
-                //require_once(VIEWS_PATH."keeper-home.php");
+                require_once(VIEWS_PATH."keeper-home.php");
             }else if($idType==3){
                 require_once(VIEWS_PATH."admin.php");
             }

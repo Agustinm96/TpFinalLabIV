@@ -19,7 +19,7 @@
       <!-- Add path routes below -->
       <nav id="mainav" class="fl_right">
         <ul class="clear">
-            <li class="active"><a href="<?php echo FRONT_ROOT ?>">Menu Principal</a></li>
+            <li class="active"><a href="<?php echo FRONT_ROOT?>">Menu Principal</a></li>
             <li><a class="drop" href="#">Usuarios</a>
               <ul>
                 <li><a href="<?php echo FRONT_ROOT."User/ShowAddView" ?>">Agregar</a></li>

@@ -3,6 +3,8 @@
     namespace DAO;
 
     use Models\Keeper;
+    use Models\User;
+    use Models\Reserve;
 
     class KeeperDAO implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
@@ -45,19 +47,31 @@
             return (count($aux) > 0) ? $aux[0] : null;
         }
 
+        public function GetByIdUser($idUser) {
+            $this->RetrieveData();
+
+            $aux = array_filter($this->keepersList, function($keeper) use($idUser) {
+                return $keeper->getIdUser() == $idUser;
+            });
+
+            $aux = array_values($aux);
+
+            return (count($aux) > 0) ? $aux[0] : null;
+        }
+
         private function SaveData() {
             $arrayEncode = array();
 
             foreach($this->keepersList as $keeper) {
-                
-                $value["firstName"] = $keeper->getFirstName();
-                $value["lastName"] = $keeper->getLastName();
-                $value["dni"] = $keeper->getDni();
-                $value["email"] = $keeper->getEmail();
-                $value["phoneNumber"] = $keeper->getPhoneNumber();
+                $value["idUser"] = $keeper->getIdUser();
                 $value["idKeeper"] = $keeper->getIdKeeper();
+                $value["adress"] = $keeper->getAdress();
                 $value["petSizeToKeep"] = $keeper->getPetSizeToKeep();
-                $value["isAvailable"] = $keeper->getIsAvailable();
+                $value["priceToKeep"] = $keeper->getPriceToKeep();
+                $value["initDate"] = $keeper->getReserve()->getStartingDate();
+                $value["lastDate"] = $keeper->getReserve()->getLastDate();
+                $value["daysToWork"] = $keeper->getReserve()->getArrayDays();
+                $value["isAvailable"] = $keeper->getReserve()->getIsAvailable();
 
                 array_push($arrayEncode, $value);
             }
@@ -75,14 +89,17 @@
 
                 foreach($arrayDecode as $value) {
                     $keeper = new Keeper();
-                    $keeper->setFirstName($value["firstName"]);
-                    $keeper->setLastName($value["lastName"]);
-                    $keeper->setDni($value["dni"]);
-                    $keeper->setEmail($value["email"]);
-                    $keeper->setPhoneNumber($value["phoneNumber"]);
+                    $keeper->setIdUser($value["idUser"]);
                     $keeper->setIdKeeper($value["idKeeper"]);
+                    $keeper->setAdress($value["adress"]);
                     $keeper->setPetSizeToKeep($value["petSizeToKeep"]);
-                    $keeper->setIsAvailable($value["isAvailable"]);
+                    $keeper->setPriceToKeep($value["priceToKeep"]);
+                    $reserve = new Reserve();
+                    $reserve->setStartingDate($value["initDate"]);
+                    $reserve->setLastDate($value["lastDate"]);
+                    $reserve->setArrayDays($value["daysToWork"]);
+                    $reserve->setIsAvailable($value["isAvailable"]);
+                    $keeper->setReserve($reserve);
 
                     array_push($this->keepersList, $keeper);
                 }
@@ -97,6 +114,16 @@
             }
 
             return $id + 1;
+        }
+
+        public function Modify(User $user, Keeper $keeper) {
+            $this->RetrieveData();
+            /*tendria que llamar a modify user */ 
+            $this->Remove($keeper->getIdKeeper());
+
+            array_push($this->keepersList, $keeper);
+
+            $this->SaveData();
         }
     }
 ?>
