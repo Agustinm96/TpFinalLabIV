@@ -31,10 +31,10 @@
                   <input type="date" name="birthDate" size="22" required>
                 </td>
                 <td>
-                <td>
-                  <textarea name="observation" cols="60" rows="1"></textarea>
+                  <textarea name="observation" style="margin-top: 3%;min-height: 35px;height: 20px"></textarea>
                 </td>
-                  <select name="size" style="margin-top: 3%;min-height: 35px;height: 20px" required>
+                <td>
+                  <select name="size" cols="60" rows="1" required>
                      <option value="small">Small</option>
                      <option value="medium">Medium</option>   
                      <option value="big">Big</option>                 
@@ -55,4 +55,7 @@
 
 </div>
 </main
+<?php 
+    include_once('footer.php');
+?>
 

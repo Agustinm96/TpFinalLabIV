@@ -9,14 +9,14 @@ class PetDAO{
 
     function GetAll()
     {
-        $this->petlist = RetrieveData();
+        $this->petlist = $this->RetrieveData();
 
         return $this->petList;
     }
 
     function GetById($ID)
     {
-        $this->RetrieveData();
+        $this->petList  = $this->RetrieveData();
 
         $pets = array_filter($this->petList, function($pet) use($ID){
             return $pet->getIDPET() == $$ID;
@@ -29,7 +29,7 @@ class PetDAO{
 
     function Remove($ID)
     {
-        $this->RetrieveData();
+        $this->petList  = $this->RetrieveData();
 
         $this->petList = array_filter($this->petList, function($pet) use($ID){
             return $pet->getIDPET() != $ID;
@@ -38,7 +38,7 @@ class PetDAO{
         $this->SaveData();
     }
 
-    private function RetrieveData()
+    public function RetrieveData()
     {
          $this->petList = array();
 
@@ -52,7 +52,7 @@ class PetDAO{
              {
                 /// SETEAR APARTE EL CHECKTYPE();
                 /// Y PUSHEAR.
-                if($content->getPetType()=="dog"){
+               // if($content->getPetType()=="dog"){
                  $dog = new Dog();
                  $dog->setIDPET($content["IDPET"]);
                  $dog->setPetType($content["petType"]);
@@ -64,13 +64,13 @@ class PetDAO{
                  $dog->setRace($content["race"]);
 
                  array_push($this->petList, $dog);
-                }
+              //  }
              }
          }
-         return $petlist;
+         return $this->petList;
     }
 
-    private function SaveData($petList)
+    public function SaveData($petList)
     {
         $arrayToEncode = array();
 
@@ -97,7 +97,7 @@ class PetDAO{
         file_put_contents($this->fileName, $fileContent);
     }
 
-    private function GetNextId()
+    public function GetNextId()
     {
         $id = 0;
 
