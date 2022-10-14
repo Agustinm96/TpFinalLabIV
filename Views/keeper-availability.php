@@ -10,7 +10,7 @@
     <form action="<?php ECHO FRONT_ROOT . "Keeper/Add"?>" method = "post">
     <div class="Dispo"> 
     <label for="adress">Adress
-        <input type="text" name="adress" id="adress">
+        <input type="text" name="adress" id="adress" >
     </label>
     <label for="initialDate">Initial Date
         <input type="date" name="initDate" id="initDate">

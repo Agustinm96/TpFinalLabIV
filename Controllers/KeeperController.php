@@ -3,15 +3,18 @@
     namespace Controllers;
 
     use DAO\KeeperDAO as KeeperDAO;
+    use DAO\UserDAO as UserDAO;
     use Models\Keeper as Keeper;
     use Models\Reserve as Reserve;
     use Models\User as User;
 
     class KeeperController {
         private $keeperDAO;
+        private $userDAO;
 
         public function __construct() {
             $this->keeperDAO = new KeeperDAO();
+            $this->userDAO = new UserDAO();
         }
 
         public function ShowHomeView($message = ""){
@@ -22,6 +25,7 @@
         public function ShowListView() { 
             require_once(VIEWS_PATH . "validate-session.php");
             $keepersList = $this->keeperDAO->GetAll();
+            $usersList = $this->userDAO->GetAll();
             require_once(VIEWS_PATH . "keepers-list.php");
         }
 
