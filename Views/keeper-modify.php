@@ -33,7 +33,7 @@
             <tr>
                 <td style="max-width: 120px;">  <!--QUE PASA SI NO QUIERO COMPLETAR TODOS LOS CAMPOS--> 
                   <input type="text" name="firstname" size="22" min="0">
-                </td>
+                </td> <!-- VALIDAR CAMBIOS QUE NO QUIERO REALIZAR-->
                 <td>
                   <input type="text" name="lastname" size="22">
                 </td>

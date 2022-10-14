@@ -14,7 +14,7 @@
     </label>
     <label for="initialDate">Initial Date
         <input type="date" name="initDate" id="initDate">
-    </label>
+    </label> <!--VALIDAR FECHAS-->
     <br>
     <br>
     <label for="finishDate">Finish Date
@@ -56,3 +56,9 @@
     </form>
    
 </main>
+
+<?php
+
+require_once('footer.php');
+
+?>
