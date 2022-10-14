@@ -8,9 +8,7 @@ private $birthDate;
 private $picture; /// VER COMO GUARDAR FOTO
 private $observation;
 private $IDPET;
-
-
-
+//private $IDUSER;  ANIADIR FUNCION DE ID
 
 
 /**
