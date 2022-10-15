@@ -63,7 +63,7 @@
             $arrayEncode = array();
 
             foreach($this->keepersList as $keeper) {
-                $value["idUser"] = $keeper->getIdUser();
+                $value["idUser"] = $keeper->getUser()->getId();
                 $value["idKeeper"] = $keeper->getIdKeeper();
                 $value["adress"] = $keeper->getAdress();
                 $value["petSizeToKeep"] = $keeper->getPetSizeToKeep();
@@ -88,8 +88,11 @@
                 $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
                 foreach($arrayDecode as $value) {
+                    $user=new User();
+                    $user->setId($value["idUser"]);
+
                     $keeper = new Keeper();
-                    $keeper->setIdUser($value["idUser"]);
+                    $keeper->setUser($user);
                     $keeper->setIdKeeper($value["idKeeper"]);
                     $keeper->setAdress($value["adress"]);
                     $keeper->setPetSizeToKeep($value["petSizeToKeep"]);

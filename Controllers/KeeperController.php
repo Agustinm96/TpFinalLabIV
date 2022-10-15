@@ -26,6 +26,21 @@
             require_once(VIEWS_PATH . "validate-session.php");
             $keepersList = $this->keeperDAO->GetAll();
             $usersList = $this->userDAO->GetAll();
+
+            foreach($keepersList as $keeper)
+            {
+                $userId = $keeper->getUser()->getId();
+                $users = array_filter($usersList, function($user) use($userId){                    
+                    return $user->getId() == $userId;
+                });
+
+                $users = array_values($users); //Reordering array
+
+                $user = (count($users) > 0) ? $users[0] : new User(); 
+
+                $keeper->setUser($user);
+            }
+
             require_once(VIEWS_PATH . "keepers-list.php");
         }
 
@@ -48,10 +63,10 @@
         public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep){
             require_once(VIEWS_PATH . "validate-session.php");
             $user = new User();
-            $user = ($_SESSION["loggedUser"]);
+            $user->setId($_SESSION["loggedUser"]->getId());
 
             $keeper = new Keeper();
-            $keeper->setIdUser($user->getId());
+            $keeper->setUser($user);
             $keeper->setAdress($adress);
 
             $reserve = new Reserve();
@@ -98,7 +113,7 @@
             $user->setPassword($password);
 
             $keeper = new Keeper();
-            $keeper->setIdUser($user->getId());
+            $keeper->setIdUser($user->getId());  //Corregir como el Add
             $keeper->setAdress($adress);
             $array = array();
             if(!empty($petSizeToKeep)){
