@@ -6,19 +6,19 @@ use Models\User;
 use Models\Reserve;
 
 class Keeper{
-    private $idUser;
+    private $user;
     private $idKeeper;
     private $adress;
     private $petSizeToKeep = array(); //small, medium or big
     private $priceToKeep;
     private $reserve = array();
 
-    public function getIdUser(){
+    public function getUser(){
         return $this->user;
     }
 
-    public function setIdUser($idUser){
-        $this->user = $idUser;
+    public function setUser(User $user){
+        $this->user = $user;
     }
 
     public function getIdKeeper(){

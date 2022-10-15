@@ -5,11 +5,16 @@
     use DAO\OwnerDAO;
     use Models\Owner;
 
-    class KeeperController {
+    class OwnerController {
         private $ownerDAO;
 
         public function __construct() {
             $this->ownerDAO = new OwnerDAO();
+        }
+
+        public function ShowOwnerMenu($message = "") {
+            //require_once(VIEWS_PATH . "validate-session.php");
+            require_once(VIEWS_PATH . "owner-home.php");
         }
 
         public function ShowAddView($message = "") {
@@ -27,13 +32,7 @@
             //require_once(VIEWS_PATH . "validate-session.php");
 
             $owner = new Owner();
-            $owner->setFirstName($firstName);
-            $owner->setLastName($lastName);
-            $owner->setDni($dni);
-            $owner->setEmail( $email);
-            $owner->setPhoneNumber($phoneNumber);
-            $owner->setUsername($username);
-            $owner->setPassword($password);
+            
 
             $this->ownerDAO->Add($owner);
 
