@@ -30,5 +30,21 @@
             "EveryDay"
         ],
         "isAvailable": true
+    },
+    {
+        "idUser": 7,
+        "idKeeper": 3,
+        "adress": "keeper street 3",
+        "petSizeToKeep": [
+            "small",
+            "medium"
+        ],
+        "priceToKeep": "4600",
+        "initDate": "2022-10-27",
+        "lastDate": "2022-12-03",
+        "daysToWork": [
+            "EveryDay"
+        ],
+        "isAvailable": true
     }
 ]

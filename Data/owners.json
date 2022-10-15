@@ -8,5 +8,10 @@
         "idUser": 6,
         "idOwner": 2,
         "adress": "owner street 2"
+    },
+    {
+        "idUser": 8,
+        "idOwner": 3,
+        "adress": "owner street 3"
     }
 ]

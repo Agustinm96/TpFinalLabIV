@@ -55,14 +55,25 @@
         "password": "123"
     },
     {
-        "id": 6,
+        "id": 7,
         "userTypeId": "2",
-        "firstName": "Juan",
-        "lastName": "PapaFrancisco",
-        "dni": "27315637",
-        "email": "anti666@gmail.com",
-        "phoneNumber": "23232965",
-        "username": "srPapa",
-        "password": "84562"
+        "firstName": "Roberto",
+        "lastName": "Lucero",
+        "dni": "5135123",
+        "email": "moroso@gmail.com",
+        "phoneNumber": "52341232",
+        "username": "robert",
+        "password": "123"
+    },
+    {
+        "id": 8,
+        "userTypeId": "1",
+        "firstName": "Gonzalo",
+        "lastName": "Reyes",
+        "dni": "412124123",
+        "email": "rey@gmail.com",
+        "phoneNumber": "53142423",
+        "username": "gonza",
+        "password": "123"
     }
 ]

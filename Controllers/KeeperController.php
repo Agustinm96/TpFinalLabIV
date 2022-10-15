@@ -64,10 +64,10 @@
             require_once(VIEWS_PATH . "validate-session.php");
             if($this->valiDate($initDate, $finishDate)){
                 $user = new User();
-                $user = ($_SESSION["loggedUser"]);
+                $user->setId($_SESSION["loggedUser"]->getId());
 
                 $keeper = new Keeper();
-                $keeper->setIdUser($user->getId());
+                $keeper->setUser($user);
                 $keeper->setAdress($adress);
 
                 $reserve = new Reserve();
