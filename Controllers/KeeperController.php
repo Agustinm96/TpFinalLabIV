@@ -99,6 +99,15 @@
             $this->ShowHomeView($message);
         }
 
+        public function Remove($id)
+        {
+            $this->keeperDAO->Remove($id);            
+
+            $this->ShowListView();
+        }
+
+
+        //CORREGIR
         public function Modify($name, $lastName, $email, $phoneNumber, $userName, $password, $adress, $petSizeToKeep, $daysToWork, $initDate, $lastDate,$priceToKeep) {
             require_once(VIEWS_PATH . "validate-session.php");
 

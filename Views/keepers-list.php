@@ -1,7 +1,10 @@
 <?php
-
-require_once('nav-bar.php');
 require_once('header.php');
+if($_SESSION["loggedUser"]->getUserType()->getId()==1){
+    include_once('nav-bar-owner.php');
+}else{
+    include_once('nav-bar.php');
+}
 require_once('validate-session.php');
 
 use Models\User;
@@ -49,11 +52,11 @@ use Models\Keeper;
                                 <td><?php echo $keeper->getReserve()->getStartingDate() ?></td>
                                 <td><?php echo $keeper->getReserve()->getLastDate() ?></td>
                                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
+                                <td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getIdKeeper() ?>">Remove</button></td>
                             </tr><?php
                                 } ?>
 
 
-                        <button type="submit" name="code" class="btn" value="<?php echo $keeper->getIdKeeper() ?>">Remove</button>
                     </tbody>
                 </table>
             </form>

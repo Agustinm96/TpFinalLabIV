@@ -1,0 +1,12 @@
+[
+    {
+        "idUser": 3,
+        "idOwner": 1,
+        "adress": "owner street 1"
+    },
+    {
+        "idUser": 6,
+        "idOwner": 2,
+        "adress": "owner street 2"
+    }
+]

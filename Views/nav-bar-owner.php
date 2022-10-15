@@ -19,7 +19,7 @@
       <!-- Add path routes below -->
       <nav id="mainav" class="fl_right">
         <ul class="clear">
-            <li class="active"><a href="<?php echo FRONT_ROOT?>Owner/ShowOwnerMenu">Main Menu</a></li>
+            <li class="active"><a href="<?php echo FRONT_ROOT?>Owner/ShowHomeView">Main Menu</a></li>
             <li><a class="drop" href="#">My Pets</a>
               <ul>
                 <li><a href="<?php echo FRONT_ROOT."Dog/ShowAddView" ?>">Add Pet</a></li>
@@ -29,9 +29,11 @@
             <li><a class="drop" href="#">Keepers</a>
               <ul>
                 <li><a href="<?php echo FRONT_ROOT."Keeper/ShowListView" ?>">See All Keepers</a></li>
-                <li><a href=<?php echo FRONT_ROOT."Keeper/ShowListView" ?>>See availables keepers</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Keeper/ShowListView" ?>">See availables keepers</a></li>
               </ul>
             </li>
+            <li><a href="<?php echo FRONT_ROOT."Owner/ShowMyProfile"?>">My Profile</a></li>
+            <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
     </nav> 
     </header>
