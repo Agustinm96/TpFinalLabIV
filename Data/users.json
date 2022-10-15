@@ -42,5 +42,16 @@
         "phoneNumber": "51245213",
         "username": "pepe",
         "password": "123"
+    },
+    {
+        "id": 6,
+        "userTypeId": "2",
+        "firstName": "Juan",
+        "lastName": "PapaFrancisco",
+        "dni": "27315637",
+        "email": "anti666@gmail.com",
+        "phoneNumber": "23232965",
+        "username": "srPapa",
+        "password": "84562"
     }
 ]
