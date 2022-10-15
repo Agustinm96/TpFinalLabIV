@@ -55,48 +55,55 @@
             require_once(VIEWS_PATH . "keeper-modify.php");
         }
 
-        public function setAvailabilityView(){
+        public function setAvailabilityView($message = ""){
             require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "keeper-availability.php");
         }
 
         public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep){
             require_once(VIEWS_PATH . "validate-session.php");
-            $user = new User();
-            $user->setId($_SESSION["loggedUser"]->getId());
+            if($this->valiDate($initDate, $finishDate)){
+                $user = new User();
+                $user = ($_SESSION["loggedUser"]);
 
-            $keeper = new Keeper();
-            $keeper->setUser($user);
-            $keeper->setAdress($adress);
+                $keeper = new Keeper();
+                $keeper->setIdUser($user->getId());
+                $keeper->setAdress($adress);
 
-            $reserve = new Reserve();
-            $reserve->setStartingDate($initDate);
-            $reserve->setLastDate($finishDate);
-            $arrayDays = array();
-            if(!empty($daysToWork)){
-                foreach($daysToWork as $selected){
-                    array_push($arrayDays,$selected);
+                $reserve = new Reserve();
+                $reserve->setStartingDate($initDate);
+                $reserve->setLastDate($finishDate);
+                $arrayDays = array();
+                if(!empty($daysToWork)){
+                    foreach($daysToWork as $selected){
+                        array_push($arrayDays,$selected);
+                    }
                 }
-            }
-            $reserve->setArrayDays($arrayDays);
-            $reserve->setIsAvailable(true);
+                $reserve->setArrayDays($arrayDays);
+                $reserve->setIsAvailable(true);
 
-            $keeper->setReserve($reserve);
+                $keeper->setReserve($reserve);
 
-            $array = array();
-            if(!empty($petSizeToKeep)){
-                foreach($petSizeToKeep as $selected){
-                    array_push($array,$selected);
+                $array = array();
+                if(!empty($petSizeToKeep)){
+                    foreach($petSizeToKeep as $selected){
+                        array_push($array,$selected);
+                    }
                 }
+                $keeper->setPetSizeToKeep($array);
+                $keeper->setPriceToKeep($priceToKeep);
+
+                $this->keeperDAO->Add($keeper);
+
+                $message = 'Profile succesfully completed!';
+
+                $this->ShowHomeView($message);
+            }else{
+                $message = 'ERROR: Your final day as a keeper at Pet Hero must be higher than your initial day';
+                $this->setAvailabilityView($message);
             }
-            $keeper->setPetSizeToKeep($array);
-            $keeper->setPriceToKeep($priceToKeep);
-
-            $this->keeperDAO->Add($keeper);
-
-            $message = 'Profile succesfully completed!';
-
-            $this->ShowHomeView($message);
+            
+            
         }
 
         public function Remove($id)
@@ -151,6 +158,14 @@
             $message = 'Profile succesfully updated!';
 
             $this->ShowHomeView($message);
+        }
+
+        public function valiDate($initDate, $finishDate){
+            if($initDate<$finishDate){
+               return true; 
+            }else{
+                return false;
+            }
         }
 
     }
