@@ -10,21 +10,21 @@
     <form action="<?php ECHO FRONT_ROOT . "Keeper/Add"?>" method = "post">
     <div class="Dispo"> 
     <label for="adress">Adress
-        <input type="text" name="adress" id="adress" >
+        <input type="text" name="adress" id="adress" required />
     </label>
     <label for="initialDate">Initial Date
-        <input type="date" name="initDate" id="initDate">
-    </label> <!--VALIDAR FECHAS-->
+        <input type="date" name="initDate" id="initDate" min="<?php echo date('Y-m-d') ?>" />
+    </label> 
     <br>
     <br>
     <label for="finishDate">Finish Date
-        <input type="date" name="finishDate" id="finishDate">
+        <input type="date" name="finishDate" id="finishDate" min="<?php echo date('Y-m-d') ?>" />
     </label>
     <br>
     <br>
     <span>Choose the days you want to work!</span>
     <br>
-    <select name="daysToWork[]" id="daysToWork" multiple="multiple">Choose the days you want to work
+    <select name="daysToWork[]" id="daysToWork" multiple="multiple" required>Choose the days you want to work
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
         <option value="Wednesday">Wednesday</option>
@@ -54,7 +54,11 @@
         <button type="submit" class="btn">Ready to Work!</button>
     </div>
     </form>
-   
+    <?php
+        if(isset($message)){
+            echo $message;
+        }
+    ?>
 </main>
 
 <?php
