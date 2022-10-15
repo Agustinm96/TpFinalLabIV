@@ -31,5 +31,16 @@
         "phoneNumber": "35163221",
         "username": "matute",
         "password": "12345"
+    },
+    {
+        "id": 4,
+        "userTypeId": "2",
+        "firstName": "Fer",
+        "lastName": "Palacios",
+        "dni": "33254469",
+        "email": "ferpa@gmail.com",
+        "phoneNumber": "(223) 549-1488",
+        "username": "ferpa",
+        "password": "123"
     }
 ]
