@@ -3,6 +3,7 @@
     namespace DAO;
 
     use Models\Owner;
+    use Models\User;
 
     class OwnerDAO implements IOwnerDAO {
         private $fileName = ROOT . "/Data/owners.json";
@@ -18,11 +19,11 @@
             $this->SaveData();
         }
 
-        public function Remove($idOwner) {
+        public function Remove($idUser) {
             $this->RetrieveData();
 
-            $this->ownersList = array_filter($this->ownersList, function($owner) use($idOwner) {
-                return $owner->getIdOwner() != $idOwner;
+            $this->ownersList = array_filter($this->ownersList, function($owner) use($idUser) {
+                return $owner->getUser()->getId() != $idUser;
             });
 
             $this->SaveData();
@@ -45,20 +46,27 @@
             return (count($aux) > 0) ? $aux[0] : null;
         }
 
+        public function GetByIdUser($idUser) {
+            $this->RetrieveData();
+
+            $aux = array_filter($this->ownersList, function($owner) use($idUser) {
+                return $owner->getUser()->getId() == $idUser;
+            });
+
+            $aux = array_values($aux);
+
+            return (count($aux) > 0) ? $aux[0] : null;
+        }
+
+
         private function SaveData() {
             $arrayEncode = array();
 
             foreach($this->ownersList as $owner) {
-                
-                $value["firstName"] = $owner->getFirstName();
-                $value["lastName"] = $owner->getLastName();
-                $value["dni"] = $owner->getDni();
-                $value["email"] = $owner->getEmail();
-                $value["phoneNumber"] = $owner->getPhoneNumber();
+                $value["idUser"] = $owner->getUser()->getId();
                 $value["idOwner"] = $owner->getIdOwner();
-                $value["username"] = $owner->getUsername();
-                $value["password"] = $owner->getPassword();
-
+                $value["adress"] = $owner->getAdress();
+                
                 array_push($arrayEncode, $value);
             }
 
@@ -74,15 +82,13 @@
                 $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
                 foreach($arrayDecode as $value) {
+                    $user=new User();
+                    $user->setId($value["idUser"]);
+
                     $owner = new Owner();
-                    $owner->setFirstName($value["firstName"]);
-                    $owner->setLastName($value["lastName"]);
-                    $owner->setDni($value["dni"]);
-                    $owner->setEmail($value["email"]);
-                    $owner->setPhoneNumber($value["phoneNumber"]);
+                    $owner->setUser($user);
                     $owner->setIdOwner($value["idOwner"]);
-                    $owner->setUsername($value["username"]);
-                    $owner->setPassword($value["password"]);
+                    $owner->setAdress($value["adress"]);
 
                     array_push($this->ownersList, $owner);
                 }
@@ -93,7 +99,7 @@
             $id = 0;
 
             foreach($this->ownersList as $owner) {
-                $id = ($owner->getIdKeeper() > $id) ? $owner->getIdOwner() : $id;
+                $id = ($owner->getIdOwner() > $id) ? $owner->getIdOwner() : $id;
             }
 
             return $id + 1;

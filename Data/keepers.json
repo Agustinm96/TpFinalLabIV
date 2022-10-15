@@ -1,35 +1,33 @@
 [
     {
-        "idUser": 4,
+        "idUser": 2,
         "idKeeper": 1,
-        "adress": "Palma 1320",
+        "adress": "keeper street 1",
         "petSizeToKeep": [
-            "small",
-            "medium"
+            "small"
         ],
-        "priceToKeep": "25000",
-        "initDate": "2022-10-21",
-        "lastDate": "2022-10-28",
+        "priceToKeep": "40000",
+        "initDate": "2022-10-25",
+        "lastDate": "2022-11-17",
         "daysToWork": [
-            "Tuesday",
-            "Wednesday"
+            "Monday",
+            "Friday"
         ],
         "isAvailable": true
     },
     {
         "idUser": 5,
         "idKeeper": 2,
-        "adress": "calle 123",
+        "adress": "keeper street 2",
         "petSizeToKeep": [
-            "small"
+            "small",
+            "medium"
         ],
-        "priceToKeep": "10000",
-        "initDate": "2022-10-15",
-        "lastDate": "2022-10-31",
+        "priceToKeep": "623531",
+        "initDate": "2022-10-25",
+        "lastDate": "2022-11-03",
         "daysToWork": [
-            "Monday",
-            "Tuesday",
-            "Thursday"
+            "EveryDay"
         ],
         "isAvailable": true
     }

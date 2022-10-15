@@ -41,12 +41,12 @@
             return (count($users) > 0) ? $users[0] : null;
         }
 
-        function Remove($dni)
+        function Remove($id)
         {
             $this->RetrieveData();
 
-            $this->userList = array_filter($this->userList, function($user) use($dni){
-                return $user->getDni() != $dni;
+            $this->userList = array_filter($this->userList, function($user) use($id){
+                return $user->getId() != $id;
             });
 
             $this->SaveData();
@@ -127,6 +127,21 @@
 
             $users = array_filter($this->userList, function($user) use($userName){
                 return $user->getUserName() == $userName;
+            });
+
+            $users = array_values($users); //Reordering array indexes
+
+            return (count($users) > 0) ? $users[0] : null;
+        }
+
+        public function GetByEmail($email)
+        {
+            $user = null;
+
+            $this->RetrieveData();
+
+            $users = array_filter($this->userList, function($user) use($email){
+                return $user->getEmail() == $email;
             });
 
             $users = array_values($users); //Reordering array indexes

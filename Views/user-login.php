@@ -23,7 +23,7 @@ include_once('header.php');
 <!-- #######################################################################3 -->
 <div class="wrapper row3 img-login">
   <div class="div-login"><br>
-  <?php if ($message) {
+    <?php if ($message) {
       echo $message;
     } ?>
     <h1 class="text-login">LOGIN</h1>
@@ -35,9 +35,9 @@ include_once('header.php');
       <button class="btn-login btn" type="submit" name="btnLogin">Ingresar</button>
     </form>
     <p>or</p>
-    <a href="<?php echo FRONT_ROOT."User/ShowAddView" ?>">Crear nuevo usuario</a>
+    <a href="<?php echo FRONT_ROOT . "User/ShowAddView" ?>">Crear nuevo usuario</a>
 
-    
+
 
   </div>
 </div>

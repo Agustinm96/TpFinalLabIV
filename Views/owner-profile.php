@@ -1,7 +1,7 @@
 <?php
 
 include_once('header.php');
-//include_once('nav-bar.php'); NAV BAR KEEPER
+include_once('nav-bar-owner.php');
 require_once('validate-session.php');
 
 use Models\User;
@@ -18,7 +18,7 @@ use Models\Keeper;
     <!-- main body -->
     <div class="content"> 
     <div class="scrollable">
-        <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowModifyView"?>" method ="post">
+        <form action="<?php ECHO FRONT_ROOT . "Owner/ShowModifyView"?>" method ="post">
         <table style="text-align:center;">
             <thead>
             <tr>
@@ -31,11 +31,6 @@ use Models\Keeper;
                 <th style="width: 100px;">UserName</th>
                 <th style="width: 100px;">Password</th>
                 <th style="width: 110px;">Adress</th>  
-                <th style="width: 100px;">Pet Size that i can handle :)</th>
-                <th style="width: 100px;">Working days</th>
-                <th style="width: 100px;">Since</th>
-                <th style="width: 100px;">To</th>
-                <th style="width: 110px;">Price</th> 
             </tr>
             </thead>
             <tbody>
@@ -48,19 +43,7 @@ use Models\Keeper;
                 <td><?php echo $user->getPhoneNumber()?></td>
                 <td><?php echo $user->getUserName()?></td>
                 <td><?php echo $user->getPassword()?></td>
-                <td><?php echo $keeper->getAdress()?></td>
-                <td><?php $array =  $keeper->getPetSizeToKeep();
-                        foreach($array as $sizeValue){
-                            echo ucfirst($sizeValue). "<br>";
-                        }?></td>
-                <td><?php $arrayDays = $keeper->getReserve()->getArrayDays() ?>
-                                <?php 
-                                foreach($arrayDays as $day){
-                                            echo $day .'<br>';
-                                        }?>
-                <td><?php echo $keeper->getReserve()->getStartingDate() ?></td>
-                <td><?php echo $keeper->getReserve()->getLastDate() ?></td>
-                <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
+                <td><?php echo $owner->getAdress()?></td>
         </tbody>
         </table>
         <div>

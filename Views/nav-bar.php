@@ -19,19 +19,24 @@
       <!-- Add path routes below -->
       <nav id="mainav" class="fl_right">
         <ul class="clear">
-            <li class="active"><a href="<?php echo FRONT_ROOT?>">Menu Principal</a></li>
-            <li><a class="drop" href="#">Usuarios</a>
-              <ul>
-                <li><a href="<?php echo FRONT_ROOT."User/ShowAddView" ?>">Agregar</a></li>
-                <li><a href="<?php echo FRONT_ROOT."User/ShowListView" ?>">Ver Listado</a></li>
+            <li class="active"><a href="<?php echo FRONT_ROOT?>Admin/ShowHomeView">Main Menu</a></li>
+            <li><a class="drop" href="#">Users</a>
+      
+            <ul>
+              <li><a href="<?php echo FRONT_ROOT."User/ShowAddView" ?>">Add user</a></li>
+              <li><a href="<?php echo FRONT_ROOT."Owner/ShowListView" ?>">Owners list</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Keeper/ShowListView" ?>">Keepers list</a></li>
+                <li><a href="<?php echo FRONT_ROOT."User/ShowListView" ?>">All users</a></li>
+
               </ul>
             </li>
-            <li><a class="drop" href="#">Tipos de Usuarios</a>
+            <li><a class="drop" href="#">User Types</a>
               <ul>
-                <li><a href="<?php echo FRONT_ROOT."UserType/ShowAddView" ?>">Agregar</a></li>
-                <li><a href=<?php echo FRONT_ROOT."UserType/ShowListView" ?>>Ver Listado</a></li>
+                <li><a href="<?php echo FRONT_ROOT."UserType/ShowAddView" ?>">Add UserType</a></li>
+                <li><a href=<?php echo FRONT_ROOT."UserType/ShowListView" ?>>User Types</a></li>
               </ul>
             </li>
+            <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
     </nav> 
     </header>

@@ -2,7 +2,7 @@
     namespace Controllers;
 
     use DAO\UserDAO;
-    use DAO\UserTypeDAO;    
+    use DAO\UserTypeDAO; 
     use Models\User;
     use Models\UserType;
 
@@ -17,11 +17,19 @@
             $this->userTypeDAO = new UserTypeDAO();
         }
 
-        public function ShowAddView($message="")
+        public function ShowAddView($message="",$userType=null)
         {
             $userTypeList = $this->userTypeDAO->GetAll();
-
-            require_once(VIEWS_PATH."add-user.php");
+            if($userType==1){
+                require_once(VIEWS_PATH."profile-completion-owner.php");
+            }else if($userType==2){
+                require_once(VIEWS_PATH."profile-completion-keeper.php");
+            }else if($userType==3){
+                require_once(VIEWS_PATH."admin.php");
+            }
+            else{
+                require_once(VIEWS_PATH."add-user.php");
+            }
         }
 
         public function ShowListView()
@@ -38,7 +46,7 @@
 
                 $userTypes = array_values($userTypes); //Reordering array
 
-                $userType = (count($userTypes) > 0) ? $userTypes[0] : new UserType(); //If beerType does not exist, we create an empty object to avid null reference
+                $userType = (count($userTypes) > 0) ? $userTypes[0] : new UserType(); 
 
                 $user->setUserType($userType);
             }
@@ -62,20 +70,23 @@
             $user->setPassword($password);
             
             if($this->userDAO->GetByUserName($user->getUsername())){
-                $this->ShowAddView("Ya existe un usuario con ese Username");
+                $this->ShowAddView("Ya existe un usuario con ese Username",null);
             }elseif($this->userDAO->getByDNI($user->getDni())){
-                $this->ShowAddView("Ya existe un usuario con ese DNI");
+                $this->ShowAddView("Ya existe un usuario con ese DNI",null);
+            }elseif($this->userDAO->GetByEmail($user->getEmail())){
+                $this->ShowAddView("Ya existe un usuario con ese Email",null); 
             }
             else{
                 $this->userDAO->Add($user);
-                $this->ShowAddView("Usuario creado exitosamente!");
+                $_SESSION["loggedUser"]=$user;
+                $this->ShowAddView("",$user->getUserType()->getId());
             }
 
         }
 
-        public function Remove($dni)
+        public function Remove($id)
         {
-            $this->userDAO->Remove($dni);            
+            $this->userDAO->Remove($id);            
 
             $this->ShowListView();
         }
