@@ -50,48 +50,40 @@
             require_once(VIEWS_PATH . "keeper-profile.php");
         }
 
-        public function ShowModifyView($message = "") {
+        public function ShowMyAvailability(){
             require_once(VIEWS_PATH . "validate-session.php");
-            require_once(VIEWS_PATH . "keeper-modify.php");
+            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+            require_once(VIEWS_PATH . "keeper-availability.php");
         }
 
-        public function setAvailabilityView($message = ""){
+        public function ShowModifyProfileView($message="") {
             require_once(VIEWS_PATH . "validate-session.php");
-            require_once(VIEWS_PATH . "keeper-availability.php");
+            $user = ($_SESSION["loggedUser"]);
+            require_once(VIEWS_PATH . "keeper-modify-profile.php");
+        }
+
+        public function ShowModifyAvailabilityView($message = "") {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+            require_once(VIEWS_PATH . "keeper-modify-availability.php");
+        }
+
+        public function ShowCompletionProfile($message = ""){
+            require_once(VIEWS_PATH . "validate-session.php");
+            require_once(VIEWS_PATH . "profile-completion-keeper.php");
+        }
+
+        public function ShowReserveView($message=""){
+            require_once(VIEWS_PATH . "validate-session.php");
+            require_once(VIEWS_PATH . "keeper-reserve.php");
         }
 
         public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep){
             require_once(VIEWS_PATH . "validate-session.php");
-            if($this->valiDate($initDate, $finishDate)){
-                $user = new User();
-                $user->setId($_SESSION["loggedUser"]->getId());
-
+            $boolean = $this->checkingDates($initDate, $finishDate, $daysToWork);
+            if($boolean){
                 $keeper = new Keeper();
-                $keeper->setUser($user);
-                $keeper->setAdress($adress);
-
-                $reserve = new Reserve();
-                $reserve->setStartingDate($initDate);
-                $reserve->setLastDate($finishDate);
-                $arrayDays = array();
-                if(!empty($daysToWork)){
-                    foreach($daysToWork as $selected){
-                        array_push($arrayDays,$selected);
-                    }
-                }
-                $reserve->setArrayDays($arrayDays);
-                $reserve->setIsAvailable(true);
-
-                $keeper->setReserve($reserve);
-
-                $array = array();
-                if(!empty($petSizeToKeep)){
-                    foreach($petSizeToKeep as $selected){
-                        array_push($array,$selected);
-                    }
-                }
-                $keeper->setPetSizeToKeep($array);
-                $keeper->setPriceToKeep($priceToKeep);
+                $keeper = $this->loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep);
 
                 $this->keeperDAO->Add($keeper);
 
@@ -100,48 +92,90 @@
                 $this->ShowHomeView($message);
             }else{
                 $message = 'ERROR: Your final day as a keeper at Pet Hero must be higher than your initial day';
-                $this->setAvailabilityView($message);
+                $this->ShowCompletionProfile($message);
+            } 
+        }
+
+        public function ModifyAvailability($idKeeper, $adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep){   
+            $boolean = $this->checkingDates($initDate, $lastDate, $daysToWork);
+            if($boolean){
+
+            $keeper = new Keeper();
+            $keeper = $this->loadKeeper($adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep);
+            $keeper->setIdKeeper(intval($idKeeper));
+
+            $this->keeperDAO->Modify($keeper);
+            $message = 'Profile succesfully updated!';
+            $this->ShowHomeView($message);
+
+            }else{
+                $message = 'ERROR: The dates you have chosed dont match the days you want to work. Please select them again!';
+                $this->ShowModifyAvailabilityView($message);
             }
             
-            
         }
 
-        public function Remove($id)
-        {
-            $this->keeperDAO->Remove($id);            
-
-            $this->ShowListView();
-        }
-
-
-        //CORREGIR
-        public function Modify($name, $lastName, $email, $phoneNumber, $userName, $password, $adress, $petSizeToKeep, $daysToWork, $initDate, $lastDate,$priceToKeep) {
+        public function ModifyProfile($name, $lastName, $email, $phoneNumber, $userName, $password) {
             require_once(VIEWS_PATH . "validate-session.php");
 
             $user = new User();
             $user = ($_SESSION["loggedUser"]);
 
-            $user->setFirstName($name);
-            $user->setLastName($lastName);
-            $user->setEmail($email);
+            $user->setFirstName(ucfirst($name));
+            $user->setLastName(ucfirst($lastName));
+            $user->setEmail($email); 
             $user->setPhoneNumber($phoneNumber);
             $user->setUserName($userName);
             $user->setPassword($password);
 
+            $this->userDAO->Modify($user);
+            
+            $message = 'Profile succesfully updated!';
+            
+            $this->ShowHomeView($message);
+            
+        }
+
+        public function checkingDates($startingDay, $finishDate, $daysToWork){
+            while($startingDay <= $finishDate){
+                $string = $this->dayName($startingDay);
+                echo $string;
+                foreach($daysToWork as $day){
+                    echo $day;
+                    if($string===$day){
+                        return true;
+                    }
+                } 
+                $startingDay = date('Y-m-d', strtotime($startingDay)+86400);     
+            } 
+        }
+
+        public function dayName($startingDay){
+            $fechats = strtotime($startingDay); //a timestamp
+            //el parametro w en la funcion date indica que queremos el dia de la semana
+            //lo devuelve en numero 0 domingo, 1 lunes,....
+            switch (date('w', $fechats)){
+                case 0: return "Sunday"; break;
+                case 1: return "Monday"; break;
+                case 2: return "Tuesday"; break;
+                case 3: return "Wednesday"; break;
+                case 4: return "Thursday"; break;
+                case 5: return "Friday"; break;
+                case 6: return "Saturday"; break;
+                }  
+        }
+
+        public function loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep){
+            $user = new User();
+            $user = ($_SESSION["loggedUser"]);
+
             $keeper = new Keeper();
-            $keeper->setIdUser($user->getId());  //Corregir como el Add
+            $keeper->setUser($user);
             $keeper->setAdress($adress);
-            $array = array();
-            if(!empty($petSizeToKeep)){
-                foreach($petSizeToKeep as $selected){
-                    array_push($array,$selected);
-                }
-            }
-            $keeper->setPetSizeToKeep($array);
 
             $reserve = new Reserve();
             $reserve->setStartingDate($initDate);
-            $reserve->setLastDate($lastDate);
+            $reserve->setLastDate($finishDate);
             $arrayDays = array();
             if(!empty($daysToWork)){
                 foreach($daysToWork as $selected){
@@ -150,23 +184,26 @@
             }
             $reserve->setArrayDays($arrayDays);
             $reserve->setIsAvailable(true);
+
             $keeper->setReserve($reserve);
+
+            $array = array();
+            if(!empty($petSizeToKeep)){
+                foreach($petSizeToKeep as $selected){
+                    array_push($array,$selected);
+                }
+            }
+            $keeper->setPetSizeToKeep($array);
             $keeper->setPriceToKeep($priceToKeep);
 
-            $this->keeperDAO->Modify($user, $keeper);
-
-            $message = 'Profile succesfully updated!';
-
-            $this->ShowHomeView($message);
+            return $keeper;
         }
 
-        public function valiDate($initDate, $finishDate){
-            if($initDate<$finishDate){
-               return true; 
-            }else{
-                return false;
-            }
-        }
+        public function Remove($id)
+        {
+            $this->keeperDAO->Remove($id);            
 
+            $this->ShowListView();
+        }
     }
 ?>

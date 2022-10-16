@@ -12,6 +12,7 @@ class Keeper{
     private $petSizeToKeep = array(); //small, medium or big
     private $priceToKeep;
     private $reserve = array();
+    //private $availabilityArray = array (); arreglo de disponibilidades
 
     public function getUser(){
         return $this->user;

@@ -149,6 +149,16 @@
             return (count($users) > 0) ? $users[0] : null;
         }
 
+        public function Modify(User $user) {
+            $this->RetrieveData(); 
+            $this->Remove($user->getId());
+
+            array_push($this->userList, $user);
+
+            $this->SaveData();
+        }
+
+
     }
 
 ?>

@@ -119,7 +119,7 @@
             return $id + 1;
         }
 
-        public function Modify(User $user, Keeper $keeper) {
+        public function Modify(Keeper $keeper) {
             $this->RetrieveData();
             /*tendria que llamar a modify user */ 
             $this->Remove($keeper->getIdKeeper());
