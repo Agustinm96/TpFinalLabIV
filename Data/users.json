@@ -75,5 +75,16 @@
         "phoneNumber": "41562521",
         "username": "agus_alvarez",
         "password": "1234"
+    },
+    {
+        "id": 9,
+        "userTypeId": "2",
+        "firstName": "Agust\u00edn",
+        "lastName": "\u00c1lvarez",
+        "dni": "11314195",
+        "email": "agus15@gmail.com",
+        "phoneNumber": "11247411",
+        "username": "agu",
+        "password": "15"
     }
 ]

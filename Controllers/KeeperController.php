@@ -139,9 +139,9 @@
         public function checkingDates($startingDay, $finishDate, $daysToWork){
             while($startingDay <= $finishDate){
                 $string = $this->dayName($startingDay);
-                echo $string;
+                //echo $string;
                 foreach($daysToWork as $day){
-                    echo $day;
+                    //echo $day;
                     if($string===$day){
                         return true;
                     }
