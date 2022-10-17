@@ -8,7 +8,8 @@ private $birthDate;
 private $picture; /// VER COMO GUARDAR FOTO
 private $observation;
 private $IDPET;
-//private $IDUSER;  ANIADIR FUNCION DE ID
+private $videoPet;
+//private $userName;
 
 
 /**
@@ -127,6 +128,46 @@ return $this->petType;
 public function setPetType($petType)
 {
 $this->petType = $petType;
+
+return $this;
+}
+
+/**
+ * Get the value of videoPET
+ */ 
+public function getVideoPet()
+{
+return $this->videoPet;
+}
+
+/**
+ * Set the value of videoPET
+ *
+ * @return  self
+ */ 
+public function setVideoPet($videoPet)
+{
+$this->videoPet = $videoPet;
+
+return $this;
+}
+
+/**
+ * Get the value of userName
+ */ 
+public function getUserName()
+{
+return $this->userName;
+}
+
+/**
+ * Set the value of userName
+ *
+ * @return  self
+ */ 
+public function setUserName($userName)
+{
+$this->userName = $userName;
 
 return $this;
 }

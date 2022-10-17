@@ -2,6 +2,7 @@
 namespace DAO;
 
 use Models\Dog as Dog;
+use Models\Pet as pet;
 
 class PetDAO{
     private $petList = array();
@@ -14,12 +15,27 @@ class PetDAO{
         return $this->petList;
     }
 
+    function GetByUserName($USERNAME)
+    {
+        $this->petList  = $this->RetrieveData();
+
+        $pets = array_filter($this->petList, function($pet) use($USERNAME){
+            return $pet->getUserName() == $USERNAME;
+        });
+
+        $pets = array_values($pets); //Reorderding array
+
+        return (count($pets) > 0) ? $pets[0] : null;
+
+    }
+
+
     function GetById($ID)
     {
         $this->petList  = $this->RetrieveData();
 
         $pets = array_filter($this->petList, function($pet) use($ID){
-            return $pet->getIDPET() == $$ID;
+            return $pet->getIDPET() == $ID;
         });
 
         $pets = array_values($pets); //Reorderding array
@@ -35,7 +51,7 @@ class PetDAO{
             return $pet->getIDPET() != $ID;
         });
 
-        $this->SaveData();
+        $this->SaveData($this->petList);
     }
 
     public function RetrieveData()
@@ -62,7 +78,9 @@ class PetDAO{
                  $dog->setPicture($content["picture"]); //PREGUNTAR
                  $dog->setVaccinationPlan($content["vaccinationPlan"]);
                  $dog->setRace($content["race"]);
-
+                 $dog->setSize($content["size"]);
+                 $dog->setVideoPET($content["videoPet"]);
+                 //$dog->setUserName($content["userName"]);
                  array_push($this->petList, $dog);
               //  }
              }
@@ -88,6 +106,9 @@ class PetDAO{
             $valuesArray["picture"] = $dog->getPicture();
             $valuesArray["vaccinationPlan"] = $dog->getVaccinationPlan();
             $valuesArray["race"] = $dog->getRace();
+            $valuesArray["size"] = $dog->getSize();
+            $valuesArray["videoPet"] = $dog->getVideoPET();
+            // $valuesArray["userName"] = $dog->getUserName();
             array_push($arrayToEncode, $valuesArray);
             }
         }
