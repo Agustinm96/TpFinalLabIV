@@ -66,17 +66,6 @@
         "password": "123"
     },
     {
-        "id": 2,
-        "userTypeId": "2",
-        "firstName": "Agustin",
-        "lastName": "Alvarez",
-        "dni": "123456",
-        "email": "agus16@gmail.com",
-        "phoneNumber": "41562521",
-        "username": "agus_alvarez",
-        "password": "1234"
-    },
-    {
         "id": 9,
         "userTypeId": "2",
         "firstName": "Agust\u00edn",
@@ -86,5 +75,27 @@
         "phoneNumber": "11247411",
         "username": "agu",
         "password": "15"
+    },
+    {
+        "id": 2,
+        "userTypeId": "2",
+        "firstName": "Agustin",
+        "lastName": "Alvarez",
+        "dni": "123456",
+        "email": "agus@gmail.com",
+        "phoneNumber": "41562521",
+        "username": "agus_alvarez",
+        "password": "1234"
+    },
+    {
+        "id": 10,
+        "userTypeId": "2",
+        "firstName": "Gisel",
+        "lastName": "Leguizamon",
+        "dni": "37236925",
+        "email": "gf12@gmail.com",
+        "phoneNumber": "23534",
+        "username": "gflegui",
+        "password": "1234"
     }
 ]

@@ -20,13 +20,28 @@
         "idKeeper": 1,
         "adress": "keeper street 1",
         "petSizeToKeep": [
-            "small"
+            "big"
         ],
-        "priceToKeep": "350",
+        "priceToKeep": "375",
         "initDate": "2022-10-25",
         "lastDate": "2022-11-17",
         "daysToWork": [
-            "Monday"
+            "Thursday"
+        ],
+        "isAvailable": true
+    },
+    {
+        "idUser": 10,
+        "idKeeper": 4,
+        "adress": "Palma 1320",
+        "petSizeToKeep": [
+            "medium"
+        ],
+        "priceToKeep": "1500",
+        "initDate": "2022-10-17",
+        "lastDate": "2022-10-20",
+        "daysToWork": [
+            "Wednesday"
         ],
         "isAvailable": true
     }

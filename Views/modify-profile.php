@@ -1,6 +1,12 @@
 <?php 
-    include_once('header.php');
-    include_once('keeper-nav-bar.php'); 
+    include_once('header.php'); 
+    if($user->getUserType()->getId()==2){
+        include_once('keeper-nav-bar.php');
+    }else if($user->getUserType()->getId()==1){
+        include_once('nav-bar-owner.php');
+    }else if($user->getUserType()->getId()==3){
+        //include_once('nav-bar-admin.php');
+    }
     require_once("validate-session.php");
 
     use Models\Keeper;
@@ -16,7 +22,7 @@
     <div class="content" > 
         <div id="comments" style="align-items:center;">
         <h2>Updating Me!</h2>
-        <form action="<?php echo FRONT_ROOT ."Keeper/ModifyProfile" ?>" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT ."User/ModifyProfile" ?>" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
             <table> 
             <thead>              
                 <tr>

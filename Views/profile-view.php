@@ -1,7 +1,14 @@
 <?php
 
 include_once('header.php');
-include_once('keeper-nav-bar.php'); 
+include_once('header.php');
+if($user->getUserType()->getId()==2){
+    include_once('keeper-nav-bar.php');
+}else if($user->getUserType()->getId()==1){
+    include_once('nav-bar-owner.php');
+}else if($user->getUserType()->getId()==3){
+    //include_once('nav-bar-admin.php');
+}
 require_once('validate-session.php');
 
 use Models\User;
@@ -18,7 +25,7 @@ use Models\Keeper;
     <!-- main body -->
     <div class="content"> 
     <div class="scrollable">
-        <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowModifyProfileView"?>" method ="post">
+        <form action="<?php ECHO FRONT_ROOT . "User/ShowModifyProfileView"?>" method ="post">
         <table style="text-align:center;">
             <thead>
             <tr>

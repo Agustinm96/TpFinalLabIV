@@ -9,7 +9,7 @@ include_once('keeper-nav-bar.php');
     <ul>
         <li><a href="#">Menu</a>
         <ul>
-            <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowMyProfile"?>">MY PROFILE</a></li>
+            <li><a href="<?php echo FRONT_ROOT . "User/ShowMyProfile"?>">MY PROFILE</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowMyAvailability"?>">AVAILABILITY</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Home/Logout"?>">LOGOUT</a></li>
     </ul>

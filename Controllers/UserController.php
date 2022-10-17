@@ -54,6 +54,28 @@
             require_once(VIEWS_PATH."user-list.php");
         }
 
+        public function ShowHomeView($idType, $message=""){
+            if($idType==1){
+                require_once(VIEWS_PATH."owner-home.php");
+            }else if($idType==2){
+                require_once(VIEWS_PATH."keeper-home.php");
+            }else if($idType==3){
+                require_once(VIEWS_PATH."admin.php");
+            }
+        }
+
+        public function ShowMyProfile(){  
+            require_once(VIEWS_PATH . "validate-session.php");
+            $user = ($_SESSION["loggedUser"]);
+            require_once(VIEWS_PATH . "profile-view.php");
+        }
+
+        public function ShowModifyProfileView($message="") {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $user = ($_SESSION["loggedUser"]);
+            require_once(VIEWS_PATH . "modify-profile.php");
+        }
+
         public function Add($firstname,$lastname,$dni,$email,$phone,$userTypeId,$username,$password)
         {
             $userType = new UserType();
@@ -82,6 +104,27 @@
                 $this->ShowAddView("",$user->getUserType()->getId());
             }
 
+        }
+
+        public function ModifyProfile($name, $lastName, $email, $phoneNumber, $userName, $password) {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $user = new User();
+            $user = ($_SESSION["loggedUser"]);
+
+            $user->setFirstName(ucfirst($name));
+            $user->setLastName(ucfirst($lastName));
+            $user->setEmail($email); 
+            $user->setPhoneNumber($phoneNumber);
+            $user->setUserName($userName);
+            $user->setPassword($password);
+
+            $this->userDAO->Modify($user);
+            
+            $message = 'Profile succesfully updated!';
+            
+            $this->ShowHomeView($user->getUserType()->getId(),$message);
+            
         }
 
         public function Remove($id)

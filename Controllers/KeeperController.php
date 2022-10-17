@@ -44,11 +44,11 @@
             require_once(VIEWS_PATH . "keepers-list.php");
         }
 
-        public function ShowMyProfile(){  
+        /*public function ShowMyProfile(){  
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
             require_once(VIEWS_PATH . "keeper-profile.php");
-        }
+        }*/
 
         public function ShowMyAvailability(){
             require_once(VIEWS_PATH . "validate-session.php");
@@ -56,11 +56,11 @@
             require_once(VIEWS_PATH . "keeper-availability.php");
         }
 
-        public function ShowModifyProfileView($message="") {
+        /*public function ShowModifyProfileView($message="") {
             require_once(VIEWS_PATH . "validate-session.php");
             $user = ($_SESSION["loggedUser"]);
             require_once(VIEWS_PATH . "keeper-modify-profile.php");
-        }
+        }*/
 
         public function ShowModifyAvailabilityView($message = "") {
             require_once(VIEWS_PATH . "validate-session.php");
@@ -91,7 +91,7 @@
 
                 $this->ShowHomeView($message);
             }else{
-                $message = 'ERROR: Your final day as a keeper at Pet Hero must be higher than your initial day';
+                $message = 'ERROR: The dates you have chosed dont match the days you want to work. Please select them again!';
                 $this->ShowCompletionProfile($message);
             } 
         }
@@ -112,27 +112,6 @@
                 $message = 'ERROR: The dates you have chosed dont match the days you want to work. Please select them again!';
                 $this->ShowModifyAvailabilityView($message);
             }
-            
-        }
-
-        public function ModifyProfile($name, $lastName, $email, $phoneNumber, $userName, $password) {
-            require_once(VIEWS_PATH . "validate-session.php");
-
-            $user = new User();
-            $user = ($_SESSION["loggedUser"]);
-
-            $user->setFirstName(ucfirst($name));
-            $user->setLastName(ucfirst($lastName));
-            $user->setEmail($email); 
-            $user->setPhoneNumber($phoneNumber);
-            $user->setUserName($userName);
-            $user->setPassword($password);
-
-            $this->userDAO->Modify($user);
-            
-            $message = 'Profile succesfully updated!';
-            
-            $this->ShowHomeView($message);
             
         }
 
