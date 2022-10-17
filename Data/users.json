@@ -97,5 +97,27 @@
         "phoneNumber": "23534",
         "username": "gflegui",
         "password": "1234"
+    },
+    {
+        "id": 11,
+        "userTypeId": "2",
+        "firstName": "Nico",
+        "lastName": "Berto",
+        "dni": "51454515215",
+        "email": "nico@gmail.com",
+        "phoneNumber": "2251454",
+        "username": "nico",
+        "password": "1234"
+    },
+    {
+        "id": 12,
+        "userTypeId": "2",
+        "firstName": "Agust\u00edn",
+        "lastName": "\u00c1lvarez",
+        "dni": "12121212",
+        "email": "agustin@gmail.com",
+        "phoneNumber": "+542234467738",
+        "username": "ag",
+        "password": "1234"
     }
 ]

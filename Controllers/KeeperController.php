@@ -44,23 +44,11 @@
             require_once(VIEWS_PATH . "keepers-list.php");
         }
 
-        /*public function ShowMyProfile(){  
-            require_once(VIEWS_PATH . "validate-session.php");
-            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
-            require_once(VIEWS_PATH . "keeper-profile.php");
-        }*/
-
         public function ShowMyAvailability(){
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
             require_once(VIEWS_PATH . "keeper-availability.php");
         }
-
-        /*public function ShowModifyProfileView($message="") {
-            require_once(VIEWS_PATH . "validate-session.php");
-            $user = ($_SESSION["loggedUser"]);
-            require_once(VIEWS_PATH . "keeper-modify-profile.php");
-        }*/
 
         public function ShowModifyAvailabilityView($message = "") {
             require_once(VIEWS_PATH . "validate-session.php");
@@ -97,6 +85,7 @@
         }
 
         public function ModifyAvailability($idKeeper, $adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep){   
+            require_once(VIEWS_PATH . "validate-session.php");
             $boolean = $this->checkingDates($initDate, $lastDate, $daysToWork);
             if($boolean){
 
