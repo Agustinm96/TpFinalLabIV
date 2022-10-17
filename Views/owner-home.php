@@ -11,6 +11,7 @@ include_once('nav-bar-owner.php');
         <ul>
             <li><a href="<?php echo FRONT_ROOT . "User/ShowMyProfile"?>">MY PROFILE</a></li>
             <li><a href="<?php echo FRONT_ROOT ?>">PET LIST (NOT FUNCTIONAL YET)</a></li>
+            <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowListView"?>">KEEPERS LIST</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Home/Logout"?>">LOGOUT</a></li>
     </ul>
 </nav>

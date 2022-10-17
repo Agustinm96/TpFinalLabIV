@@ -44,5 +44,35 @@
             "Wednesday"
         ],
         "isAvailable": true
+    },
+    {
+        "idUser": 11,
+        "idKeeper": 5,
+        "adress": "Palma 1320",
+        "petSizeToKeep": [
+            "big"
+        ],
+        "priceToKeep": "1500",
+        "initDate": "2022-10-17",
+        "lastDate": "2022-10-21",
+        "daysToWork": [
+            "Wednesday"
+        ],
+        "isAvailable": true
+    },
+    {
+        "idUser": 12,
+        "idKeeper": 6,
+        "adress": "Palma 1320",
+        "petSizeToKeep": [
+            "medium"
+        ],
+        "priceToKeep": "1500",
+        "initDate": "2022-10-17",
+        "lastDate": "2022-10-20",
+        "daysToWork": [
+            "Tuesday"
+        ],
+        "isAvailable": true
     }
 ]
