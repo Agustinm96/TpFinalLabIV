@@ -37,8 +37,8 @@
                        <?php if($pet->getPicture()==NULL) {?> 
                        <form action="<?php echo FRONT_ROOT."Pet/ShowUploadPetPicture" ?>" method="post" style="">  
                         <div>
-                        <input type="hidden" name="PETID" value=<?php echo $pet->getIDPET() ?>/>           
-                        <input type="submit" class="btn" name= "PETName" value = <?php echo Pic.$pet->getName() ?> style="background-color:#DC8E47;color:white;"/>
+                        <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET()?>" />       
+                        <input type="submit" class="btn" name= "PETName" value = <?php echo "Pic-".$pet->getName()?> style="background-color:#DC8E47;color:white;"/>
                        </div>
                        </form>
                        <?php  }?>
@@ -48,8 +48,8 @@
                       <?php if($pet->getVaccinationPlan()==NULL) {?> 
                        <form action="<?php echo FRONT_ROOT."Pet/ShowUploadPetVaccination" ?>" method="post" style="">  
                         <div>
-                        <input type="hidden" name="PETID" value=<?php echo $pet->getIDPET() ?>/>           
-                        <input type="submit" class="btn" name= "PETName" value = <?php echo Vac.$pet->getName() ?> style="background-color:#DC8E47;color:white;"/>
+                        <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET() ?>"/>           
+                        <input type="submit" class="btn" name= "PETName" value = <?php echo "Vac-".$pet->getName() ?> style="background-color:#DC8E47;color:white;"/>
                        </div>
                        </form>
                        <?php  }?>
@@ -57,8 +57,8 @@
                       <?php if($pet->getVideoPET()==NULL) {?> 
                        <form action="<?php echo FRONT_ROOT."Pet/ShowUploadVideo" ?>" method="post" style="">  
                         <div>
-                        <input type="hidden" name="PETID" value=<?php echo $pet->getIDPET() ?>/>           
-                        <input type="submit" class="btn" name= "PETName" value = <?php echo Video.$pet->getName() ?> style="background-color:#DC8E47;color:white;"/>
+                        <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET() ?>"/>           
+                        <input type="submit" class="btn" name= "PETName" value = <?php echo "Video-".$pet->getName() ?> style="background-color:#DC8E47;color:white;"/>
                        </div>
                        </form>
                        <?php  }?>
