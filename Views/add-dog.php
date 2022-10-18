@@ -1,6 +1,8 @@
 <?php 
-    include_once('header.php');
-    include_once('nav-bar.php');
+include_once('header.php');
+include_once('nav-bar-owner.php');
+require_once('validate-session.php');
+
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
@@ -55,7 +57,4 @@
 
 </div>
 </main
-<?php 
-    include_once('footer.php');
-?>
 

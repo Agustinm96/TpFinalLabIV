@@ -9,7 +9,7 @@ private $picture; /// VER COMO GUARDAR FOTO
 private $observation;
 private $IDPET;
 private $videoPet;
-//private $userName;
+private $userName;
 
 
 /**

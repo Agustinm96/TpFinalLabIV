@@ -1,5 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php  
+include_once('header.php');
+include_once('nav-bar-owner.php');
+require_once('validate-session.php');
+?>
 <head>
     <meta charset="UTF-8">
     <title>PHP File VIDEO Uploads</title>
@@ -10,7 +13,6 @@
     <h1>PHP File VIDEO Uploads</h1>
     <form action="<?php echo FRONT_ROOT."Pet/UploadVideo" ?>" method="post" enctype="multipart/form-data">
        <input type="hidden" name="MAX_FILE_SIZE" value="20000000"/>
-      <?php var_dump($PETID); ?>
         <p>
             <label for="video">VACCINATION PLAN</label>
             <input type="file" name="video" />

@@ -1,6 +1,8 @@
 <?php 
-  include_once('header.php');
-  include_once('nav-bar.php');
+include_once('header.php');
+include_once('nav-bar-owner.php');
+require_once('validate-session.php');
+
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
@@ -27,7 +29,7 @@
             </thead>
             <tbody>
               <?php
-                foreach($petList as $pet)
+                if($petList!=null){foreach($petList as $pet)
                 {
                   ?>
                     <tr>
@@ -41,7 +43,7 @@
                         <input type="submit" class="btn" name= "PETName" value = <?php echo "Pic-".$pet->getName()?> style="background-color:#DC8E47;color:white;"/>
                        </div>
                        </form>
-                       <?php  }?>
+                       <?php }?>
                       <td><img src="<?php echo FRONT_ROOT.IMG_PATH.$pet->getPicture(); ?>" alt= "no-image.php" style="width: 100px;"></td>
                       <td><?php echo $pet->getRace() ?></td>
                       <td><?php echo $pet->getSize() ?></td>
@@ -68,7 +70,7 @@
                       </td>
                     </tr>
                        <?php
-                }
+                 } }
               ?>                       
             </tbody>
           </table>
@@ -78,7 +80,3 @@
     <div class="clear"></div>
   </main>
 </div>
-
-<?php 
-  include_once('footer.php');
-?>

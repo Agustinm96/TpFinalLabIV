@@ -36,6 +36,7 @@
                 <li><a href=<?php echo FRONT_ROOT."UserType/ShowListView" ?>>User Types</a></li>
               </ul>
             </li>
+            <li><a href="<?php echo FRONT_ROOT."Pet/ShowListView" ?>">Pet List</a>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
     </nav> 
