@@ -30,7 +30,7 @@ require_once('validate-session.php');
                   <input type="text" name="name" size="22" min="0" required>
                 </td>
                 <td>
-                  <input type="date" name="birthDate" size="22" required>
+                  <input type="date" name="birthDate" max="<?php echo date('Y-m-d') ?>" size="22" required>
                 </td>
                 <td>
                   <textarea name="observation" style="margin-top: 3%;min-height: 35px;height: 20px"></textarea>

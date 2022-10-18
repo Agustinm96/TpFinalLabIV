@@ -119,5 +119,16 @@
         "phoneNumber": "+542234467738",
         "username": "ag",
         "password": "1234"
+    },
+    {
+        "id": 13,
+        "userTypeId": "2",
+        "firstName": "Roger",
+        "lastName": "Federer",
+        "dni": "276568136",
+        "email": "rf@gmail.com",
+        "phoneNumber": "225174558",
+        "username": "roger",
+        "password": "1234"
     }
 ]
