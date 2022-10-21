@@ -51,6 +51,12 @@ class OwnerController
         require_once(VIEWS_PATH . "owners-list.php");
     }
 
+    public function ShowAskForAKeper($message = "")
+    {
+        require_once(VIEWS_PATH . "validate-session.php");
+        require_once(VIEWS_PATH . "loading-dates.php");
+    }
+
     public function ShowMyProfile(){  
         require_once(VIEWS_PATH . "validate-session.php");
         $owner = $this->ownerDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));

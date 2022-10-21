@@ -1,78 +1,83 @@
 [
     {
-        "idUser": 7,
-        "idKeeper": 3,
-        "adress": "keeper street 3",
-        "petSizeToKeep": [
-            "small",
-            "medium"
-        ],
-        "priceToKeep": "4600",
-        "initDate": "2022-10-27",
-        "lastDate": "2022-12-03",
-        "daysToWork": [
-            "EveryDay"
-        ],
-        "isAvailable": true
-    },
-    {
-        "idUser": 2,
+        "idUser": 4,
         "idKeeper": 1,
-        "adress": "keeper street 1",
+        "adress": "keeper street 7",
         "petSizeToKeep": [
-            "big"
+            "small"
         ],
-        "priceToKeep": "375",
-        "initDate": "2022-10-25",
-        "lastDate": "2022-11-17",
+        "priceToKeep": "1500",
+        "initDate": "2022-11-01",
+        "lastDate": "2022-12-01",
         "daysToWork": [
-            "Thursday"
+            "Tuesday",
+            "Wednesday"
         ],
-        "isAvailable": true
+        "availabilityArray": [
+            {
+                "date": "2022-11-01",
+                "available": true
+            },
+            {
+                "date": "2022-11-02",
+                "available": true
+            },
+            {
+                "date": "2022-11-08",
+                "available": true
+            },
+            {
+                "date": "2022-11-09",
+                "available": true
+            },
+            {
+                "date": "2022-11-15",
+                "available": true
+            },
+            {
+                "date": "2022-11-16",
+                "available": true
+            },
+            {
+                "date": "2022-11-22",
+                "available": true
+            },
+            {
+                "date": "2022-11-23",
+                "available": true
+            },
+            {
+                "date": "2022-11-29",
+                "available": true
+            },
+            {
+                "date": "2022-11-30",
+                "available": true
+            }
+        ]
     },
     {
-        "idUser": 10,
-        "idKeeper": 4,
-        "adress": "Palma 1320",
+        "idUser": 5,
+        "idKeeper": 2,
+        "adress": "Liverpool 407",
         "petSizeToKeep": [
             "medium"
         ],
         "priceToKeep": "1500",
-        "initDate": "2022-10-17",
-        "lastDate": "2022-10-20",
-        "daysToWork": [
-            "Wednesday"
-        ],
-        "isAvailable": true
-    },
-    {
-        "idUser": 11,
-        "idKeeper": 5,
-        "adress": "Palma 1320",
-        "petSizeToKeep": [
-            "big"
-        ],
-        "priceToKeep": "1500",
-        "initDate": "2022-10-17",
-        "lastDate": "2022-10-21",
-        "daysToWork": [
-            "Wednesday"
-        ],
-        "isAvailable": true
-    },
-    {
-        "idUser": 12,
-        "idKeeper": 6,
-        "adress": "Palma 1320",
-        "petSizeToKeep": [
-            "medium"
-        ],
-        "priceToKeep": "1500",
-        "initDate": "2022-10-17",
-        "lastDate": "2022-10-20",
+        "initDate": "2022-11-01",
+        "lastDate": "2022-11-09",
         "daysToWork": [
             "Tuesday"
         ],
-        "isAvailable": true
+        "availabilityArray": [
+            {
+                "date": "2022-11-01",
+                "available": true
+            },
+            {
+                "date": "2022-11-08",
+                "available": true
+            }
+        ]
     }
 ]

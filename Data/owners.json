@@ -13,5 +13,10 @@
         "idUser": 8,
         "idOwner": 3,
         "adress": "owner street 3"
+    },
+    {
+        "idUser": 14,
+        "idOwner": 4,
+        "adress": "Palma 1320"
     }
 ]

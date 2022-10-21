@@ -12,7 +12,7 @@ class Keeper{
     private $petSizeToKeep = array(); //small, medium or big
     private $priceToKeep;
     private $reserve = array();
-    //private $availabilityArray = array (); arreglo de disponibilidades
+    private $availabilityArray = array (); //arreglo de disponibilidades
 
     public function getUser(){
         return $this->user;
@@ -60,6 +60,14 @@ class Keeper{
 
     public function setPriceToKeep($priceToKeep){
         $this->priceToKeep = $priceToKeep;
+    }
+
+    public function getavailabilityArray(){
+        return $this->availabilityArray;
+    }
+
+    public function setAvailabilityArray($availabilityArray){
+        $this->availabilityArray = $availabilityArray; 
     }
 }
 
