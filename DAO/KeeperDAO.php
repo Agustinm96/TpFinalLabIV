@@ -5,6 +5,7 @@
     use Models\Keeper;
     use Models\User;
     use Models\Reserve;
+    use Models\Availability;
 
     class KeeperDAO implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
@@ -59,6 +60,27 @@
             return (count($aux) > 0) ? $aux[0] : null;
         }
 
+        public function getAvailableKeepersByDates($initDate, $lastDate){
+            $keepersList = $this->GetAll();
+            $avaiableKeepersList=array();
+
+            while($initDate <= $lastDate){
+                foreach($keepersList as $keeper){
+                    $arrayDates = $keeper->getAvailabilityArray();
+                    foreach($arrayDates as $date){
+                        if($date->getDate() === $initDate){
+                                array_push($avaiableKeepersList, $keeper); 
+                            }
+                        }
+                    }
+                $initDate = date('Y-m-d', strtotime($initDate)+86400);
+            }
+            
+            $arrFinal = array_unique($avaiableKeepersList,SORT_REGULAR);
+            
+            return $arrFinal;
+        }
+
         private function SaveData() {
             $arrayEncode = array();
 
@@ -71,7 +93,15 @@
                 $value["initDate"] = $keeper->getReserve()->getStartingDate();
                 $value["lastDate"] = $keeper->getReserve()->getLastDate();
                 $value["daysToWork"] = $keeper->getReserve()->getArrayDays();
-                $value["isAvailable"] = $keeper->getReserve()->getIsAvailable();
+
+                $array = array();
+                $availabilityArray = $keeper->getavailabilityArray();
+                foreach($availabilityArray as $availability){
+                    $values["date"] = $availability->getDate();
+                    $values["available"] = $availability->getAvailable();
+                    array_push($array, $values);
+                }
+                $value["availabilityArray"] = $array;
 
                 array_push($arrayEncode, $value);
             }
@@ -101,8 +131,18 @@
                     $reserve->setStartingDate($value["initDate"]);
                     $reserve->setLastDate($value["lastDate"]);
                     $reserve->setArrayDays($value["daysToWork"]);
-                    $reserve->setIsAvailable($value["isAvailable"]);
                     $keeper->setReserve($reserve);
+
+                    $array=array();
+                    $availabilityArray=$value["availabilityArray"];
+                    foreach($availabilityArray as $valueD){
+                        $availability = new Availability();
+                        $availability->setDate($valueD['date']);
+                        $availability->setAvailable($valueD['available']);
+                        array_push($array, $availability);
+                    }
+                    
+                    $keeper->setavailabilityArray($array);
 
                     array_push($this->keepersList, $keeper);
                 }
@@ -121,7 +161,7 @@
 
         public function Modify(Keeper $keeper) {
             $this->RetrieveData();
-            /*tendria que llamar a modify user */ 
+            
             $this->Remove($keeper->getIdKeeper());
 
             array_push($this->keepersList, $keeper);
