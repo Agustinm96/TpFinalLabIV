@@ -64,6 +64,7 @@
             <li class="active"><a href="<?php echo FRONT_ROOT?>Keeper/ShowHomeView">Main Menu</a></li>
             <li><a href="<?php echo FRONT_ROOT. "Keeper/ShowReserveView"?>">See reserves (not functional yet)</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
+            <a href=""><img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"?>" alt="" style="width:20px ;"></a>
         </ul>
     </nav> 
     <?php }?>
