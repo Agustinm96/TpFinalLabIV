@@ -1,14 +1,6 @@
 <?php
-
 include_once('header.php');
-include_once('header.php');
-if($user->getUserType()->getId()==2){
-    include_once('keeper-nav-bar.php');
-}else if($user->getUserType()->getId()==1){
-    include_once('nav-bar-owner.php');
-}else if($user->getUserType()->getId()==3){
-    //include_once('nav-bar-admin.php');
-}
+include_once('nav-bar.php');
 require_once('validate-session.php');
 
 use Models\User;
