@@ -2,6 +2,7 @@
 
     require_once('validate-session.php');
     include_once('header.php');
+    include_once('nav-bar-owner.php');
 
 ?>
 
@@ -37,6 +38,6 @@
 
 <?php
 
-require_once('footer.php');
+//require_once('footer.php');
 
 ?>

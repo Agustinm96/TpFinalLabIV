@@ -1,28 +1,2 @@
 [
-    {
-        "IDPET": 2,
-        "petType": "dog",
-        "name": "Negrito",
-        "observation": "Necesita Alimento Especial",
-        "birthDate": "2015-02-10",
-        "picture": "rodri2.jpg",
-        "vaccinationPlan": "VACrodri2.jpg",
-        "race": "Ovejero Belga",
-        "size": "medium",
-        "videoPet": "videorodri2.jpg",
-        "userName": "rodri"
-    },
-    {
-        "IDPET": 1,
-        "petType": "dog",
-        "name": "Chloe",
-        "observation": "Castrada",
-        "birthDate": "2022-04-06",
-        "picture": "matute1.jpg",
-        "vaccinationPlan": "VACmatute1.jpg",
-        "race": "Ovejero Aleman",
-        "size": "medium",
-        "videoPet": "videomatute1.jpg",
-        "userName": "matute"
-    }
 ]

@@ -212,7 +212,8 @@
 
         public function Remove($id)
         {
-            $this->keeperDAO->Remove($id);            
+            $this->keeperDAO->Remove($id); 
+            $this->userDAO->Remove($id);           
 
             $this->ShowListView();
         }

@@ -1,46 +1,35 @@
 [
     {
-        "id": 1,
+        "id": 2,
+        "userTypeId": "1",
+        "firstName": "Matias",
+        "lastName": "de Andrade",
+        "dni": "13411231241",
+        "email": "matute@gmail.com",
+        "phoneNumber": "5134141",
+        "username": "matute",
+        "password": "12345"
+    },
+    {
+        "id": 3,
         "userTypeId": "3",
         "firstName": "Daniel",
         "lastName": "Fernando Diaz",
         "dni": "42946306",
-        "email": "danielferdiazz@gmail.com",
-        "phoneNumber": "02233020724",
+        "email": "danielferdiazz@hotmail.com",
+        "phoneNumber": "02236176224",
         "username": "admin1",
         "password": "1232"
-    },
-    {
-        "id": 3,
-        "userTypeId": "1",
-        "firstName": "Matias",
-        "lastName": "de Andrade",
-        "dni": "51253123",
-        "email": "matute@gmail.com",
-        "phoneNumber": "1535623",
-        "username": "matute",
-        "password": "12345"
     },
     {
         "id": 4,
         "userTypeId": "2",
         "firstName": "Agustin",
         "lastName": "Alvarez",
-        "dni": "39169663",
-        "email": "agustinmalvarezok@gmail.com",
-        "phoneNumber": "2235491488",
-        "username": "agus",
-        "password": "1234"
-    },
-    {
-        "id": 5,
-        "userTypeId": "2",
-        "firstName": "Liam",
-        "lastName": "Alvarez",
-        "dni": "5689231",
-        "email": "liam@gmail.com",
-        "phoneNumber": "2235310165",
-        "username": "liam",
+        "dni": "1241224",
+        "email": "agus@gmail.com",
+        "phoneNumber": "351331413",
+        "username": "agus_alvarez",
         "password": "1234"
     }
 ]

@@ -1,22 +1,7 @@
 [
     {
-        "idUser": 3,
+        "idUser": 2,
         "idOwner": 1,
         "adress": "owner street 1"
-    },
-    {
-        "idUser": 6,
-        "idOwner": 2,
-        "adress": "owner street 2"
-    },
-    {
-        "idUser": 8,
-        "idOwner": 3,
-        "adress": "owner street 3"
-    },
-    {
-        "idUser": 14,
-        "idOwner": 4,
-        "adress": "Palma 1320"
     }
 ]

@@ -10,9 +10,9 @@ include_once('nav-bar-owner.php');
         <li><a href="#">Menu</a>
         <ul>
             <li><a href="<?php echo FRONT_ROOT . "User/ShowMyProfile"?>">MY PROFILE</a></li>
-            <li><a href="<?php echo FRONT_ROOT ?>">PET LIST (NOT FUNCTIONAL YET)</a></li>
+            <li><a href="<?php echo FRONT_ROOT."Pet/ShowPerfilView" ?>">PET LIST</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowListView"?>">KEEPERS LIST</a></li>
-            <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeper"?>">ASK FOR A KEEPER</a></li>
+            <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">ASK FOR A KEEPER</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Home/Logout"?>">LOGOUT</a></li>
     </ul>
 </nav>
