@@ -13,14 +13,8 @@
             require_once(VIEWS_PATH . "user-login.php");
         }
 
-        public function showAddView($idType){
-            if($idType==1){
-                require_once(VIEWS_PATH."owner-home.php");
-            }else if($idType==2){
-                require_once(VIEWS_PATH."keeper-home.php");
-            }else if($idType==3){
-                require_once(VIEWS_PATH."admin.php");
-            }
+        public function showAddView(){
+            require_once(VIEWS_PATH."home.php");
         }
 
         public function Login($username, $password) {
@@ -30,7 +24,7 @@
                 
                 $_SESSION["loggedUser"] = $user;
                 
-                $this->showAddView($user->getUserType()->getId());
+                $this->showAddView();
             } else {
                 $this->Index("Usuario y/o contraseña incorrecta");
             }

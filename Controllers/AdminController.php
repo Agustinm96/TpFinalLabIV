@@ -17,6 +17,6 @@ class AdminController
     public function ShowHomeView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "admin.php");
+        require_once(VIEWS_PATH . "home.php");
     }
 }

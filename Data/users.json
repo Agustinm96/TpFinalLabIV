@@ -1,16 +1,5 @@
 [
     {
-        "id": 2,
-        "userTypeId": "1",
-        "firstName": "Matias",
-        "lastName": "de Andrade",
-        "dni": "13411231241",
-        "email": "matute@gmail.com",
-        "phoneNumber": "5134141",
-        "username": "matute",
-        "password": "12345"
-    },
-    {
         "id": 3,
         "userTypeId": "3",
         "firstName": "Daniel",
@@ -31,5 +20,16 @@
         "phoneNumber": "351331413",
         "username": "agus_alvarez",
         "password": "1234"
+    },
+    {
+        "id": 2,
+        "userTypeId": "1",
+        "firstName": "Matias",
+        "lastName": "De Andrade",
+        "dni": "13411231241",
+        "email": "matute@gmail.com",
+        "phoneNumber": "5134149",
+        "username": "matute",
+        "password": "12345"
     }
 ]

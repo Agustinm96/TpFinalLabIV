@@ -54,7 +54,7 @@
             </li>
             <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">Ask for a keeper</a>
             </li>
-            <li><a href="<?php echo FRONT_ROOT."Owner/ShowMyProfile"?>">My Profile</a></li>
+            <li><a href="<?php echo FRONT_ROOT."User/ShowMyProfile"?>">My Profile</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
     </nav><?php }

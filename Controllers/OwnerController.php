@@ -20,7 +20,7 @@ class OwnerController
     public function ShowHomeView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "owner-home.php");
+        require_once(VIEWS_PATH . "home.php");
     }
 
     public function ShowAddView($message = "")

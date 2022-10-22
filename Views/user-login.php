@@ -6,14 +6,6 @@ include_once('header.php');
     <div id="logo" class="fl_left">
       <h1>PET HERO</h1>
     </div>
-    <!-- <nav id="mainav" class="fl_right">
-      <ul class="clear">
-        <li class="active"><a class="drop" href="#">Actions</a>
-          <ul>
-            <li><a href="">ADD</a></li>
-            <li><a href="">LIST/REMOVE</a></li>
-      </ul>
-    </nav> -->
   </header>
 </div>
 <div class="wrapper row2 bgded" style="background-image:url('../images/demo/backgrounds/1.png');">
