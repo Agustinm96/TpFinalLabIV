@@ -1,23 +1,23 @@
 <?php
 namespace Controllers;
 
-use DAO\DogDAO as DogDAO;
+use DAO\CatDAO as CatDAO;
 use DAO\PetDAO as PetDAO;
-use MODELS\Dog as Dog;
+use MODELS\Cat as Cat;
 
-Class DogController{
-private $dogDAO;
+Class CatController{
+private $catDAO;
 private $petDAO;
 
 public function __construct()
     {
-        $this->dogDAO = new DogDAO();
+        $this->catDAO = new CatDAO();
         $this->petDAO = new PetDAO();
     }
 
-    public function ShowListView(){ //SOLO MUESTRA PERROS
+    public function ShowListView(){ //SOLO MUESTRA GATOS
       require_once(VIEWS_PATH . "validate-session.php");
-      //$petList = $this->petDAO->GetAllDog();
+      // $petList = $this->petDAO->GetAllCats();
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
@@ -28,21 +28,20 @@ public function __construct()
     }
 
 
-    public function Add($name, $birthDate, $observation,$size,$race){
+    public function Add($name, $birthDate, $observation,$race){
     require_once (VIEWS_PATH ."validate-session.php");
-    $dog = new Dog();
-    $dog->setPetType("dog");
-    $dog->setName($name);
-    $dog->setBirthDate($birthDate);
-    $dog->setObservation($observation);
-    $dog->setPicture(null); //PREGUNTAR
-    $dog->setVaccinationPlan(null);
-    $dog->setRace($race);
-    $dog->setSize($size);
-    $dog->setVideoPet(null);
-    $dog->setUserName($_SESSION["loggedUser"]->GetUserName());
-    $this->dogDAO->Add($dog);
-    $this->ShowPerfilView("Se añadio correctamente el perro :" .$dog->getName());
+    $cat = new Cat(); //Deberia llegar el type
+    $cat->setPetType("cat");
+    $cat->setName($name);
+    $cat->setBirthDate($birthDate);
+    $cat->setObservation($observation);
+    $cat->setPicture(null); //PREGUNTAR
+    $cat->setVaccinationPlan(null);
+    $cat->setRace($race);
+    $cat->setVideoPet(null);
+    $cat->setUserName($_SESSION["loggedUser"]->GetUserName());
+    $this->catDAO->Add($cat);
+    $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());
     }
 
     public function UploadVaccination($MAX_FILE_SIZE,$IDPET){
@@ -68,12 +67,14 @@ if( isset($_FILES['pic'])){
          $this->ShowPerfilView("failed to move file error");
       }   
   }else{
-    $this->ShowPerfilView("failed to move file error");
+      $this->ShowPerfilView("error to user - file error");
   }
   
 }else{
-  $this->ShowPerfilView("File NOT EXIST");
+  $this->ShowPerfilView("error to user - file error");
 }
+      $this->ShowPerfilView("File NOT EXIST");
+
   }
 
 }

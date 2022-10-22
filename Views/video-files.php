@@ -14,7 +14,7 @@ require_once('validate-session.php');
     <form action="<?php echo FRONT_ROOT."Pet/UploadVideo" ?>" method="post" enctype="multipart/form-data">
        <input type="hidden" name="MAX_FILE_SIZE" value="20000000"/>
         <p>
-            <label for="video">VACCINATION PLAN</label>
+            <label for="video">Video</label>
             <input type="file" name="video" />
         </p>
         <p>

@@ -54,7 +54,7 @@ use Models\Keeper;
                                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
                                 <?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 3) { ?>
                                     <td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Remove</button></td> <?php } else if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
-                                                                                                                                                            ?><td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Request Reservation</button></td>
+                                                                                                                                                            ?><td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Request Reservation (in process)</button></td>
                             </tr><?php
                                                                                                                                                         }
                                                                                                                                                     } ?>

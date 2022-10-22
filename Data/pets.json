@@ -1,2 +1,28 @@
 [
+    {
+        "IDPET": 1,
+        "petType": "dog",
+        "name": "Firulais",
+        "observation": "Duerme mucho",
+        "birthDate": "2022-10-04",
+        "picture": "matute1.jpg",
+        "vaccinationPlan": "VACmatute1.jpg",
+        "race": "Pastor Aleman",
+        "size": "medium",
+        "videoPet": "videomatute1.jpg",
+        "userName": "matute"
+    },
+    {
+        "IDPET": 2,
+        "petType": "dog",
+        "name": "Pepito",
+        "observation": "es jugueton",
+        "birthDate": "2022-10-03",
+        "picture": null,
+        "vaccinationPlan": null,
+        "race": "caniche",
+        "size": "small",
+        "videoPet": null,
+        "userName": "matute"
+    }
 ]

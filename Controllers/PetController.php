@@ -15,7 +15,7 @@ private $petDAO;
         $this->petDAO = new petDAO();
     }
     
- public function ShowPerfilView(){
+ public function ShowPerfilView($message = ""){
         require_once(VIEWS_PATH . "validate-session.php");
         $petList = $this->petDAO->GetByUserName($_SESSION["loggedUser"]->GetUserName());
         require_once(VIEWS_PATH . "perfil-petlist.php");
@@ -61,35 +61,31 @@ private $petDAO;
        $filename = $_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
         $newFile = $dir . $filename;
         if( move_uploaded_file($_FILES['pic']['tmp_name'], $newFile) ){
-            echo $_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>';
+            //echo $_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>';
             $pet->SetPicture($filename);
             $this->petDAO->Remove($IDPET);
             $petList = $this->petDAO->GetAll();
             array_push($petList,$pet);
             $this->petDAO->SaveData($petList);
-            $this->ShowPerfilView();
+            $this->ShowPerfilView($_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>');
         
         }else{
-           echo ("failed to move file error");
+            $this->ShowPerfilView("failed to move file error");
         }
-        
-        
     }else{
-        echo ("error to user - file error");
-    }
-    
+        $this->ShowPerfilView("failed to move file error");
+    }   
 }else{
-    echo ("error message to user");
+    $this->ShowPerfilView("File NOT EXIST");
 }
-        $petList = $this->petDAO->GetAll();
-        require_once(VIEWS_PATH . "perfil-petlist.php"); //Modificar por user perfil
+        $this->ShowPerfilView("failed to move file error"); //Modificar por user perfil
         /*}else{
             echo ("FORMATO NO ACEPTADO");
             require_once(VIEWS_PATH . "perfil-petlist.php");
         }*/
     }
 
-        public function Remove($id)
+        public function Remove($ID)
         {
             $this->petDAO->Remove($ID);
 
@@ -108,28 +104,26 @@ private $petDAO;
             $filename = "video".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
             $newFile = $dir . $filename;
             if( move_uploaded_file($_FILES['video']['tmp_name'], $newFile) ){
-                echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';
+                //echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';
                 $pet->setVideoPet($filename);
                 $this->petDAO->Remove($IDPET);
                 $petList = $this->petDAO->GetAll();
                 array_push($petList,$pet);
                 $this->petDAO->SaveData($petList);
-                $this->ShowPerfilView();
+                $this->ShowPerfilView($_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>');
             }else{
-               echo ("failed to move file error");
-               $this->ShowPerfilView();
+               $this->ShowPerfilView("failed to move file error");
             }
             
             
         }else{
-            echo ("error to user - file error");
-            $this->ShowPerfilView();
+            $this->ShowPerfilView("error to user - file error");
         }
         
     }else{
-        echo ("error message to user");
+        $this->ShowPerfilView("failed to move file error");
     }
-           $this->ShowPerfilView();
+           $this->ShowPerfilView("failed to move file error");
     
         }
     
