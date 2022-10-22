@@ -6,10 +6,10 @@ require_once('validate-session.php');
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
-    <h6 class="heading">New DOG Register</h6>
+    <h6 class="heading">New CAT Register</h6>
   </div>
 </div>
-<main class="registerDog" style="width: 95%; max-width: 1200px;"> 
+<main class="registerCat" style="width: 95%;"> 
 <div class="content" >
 <div id="comments" style="align-items:center;">
         <h2>Complete the next information</h2>
@@ -33,17 +33,7 @@ require_once('validate-session.php');
                 <td>
                   <textarea name="observation" style="margin-top: 3%;min-height: 100px;height: 75px;max-width: 500px"></textarea>
                 </td>
-                </tr>
-                <tr>
-                <th>Size</th>   
-                <td>
-                  <select name="size" cols="80" rows="1" required>
-                     <option value="small">Small</option>
-                     <option value="medium">Medium</option>   
-                     <option value="big">Big</option>                 
-                  </select>
-                </td>
-                </tr>        
+                </tr>     
                 <tr>     
                 <th>Race</th>
                 <td>
@@ -63,4 +53,3 @@ require_once('validate-session.php');
 
 </div>
 </main
-

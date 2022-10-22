@@ -18,14 +18,13 @@ class PetDAO{
     function GetByUserName($USERNAME)
     {
         $this->petList  = $this->RetrieveData();
-
         $pets = array_filter($this->petList, function($pet) use($USERNAME){
             return $pet->getUserName() == $USERNAME;
         });
 
         $pets = array_values($pets); //Reorderding array
 
-        return (count($pets) > 0) ? $pets[0] : null;
+        return (count($pets) > 0) ? $pets : null;
 
     }
 
@@ -80,7 +79,7 @@ class PetDAO{
                  $dog->setRace($content["race"]);
                  $dog->setSize($content["size"]);
                  $dog->setVideoPET($content["videoPet"]);
-                 //$dog->setUserName($content["userName"]);
+                 $dog->setUserName($content["userName"]);
                  array_push($this->petList, $dog);
               //  }
              }
@@ -108,7 +107,7 @@ class PetDAO{
             $valuesArray["race"] = $dog->getRace();
             $valuesArray["size"] = $dog->getSize();
             $valuesArray["videoPet"] = $dog->getVideoPET();
-            // $valuesArray["userName"] = $dog->getUserName();
+            $valuesArray["userName"] = $dog->getUserName();
             array_push($arrayToEncode, $valuesArray);
             }
         }
