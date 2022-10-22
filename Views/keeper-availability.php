@@ -1,7 +1,7 @@
 <?php
 
 include_once('header.php');
-include_once('keeper-nav-bar.php'); 
+include_once('nav-bar.php'); 
 require_once('validate-session.php');
 
 use Models\User;

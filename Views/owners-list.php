@@ -1,8 +1,8 @@
 <?php
 
+require_once('validate-session.php');
 require_once('nav-bar.php');
 require_once('header.php');
-require_once('validate-session.php');
 
 use Models\User;
 use Models\Owner;

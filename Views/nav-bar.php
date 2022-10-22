@@ -17,6 +17,8 @@
         <h1><a href="#">PET HERO</a></h1>
       </div>
       <!-- Add path routes below -->
+
+      <?php if($_SESSION["loggedUser"]->getUserType()->getId()==3){?>
       <nav id="mainav" class="fl_right">
         <ul class="clear">
             <li class="active"><a href="<?php echo FRONT_ROOT?>Admin/ShowHomeView">Main Menu</a></li>
@@ -39,6 +41,31 @@
             <li><a href="<?php echo FRONT_ROOT."Pet/ShowListView" ?>">Pet List</a>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
+    </nav><?php }
+    else if($_SESSION["loggedUser"]->getUserType()->getId()==1){?>
+    <nav id="mainav" class="fl_right">
+        <ul class="clear">
+            <li class="active"><a href="<?php echo FRONT_ROOT?>Owner/ShowHomeView">Main Menu</a></li>
+            <li><a class="drop" href="#">My Pets</a>
+              <ul>
+                <li><a href="<?php echo FRONT_ROOT."Pet/ShowAddView" ?>">Add Pet</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Pet/ShowPerfilView" ?>">List Pets</a></li>
+              </ul>
+            </li>
+            <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">Ask for a keeper</a>
+            </li>
+            <li><a href="<?php echo FRONT_ROOT."Owner/ShowMyProfile"?>">My Profile</a></li>
+            <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
+        </ul>
+    </nav><?php }
+    else if($_SESSION["loggedUser"]->getUserType()->getId()==2){?>
+    <nav id="mainav" class="fl_right">
+        <ul class="clear">
+            <li class="active"><a href="<?php echo FRONT_ROOT?>Keeper/ShowHomeView">Main Menu</a></li>
+            <li><a href="<?php echo FRONT_ROOT. "Keeper/ShowReserveView"?>">See reserves (not functional yet)</a></li>
+            <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
+        </ul>
     </nav> 
+    <?php }?>
     </header>
   </div>

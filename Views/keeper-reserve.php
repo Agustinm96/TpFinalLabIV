@@ -1,7 +1,7 @@
 <?php
 
     require_once('header.php');
-    require_once('keeper-nav-bar.php');
+    require_once('nav-bar.php');
 
 ?>
 

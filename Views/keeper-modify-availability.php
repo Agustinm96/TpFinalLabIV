@@ -1,6 +1,6 @@
 <?php 
     include_once('header.php');
-    include_once('keeper-nav-bar.php'); 
+    include_once('nav-bar.php'); 
 
     use Models\Keeper;
     
