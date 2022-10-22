@@ -51,7 +51,7 @@ class OwnerController
         require_once(VIEWS_PATH . "owners-list.php");
     }
 
-    public function ShowAskForAKeper($message = "")
+    public function ShowAskForAKeeper($message = "")
     {
         require_once(VIEWS_PATH . "validate-session.php");
         require_once(VIEWS_PATH . "loading-dates.php");

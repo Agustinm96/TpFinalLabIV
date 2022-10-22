@@ -26,11 +26,7 @@
                 <li><a href="<?php echo FRONT_ROOT."Pet/ShowPerfilView" ?>">List Pets</a></li>
               </ul>
             </li>
-            <li><a class="drop" href="#">Keepers</a>
-              <ul>
-                <li><a href="<?php echo FRONT_ROOT."Keeper/ShowListView" ?>">See All Keepers</a></li>
-                <li><a href="<?php echo FRONT_ROOT."Keeper/ShowListView" ?>">See availables keepers</a></li>
-              </ul>
+            <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">Ask for a keeper</a>
             </li>
             <li><a href="<?php echo FRONT_ROOT."Owner/ShowMyProfile"?>">My Profile</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>

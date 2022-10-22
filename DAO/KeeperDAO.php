@@ -21,11 +21,11 @@
             $this->SaveData();
         }
 
-        public function Remove($idKeeper) {
+        public function Remove($id) {
             $this->RetrieveData();
 
-            $this->keepersList = array_filter($this->keepersList, function($keeper) use($idKeeper) {
-                return $keeper->getIdKeeper() != $idKeeper;
+            $this->keepersList = array_filter($this->keepersList, function($keeper) use($id) {
+                return $keeper->getUser()->getId() != $id;
             });
 
             $this->SaveData();

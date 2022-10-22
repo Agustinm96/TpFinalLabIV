@@ -1,8 +1,8 @@
 <?php
 require_once('header.php');
-if($_SESSION["loggedUser"]->getUserType()->getId()==1){
+if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
     include_once('nav-bar-owner.php');
-}else{
+} else {
     include_once('nav-bar.php');
 }
 require_once('validate-session.php');
@@ -15,7 +15,11 @@ use Models\Keeper;
 <div>
     <main>
         <div>
-            <form action="<?php echo FRONT_ROOT . "Keeper/Remove" ?>" method="post">
+            <form action="<?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 3) {
+                                echo FRONT_ROOT . "Keeper/Remove";
+                            } else if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
+                                //reservation request 
+                            } ?>" method="post">
                 <table style="text-align:center">
                     <thead>
                         <tr>
@@ -52,9 +56,12 @@ use Models\Keeper;
                                 <td><?php echo $keeper->getReserve()->getStartingDate() ?></td>
                                 <td><?php echo $keeper->getReserve()->getLastDate() ?></td>
                                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
-                                <td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getIdKeeper() ?>">Remove</button></td>
+                                <?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 3) { ?>
+                                    <td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Remove</button></td> <?php } else if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
+                                                                                                                                                            ?><td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Request Reservation</button></td>
                             </tr><?php
-                                } ?>
+                                                                                                                                                        }
+                                                                                                                                                    } ?>
 
 
                     </tbody>
