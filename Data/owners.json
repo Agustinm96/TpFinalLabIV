@@ -3,5 +3,10 @@
         "idUser": 2,
         "idOwner": 1,
         "adress": "owner street 1"
+    },
+    {
+        "idUser": 5,
+        "idOwner": 2,
+        "adress": "keeper street 7"
     }
 ]

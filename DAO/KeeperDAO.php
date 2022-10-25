@@ -4,6 +4,8 @@
 
     use Models\Keeper;
     use Models\User;
+    use Models\Dog;
+    use Models\Cat;
     use Models\Reserve;
     use Models\Availability;
 
@@ -21,11 +23,11 @@
             $this->SaveData();
         }
 
-        public function Remove($id) {
+        public function Remove($idUser) {
             $this->RetrieveData();
 
-            $this->keepersList = array_filter($this->keepersList, function($keeper) use($id) {
-                return $keeper->getUser()->getId() != $id;
+            $this->keepersList = array_filter($this->keepersList, function($keeper) use($idUser) {
+                return $keeper->getUser()->getId() != $idUser;
             });
 
             $this->SaveData();
@@ -84,7 +86,7 @@
         private function SaveData() {
             $arrayEncode = array();
 
-            foreach($this->keepersList as $keeper) {
+            foreach($this->keepersList as $keeper){
                 $value["idUser"] = $keeper->getUser()->getId();
                 $value["idKeeper"] = $keeper->getIdKeeper();
                 $value["adress"] = $keeper->getAdress();
@@ -95,12 +97,42 @@
                 $value["daysToWork"] = $keeper->getReserve()->getArrayDays();
 
                 $array = array();
+                $arrayIdPet = array();
+                $arrayNames = array();
                 $availabilityArray = $keeper->getavailabilityArray();
                 foreach($availabilityArray as $availability){
                     $values["date"] = $availability->getDate();
                     $values["available"] = $availability->getAvailable();
+
+                    $arrayUserName = $availability->getUserName();
+                    if($arrayUserName){
+                        foreach((array)$arrayUserName as $name){
+                        $stringName = $name;
+                        array_push($arrayNames, $stringName);
+                        }
+                    }
+                    
+                    $values["userName"] = $arrayNames;
+
+                    $petArray = $availability->getPetList();
+                    var_dump($petArray);
+                    
+                    if(($petArray) && ($values["userName"])){
+                        foreach($petArray as $pet){  
+                        if(is_int($pet)){
+                            array_push($arrayIdPet, $pet);
+                        }else if(($pet instanceof Dog) || ($pet instanceof Cat)){
+                            $idPet = $pet->getIDPET();
+                            var_dump($idPet);
+                            array_push($arrayIdPet, $idPet);
+                            var_dump($arrayIdPet);
+                            }
+                        }
+                    }
+                    var_dump($arrayIdPet);
+                    $values["IDPET"] = $arrayIdPet;
                     array_push($array, $values);
-                }
+                    }
                 $value["availabilityArray"] = $array;
 
                 array_push($arrayEncode, $value);
@@ -139,6 +171,8 @@
                         $availability = new Availability();
                         $availability->setDate($valueD['date']);
                         $availability->setAvailable($valueD['available']);
+                        $availability->setUserName($valueD['userName']);
+                        $availability->setPetList($valueD['IDPET']);
                         array_push($array, $availability);
                     }
                     
@@ -162,7 +196,7 @@
         public function Modify(Keeper $keeper) {
             $this->RetrieveData();
             
-            $this->Remove($keeper->getIdKeeper());
+            $this->Remove($keeper->getUser()->getId());
 
             array_push($this->keepersList, $keeper);
 

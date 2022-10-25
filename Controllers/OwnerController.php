@@ -4,8 +4,11 @@ namespace Controllers;
 
 use DAO\UserDAO as UserDAO;
 use DAO\OwnerDAO;
+use DAO\PetDAO;
+use DAO\KeeperDAO;
 use Models\Owner;
 use Models\User as User;
+use Models\Pet;
 
 class OwnerController
 {
@@ -15,6 +18,8 @@ class OwnerController
     {
         $this->ownerDAO = new OwnerDAO();
         $this->userDAO = new UserDAO();
+        $this->keeperDAO = new KeeperDAO();
+        $this->petDAO  = new PetDAO();
     }
 
     public function ShowHomeView($message = "")
@@ -61,6 +66,14 @@ class OwnerController
         require_once(VIEWS_PATH . "validate-session.php");
         $owner = $this->ownerDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
         require_once(VIEWS_PATH . "owner-profile.php");
+    }
+
+    public function ShowGenerateReserveView($id)
+    {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $keeper = $this->keeperDAO->GetByIdUser($id);
+        $petList = $this->petDAO->GetByUserName($_SESSION["loggedUser"]->GetUserName());
+        require_once(VIEWS_PATH . "load-reserve.php");
     }
 
     public function Add($adress)

@@ -1,26 +1,97 @@
 [
     {
-        "idUser": 4,
+        "idUser": 6,
         "idKeeper": 1,
-        "adress": "keeper street 1",
+        "adress": "keeper street 7",
         "petSizeToKeep": [
+            "small",
             "medium"
         ],
-        "priceToKeep": "3235",
-        "initDate": "2022-10-22",
-        "lastDate": "2022-10-29",
+        "priceToKeep": "1500",
+        "initDate": "2022-10-25",
+        "lastDate": "2022-11-30",
         "daysToWork": [
-            "Monday",
-            "Thursday"
+            "Tuesday",
+            "Wednesday"
         ],
         "availabilityArray": [
             {
-                "date": "2022-10-24",
-                "available": true
+                "date": "2022-10-25",
+                "available": true,
+                "userName": [],
+                "IDPET": []
             },
             {
-                "date": "2022-10-27",
-                "available": true
+                "date": "2022-10-26",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-01",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-02",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-08",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-09",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-15",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-16",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-22",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-23",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-29",
+                "available": true,
+                "userName": [],
+                "IDPET": []
+            },
+            {
+                "date": "2022-11-30",
+                "available": true,
+                "userName": [
+                    "leo",
+                    "matute"
+                ],
+                "IDPET": [
+                    3,
+                    1
+                ]
             }
         ]
     }
