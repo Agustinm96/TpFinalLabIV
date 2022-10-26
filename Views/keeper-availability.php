@@ -9,6 +9,8 @@ use Models\Keeper;
 
 ?>
 
+
+
 <div id="breadcrumb" class="hoc clear"> 
     <h6 class="heading">Meeting myself!</h6>
 </div>
@@ -52,6 +54,11 @@ use Models\Keeper;
         </form>
     </div>
     </div>
+    <?php
+if(isset($message)){
+    echo $message;
+}
+?>
     <!-- / main body -->
     <div class="clear"></div>
 </main>

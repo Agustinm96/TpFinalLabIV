@@ -5,9 +5,6 @@
     include_once('nav-bar.php');
 
     $userName = ($_SESSION["loggedUser"]->getUserName());
-    var_dump($keeper);
-    
-    
 ?>
 
 <main>

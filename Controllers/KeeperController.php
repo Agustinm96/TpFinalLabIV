@@ -79,7 +79,7 @@
             
         }
 
-        public function ShowMyAvailability(){
+        public function ShowMyAvailability($message = ""){
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
             require_once(VIEWS_PATH . "keeper-availability.php");
@@ -88,7 +88,14 @@
         public function ShowModifyAvailabilityView($message = "") {
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
-            require_once(VIEWS_PATH . "keeper-modify-availability.php");
+            $boolean = $this->checkingReserves($keeper);
+            if($boolean){
+                $message = "ERROR: If you have pending reservations, it's impossible to modify your availability. We're sorry";
+                $this->ShowMyAvailability($message);
+            }
+            else{
+                require_once(VIEWS_PATH . "keeper-modify-availability.php");
+            }  
         }
 
         public function ShowCompletionProfile($message = ""){
@@ -232,6 +239,15 @@
             $this->ShowListView();
         }
 
+        public function checkingReserves($keeper){
+            $availabilityArray = $keeper->getavailabilityArray();
+            foreach($availabilityArray as $availability){
+                $userNameArray = $availability->getUserName();
+                if($userNameArray){
+                    return true;
+                }
+            }
+        }
 
     }
 ?>
