@@ -104,6 +104,7 @@
                     $arrayNames = array();
                     $values["date"] = $availability->getDate();
                     $values["available"] = $availability->getAvailable();
+                    $values["reserveRequest"] = $availability->getReserveRequest();
 
                     $arrayUserName = $availability->getUserName();
                     var_dump($arrayUserName);
@@ -171,6 +172,7 @@
                         $availability = new Availability();
                         $availability->setDate($valueD['date']);
                         $availability->setAvailable($valueD['available']);
+                        $availability->setReserveRequest($valueD['reserveRequest']);
                         $availability->setUserName($valueD['userName']);
                         $availability->setPetList($valueD['IDPET']);
                         array_push($array, $availability);

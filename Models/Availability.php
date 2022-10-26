@@ -8,6 +8,7 @@ use Models\Keeper;
 class availability{
     private $date;
     private $available; //boolean
+    private $reserveRequest; //boolean
     private $userName = array();  
     private $petList = array(); 
 
@@ -41,6 +42,14 @@ class availability{
 
     public function setPetList($petList){
         $this->petList = $petList;
+    }
+
+    public function getReserveRequest(){
+        return $this->reserveRequest;
+    }
+
+    public function setReserveRequest($reserveRequest){
+        $this->reserveRequest = $reserveRequest;
     }
 
 }

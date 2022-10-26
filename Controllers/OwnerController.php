@@ -140,7 +140,8 @@ class OwnerController
                     array_push($arrayPets, $pet);
                 }
     
-                $day->setPetList($arrayPets); 
+                $day->setPetList($arrayPets);
+                $day->setReserveRequest(true); 
 
                 $this->keeperController->keeperDAO->Modify($keeper);
                 $message = 'Reservation successfully made';
