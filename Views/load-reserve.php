@@ -12,7 +12,7 @@
 
 <main>
     <h1>Loading reserve</h1>
-    <form action="<?php ECHO FRONT_ROOT . "Keeper/generatingReserve"?>" method = "post">
+    <form action="<?php ECHO FRONT_ROOT . "Owner/generatingReserve"?>" method = "post">
     <table>
         <thead>              
             <tr>
@@ -30,13 +30,12 @@
                     if($day->getAvailable()){
                         echo $day->getDate() . '<br>';
                     }
-                   }?></td>
+                }?></td>
                 <td><?php $arraySize =  $keeper->getPetSizeToKeep();
                                     foreach ($arraySize as $sizeValue) {
                                         echo ucfirst($sizeValue) . "<br>";
                                     } ?></td>
-                <td><select name="pet[]" id="pet[]" multiple>
-                    <option value="petList">Choose your pet</option>
+                <td><select name="pet[]" id="pet[]" multiple required>
                     <?php
                     
                     foreach($petList as $pet){

@@ -97,14 +97,17 @@
                 $value["daysToWork"] = $keeper->getReserve()->getArrayDays();
 
                 $array = array();
-                $arrayIdPet = array();
-                $arrayNames = array();
                 $availabilityArray = $keeper->getavailabilityArray();
                 foreach($availabilityArray as $availability){
+                    
+                    $arrayIdPet = array();
+                    $arrayNames = array();
                     $values["date"] = $availability->getDate();
                     $values["available"] = $availability->getAvailable();
 
                     $arrayUserName = $availability->getUserName();
+                    var_dump($arrayUserName);
+                    /**/ 
                     if($arrayUserName){
                         foreach((array)$arrayUserName as $name){
                         $stringName = $name;
@@ -116,21 +119,18 @@
 
                     $petArray = $availability->getPetList();
                     var_dump($petArray);
-                    
                     if(($petArray) && ($values["userName"])){
                         foreach($petArray as $pet){  
                         if(is_int($pet)){
                             array_push($arrayIdPet, $pet);
                         }else if(($pet instanceof Dog) || ($pet instanceof Cat)){
                             $idPet = $pet->getIDPET();
-                            var_dump($idPet);
                             array_push($arrayIdPet, $idPet);
-                            var_dump($arrayIdPet);
                             }
                         }
                     }
-                    var_dump($arrayIdPet);
                     $values["IDPET"] = $arrayIdPet;
+
                     array_push($array, $values);
                     }
                 $value["availabilityArray"] = $array;
