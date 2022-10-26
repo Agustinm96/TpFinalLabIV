@@ -31,7 +31,7 @@ class PetDAO{
 
     function GetById($ID)
     {
-        $this->petList  = $this->RetrieveData();
+        $this->RetrieveData();
 
         $pets = array_filter($this->petList, function($pet) use($ID){
             return $pet->getIDPET() == $ID;

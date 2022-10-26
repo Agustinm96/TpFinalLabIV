@@ -8,7 +8,7 @@ use DAO\DogDAO as DogDAO;
 use DAO\PetDAO as PetDAO;
 
 class PetController {
-private $petDAO;
+public $petDAO;
 
     public function __construct()
     {

@@ -24,5 +24,18 @@
         "size": "small",
         "videoPet": null,
         "userName": "matute"
+    },
+    {
+        "IDPET": 3,
+        "petType": "dog",
+        "name": "Coneitor",
+        "observation": "Its very hinchapelotas",
+        "birthDate": "2018-10-31",
+        "picture": null,
+        "vaccinationPlan": null,
+        "race": "Golden",
+        "size": "medium",
+        "videoPet": null,
+        "userName": "leo"
     }
 ]

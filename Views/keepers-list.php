@@ -14,7 +14,7 @@ use Models\Keeper;
             <form action="<?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 3) {
                                 echo FRONT_ROOT . "Keeper/Remove";
                             } else if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
-                                //reservation request 
+                                echo FRONT_ROOT . "Owner/ShowGenerateReserveView"; 
                             } ?>" method="post">
                 <table style="text-align:center">
                     <thead>

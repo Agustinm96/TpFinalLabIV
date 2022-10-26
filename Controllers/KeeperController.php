@@ -4,18 +4,24 @@
 
     use DAO\KeeperDAO as KeeperDAO;
     use DAO\UserDAO as UserDAO;
+    use DAO\PetDAO as PetDAO;
     use Models\Keeper as Keeper;
     use Models\Reserve as Reserve;
+    use Models\Pet;
+    use Models\Dog;
+    use Models\Cat;
     use Models\User as User;
     use Models\Availability;
 
     class KeeperController {
-        private $keeperDAO;
+        public $keeperDAO;
         private $userDAO;
+        private $petController;
 
         public function __construct() {
             $this->keeperDAO = new KeeperDAO();
             $this->userDAO = new UserDAO();
+            $this->petController = new PetController();
         }
 
         public function ShowHomeView($message = ""){
@@ -47,27 +53,33 @@
 
         public function ShowAvailableListView($initDate, $lastDate){
             require_once(VIEWS_PATH . "validate-session.php");   
-            $keepersList = $this->keeperDAO->getAvailableKeepersByDates($initDate, $lastDate);
+            if($initDate <= $lastDate){
+                $keepersList = $this->keeperDAO->getAvailableKeepersByDates($initDate, $lastDate);
             
-            $usersList = $this->userDAO->GetAll();
+                $usersList = $this->userDAO->GetAll();
 
-            foreach($keepersList as $keeper)
-            {
-                $userId = $keeper->getUser()->getId();
-                $users = array_filter($usersList, function($user) use($userId){                    
-                    return $user->getId() == $userId;
-                });
+                foreach($keepersList as $keeper)
+                {
+                    $userId = $keeper->getUser()->getId();
+                    $users = array_filter($usersList, function($user) use($userId){                    
+                        return $user->getId() == $userId;
+                    });
 
-                $users = array_values($users); //Reordering array
+                    $users = array_values($users); //Reordering array
 
-                $user = (count($users) > 0) ? $users[0] : new User(); 
+                    $user = (count($users) > 0) ? $users[0] : new User(); 
 
-                $keeper->setUser($user);
+                    $keeper->setUser($user);
+                }
+                require_once(VIEWS_PATH . "keepers-list.php");
+            }else{
+                $message = "ERROR: The dates you selected are invalid! Please select them again";
+                require_once(VIEWS_PATH . "loading-dates.php");
             }
-            require_once(VIEWS_PATH . "keepers-list.php");
+            
         }
 
-        public function ShowMyAvailability(){
+        public function ShowMyAvailability($message = ""){
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
             require_once(VIEWS_PATH . "keeper-availability.php");
@@ -76,7 +88,14 @@
         public function ShowModifyAvailabilityView($message = "") {
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
-            require_once(VIEWS_PATH . "keeper-modify-availability.php");
+            $boolean = $this->checkingReserves($keeper);
+            if($boolean){
+                $message = "ERROR: If you have pending reservations, it's impossible to modify your availability. We're sorry";
+                $this->ShowMyAvailability($message);
+            }
+            else{
+                require_once(VIEWS_PATH . "keeper-modify-availability.php");
+            }  
         }
 
         public function ShowCompletionProfile($message = ""){
@@ -202,6 +221,8 @@
                         $availability = new Availability();
                         $availability->setDate($startingDay);
                         $availability->setAvailable(true);
+                        $availability->setUserName(null);
+                        $availability->setPetList(null);
                         array_push($datesArray, $availability);
                     }
                 } 
@@ -217,5 +238,16 @@
 
             $this->ShowListView();
         }
+
+        public function checkingReserves($keeper){
+            $availabilityArray = $keeper->getavailabilityArray();
+            foreach($availabilityArray as $availability){
+                $userNameArray = $availability->getUserName();
+                if($userNameArray){
+                    return true;
+                }
+            }
+        }
+
     }
 ?>

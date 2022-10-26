@@ -4,28 +4,9 @@
 namespace Models;
 
 class Reserve{
-    private $idReserve;
-    private $idKeeper;
     private $startingDate;
     private $lastDate;
     private $arrayDays = array();
-    private $isAvailable;
-
-    public function getIdReserve(){
-        return $this->idReserve;
-    }
-
-    public function setIdReserve($idReserve){
-        $this->idReserve = $idReserve;
-    }
-
-    public function idKeeper(){
-        return $this->idKeeper;
-    }
-
-    public function setIdKeeper($idKeeper){
-        return $this->idKeeper;
-    }
 
     public function getStartingDate(){
         return $this->startingDate;

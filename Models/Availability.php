@@ -6,11 +6,10 @@ namespace Models;
 use Models\Keeper;
 
 class availability{
-    private $id;
     private $date;
     private $available; //boolean
-    private $userName; //recien agregado 
-    private $petList; //??
+    private $userName = array();  
+    private $petList = array(); 
 
     public function getDate(){
         return $this->date;
@@ -28,13 +27,22 @@ class availability{
         $this->available = $available;
     }
 
-    public function getAvailabilityId(){
-        return $this->id;
+    public function setUserName($userName){
+        $this->userName = $userName;
     }
 
-    public function setAvailabilityId($id){
-        $this->id = $id;
+    public function getUserName(){
+        return $this->userName;
     }
+
+    public function getPetList(){
+        return $this->petList;
+    }
+
+    public function setPetList($petList){
+        $this->petList = $petList;
+    }
+
 }
 
 ?>
