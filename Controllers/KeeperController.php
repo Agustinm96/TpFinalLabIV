@@ -105,6 +105,8 @@
 
         public function ShowReserveView($message=""){
             require_once(VIEWS_PATH . "validate-session.php");
+            /*cargar lista de reservas*/ 
+            $reserveList = $this->loadReserveList();
             require_once(VIEWS_PATH . "keeper-reserve.php");
         }
 
@@ -231,6 +233,41 @@
             return $datesArray;
         }
 
+        public function loadReserveList(){
+            $user = new User();
+            $user = ($_SESSION["loggedUser"]);
+            
+            $keeper = new Keeper();
+            $keeper->setUser($user);
+
+            $reservesList = array();
+
+            $keeper=$this->keeperDAO->GetByIdUser($user->getId());
+            $availabilityArray = $keeper->getavailabilityArray();
+
+            foreach($availabilityArray as $availability){
+                $booleanAvailable = $availability->getAvailable();
+                $booleanRequest = $availability->getReserveRequest();
+
+                if(!$booleanAvailable || $booleanRequest){
+                    $arrayUserName = $availability->getUserName();
+                    $i=0;
+                        while($i<count($arrayUserName)){
+                            $arrayPets= $availability->getPetList();
+                            $availabilityAux = new Availability();
+                            $availabilityAux->setDate($availability->getDate());
+                            $availabilityAux->setAvailable($availability->getAvailable());
+                            $availabilityAux->setReserveRequest($availability->getReserveRequest());
+                            $availabilityAux->setUserName($arrayUserName[$i]);
+                            $availabilityAux->setPetList($arrayPets[$i]);
+                            array_push($reservesList, $availabilityAux);
+                            $i++; 
+                        }
+                }
+            }
+            return $reservesList;
+        }
+
         public function Remove($id)
         {
             $this->keeperDAO->Remove($id); 
@@ -247,6 +284,58 @@
                     return true;
                 }
             }
+        }
+
+        public function modifyingReserve($date, $userName, $petName, $value){
+            $user = new User();
+            $user = ($_SESSION["loggedUser"]);
+            $keeper = new Keeper();
+            $keeper->setUser($user);
+            
+            if($value==1){
+                
+            }elseif($value==2){
+                $this->cancelReserve($date, $userName, $petName, $value);
+                $keeper = $this->cancelReserve($date, $userName, $petName, $value);
+            }
+
+            $this->keeperDAO->Modify($keeper);
+            $message = 'Reserve updated!';
+            $this->ShowHomeView($message);
+        }
+
+        public function cancelReserve($date, $userName, $petName){
+            $user = new User();
+            $user = ($_SESSION["loggedUser"]);
+
+            $keeper = new Keeper();
+            $keeper->setUser($user);
+            $keeper = $this->keeperDAO->GetByIdUser($user->getId());
+            
+            $availabilityArray=$keeper->getavailabilityArray();
+            
+            foreach($availabilityArray as $availability){
+                if($availability->getDate()==$date){
+                    $arrayUserName = $availability->getUserName();
+                    $posToDelete = array_search($userName, array_values($arrayUserName));
+                    unset($arrayUserName[$posToDelete]);
+
+                    $availability->setUserName($arrayUserName);
+
+                    $arrayPetName = $availability->getPetList();
+                    $posToDeletePet = array_search($petName, array_values($arrayPetName));
+                    unset($arrayPetName[$posToDeletePet]);
+                    
+                    $availability->setPetList($arrayPetName);
+                }
+            }
+            $keeper->setAvailabilityArray($availabilityArray);
+            return $keeper;
+        }
+
+
+        public function confirmReserve($date, $userName, $petName){
+            
         }
 
     }

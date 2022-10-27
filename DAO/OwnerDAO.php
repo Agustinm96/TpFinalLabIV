@@ -46,6 +46,19 @@
             return (count($aux) > 0) ? $aux[0] : null;
         }
 
+        function GetByUserName($userName){
+        $this->RetrieveData();
+
+        $aux = array_filter($this->ownersList, function($owner) use($userName){
+            return $owner->getUserName() == $userName;
+        });
+
+        $aux = array_values($aux); //Reorderding array
+
+        return (count($aux) > 0) ? $aux[0] : null;
+
+    }
+
         public function GetByIdUser($idUser) {
             $this->RetrieveData();
 

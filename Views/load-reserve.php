@@ -21,7 +21,7 @@
         </thead>
         <tbody align="center">
             <tr>
-                <td><input type="date" name="date" id="date" min="<?php echo date('Y-m-d') ?>"></td><!-- mostrar solo los dias disponibles del keeper -->
+                <td><input type="date" name="date" id="date" min="<?php echo date('Y-m-d') ?>" ></td><!-- mostrar solo los dias disponibles del keeper -->
                 <td><?php $array = $keeper->getavailabilityArray();
                 foreach($array as $day){
                     if($day->getAvailable()){
