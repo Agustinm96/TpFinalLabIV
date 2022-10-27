@@ -8,7 +8,7 @@
             "medium"
         ],
         "priceToKeep": "1500",
-        "initDate": "2022-10-25",
+        "initDate": "2022-10-26",
         "lastDate": "2022-12-01",
         "daysToWork": [
             "Tuesday",
@@ -16,90 +16,85 @@
         ],
         "availabilityArray": [
             {
-                "date": "2022-10-25",
-                "available": true,
-                "userName": [],
-                "IDPET": []
-            },
-            {
                 "date": "2022-10-26",
-                "available": true,
-                "userName": [],
-                "IDPET": []
+                "available": false,
+                "reserveRequest": true,
+                "userName": [
+                    "matute"
+                ],
+                "petName": [
+                    "Firulais dog"
+                ]
             },
             {
                 "date": "2022-11-01",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-02",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-08",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-09",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-15",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-16",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             },
             {
                 "date": "2022-11-22",
                 "available": true,
-                "userName": [
-                    "matute"
-                ],
-                "IDPET": [
-                    1
-                ]
+                "reserveRequest": null,
+                "userName": [],
+                "petName": []
             },
             {
                 "date": "2022-11-23",
                 "available": true,
-                "userName": [
-                    "leo"
-                ],
-                "IDPET": [
-                    3
-                ]
+                "reserveRequest": true,
+                "userName": [],
+                "petName": []
             },
             {
                 "date": "2022-11-29",
                 "available": true,
-                "userName": [
-                    "matute",
-                    "leo"
-                ],
-                "IDPET": [
-                    1,
-                    3
-                ]
+                "reserveRequest": null,
+                "userName": [],
+                "petName": []
             },
             {
                 "date": "2022-11-30",
                 "available": true,
+                "reserveRequest": null,
                 "userName": [],
-                "IDPET": []
+                "petName": []
             }
         ]
     }

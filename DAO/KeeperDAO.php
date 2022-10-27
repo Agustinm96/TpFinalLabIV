@@ -100,15 +100,14 @@
                 $availabilityArray = $keeper->getavailabilityArray();
                 foreach($availabilityArray as $availability){
                     
-                    $arrayIdPet = array();
+                    $arrayPetName = array();
                     $arrayNames = array();
                     $values["date"] = $availability->getDate();
                     $values["available"] = $availability->getAvailable();
                     $values["reserveRequest"] = $availability->getReserveRequest();
 
                     $arrayUserName = $availability->getUserName();
-                    var_dump($arrayUserName);
-                    /**/ 
+            
                     if($arrayUserName){
                         foreach((array)$arrayUserName as $name){
                         $stringName = $name;
@@ -119,18 +118,19 @@
                     $values["userName"] = $arrayNames;
 
                     $petArray = $availability->getPetList();
-                    var_dump($petArray);
-                    if(($petArray) && ($values["userName"])){
+                    
+                    if($petArray){
                         foreach($petArray as $pet){  
-                        if(is_int($pet)){
-                            array_push($arrayIdPet, $pet);
-                        }else if(($pet instanceof Dog) || ($pet instanceof Cat)){
-                            $idPet = $pet->getIDPET();
-                            array_push($arrayIdPet, $idPet);
+                        if(is_string($pet)){
+                            array_push($arrayPetName, $pet);
+                        }elseif(($pet instanceof Dog) || ($pet instanceof Cat)){
+                            $petName = $pet->getName(). " ";
+                            $petName .= $pet->getPetType(); //concateno el nombre y el tipo
+                            array_push($arrayPetName, $petName);
                             }
                         }
                     }
-                    $values["IDPET"] = $arrayIdPet;
+                    $values["petName"] = $arrayPetName;
 
                     array_push($array, $values);
                     }
@@ -174,7 +174,7 @@
                         $availability->setAvailable($valueD['available']);
                         $availability->setReserveRequest($valueD['reserveRequest']);
                         $availability->setUserName($valueD['userName']);
-                        $availability->setPetList($valueD['IDPET']);
+                        $availability->setPetList($valueD['petName']);
                         array_push($array, $availability);
                     }
                     
