@@ -44,7 +44,6 @@
                 </select></td>
                 <td><input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>"></td>
                 <td><input type="hidden" name="userName" value="<?php echo $userName ?>"></td>
-
             </tr>
         </tbody>
     </table>

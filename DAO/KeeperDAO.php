@@ -98,10 +98,12 @@
 
                 $array = array();
                 $availabilityArray = $keeper->getavailabilityArray();
-                foreach($availabilityArray as $availability){
+                
+                foreach((array)$availabilityArray as $availability){
                     
                     $arrayPetName = array();
                     $arrayNames = array();
+                    $finalCustomersArray = array();
                     $values["date"] = $availability->getDate();
                     $values["available"] = $availability->getAvailable();
                     $values["reserveRequest"] = $availability->getReserveRequest();
@@ -132,12 +134,23 @@
                     }
                     $values["petName"] = $arrayPetName;
 
+                    $customersArray = $availability->getFinalCustomers();
+                    if($customersArray){
+                        foreach($customersArray as $finalCustomers){
+                            $finalValue["userName"] = $finalCustomers["userName"];
+                            $finalValue["petNameType"] = $finalCustomers["petNameType"];
+                            array_push($finalCustomersArray, $finalValue);
+                        }
+                    }
+
+                    $values["finalCustomers"] = $finalCustomersArray;
+
                     array_push($array, $values);
                     }
                 $value["availabilityArray"] = $array;
 
                 array_push($arrayEncode, $value);
-            }
+                }
 
             $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
             file_put_contents($this->fileName, $jsonContent);
@@ -175,6 +188,7 @@
                         $availability->setReserveRequest($valueD['reserveRequest']);
                         $availability->setUserName($valueD['userName']);
                         $availability->setPetList($valueD['petName']);
+                        $availability->setFinalCustomers($valueD['finalCustomers']);
                         array_push($array, $availability);
                     }
                     

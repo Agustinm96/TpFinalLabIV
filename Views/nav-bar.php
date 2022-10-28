@@ -64,10 +64,11 @@
             <li class="active"><a href="<?php echo FRONT_ROOT?>Keeper/ShowHomeView">Main Menu</a></li>
             <li><a href="<?php echo FRONT_ROOT. "Keeper/ShowReserveView"?>">See reserves</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"?>" alt="" style="width:20px ;"></a>
+            <a href="<?php echo FRONT_ROOT . "Keeper/ShowPendingReserves"?>"><img src="<?php if(!$boolean)echo FRONT_ROOT . IMG_PATH . "bell.png"; else echo FRONT_ROOT . IMG_PATH . "notification.png";?>" alt="" style="width:20px ;"></a>
+            
         </ul>
     </nav> 
     <?php 
-  var_dump($_SESSION["loggedUser"]);}?>
+  }?>
     </header>
   </div>
