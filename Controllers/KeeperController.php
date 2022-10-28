@@ -26,11 +26,14 @@
 
         public function ShowHomeView($message = ""){
             require_once(VIEWS_PATH . "validate-session.php");
+            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+            $boolean = $this->checkingRequests($keeper);
             require_once(VIEWS_PATH . "home.php"); 
         }
 
         public function ShowListView() { 
             require_once(VIEWS_PATH . "validate-session.php");
+
             $keepersList = $this->keeperDAO->GetAll();
             $usersList = $this->userDAO->GetAll();
 
@@ -53,6 +56,7 @@
 
         public function ShowAvailableListView($initDate, $lastDate){
             require_once(VIEWS_PATH . "validate-session.php");   
+
             if($initDate <= $lastDate){
                 $keepersList = $this->keeperDAO->getAvailableKeepersByDates($initDate, $lastDate);
             
@@ -81,7 +85,11 @@
 
         public function ShowMyAvailability($message = ""){
             require_once(VIEWS_PATH . "validate-session.php");
-            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+            if($_SESSION["loggedUser"]->getUserType()->getId()==2){
+                $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+                $boolean = $this->checkingRequests($keeper);
+            }
+            //$keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
             require_once(VIEWS_PATH . "keeper-availability.php");
         }
 
@@ -105,9 +113,20 @@
 
         public function ShowReserveView($message=""){
             require_once(VIEWS_PATH . "validate-session.php");
-            /*cargar lista de reservas*/ 
+            if($_SESSION["loggedUser"]->getUserType()->getId()==2){
+                $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+                $boolean = $this->checkingRequests($keeper);
+            }
             $reserveList = $this->loadReserveList();
             require_once(VIEWS_PATH . "keeper-reserve.php");
+        }
+
+        public function ShowPendingReserves($message=""){
+            require_once(VIEWS_PATH . "validate-session.php");
+            $keeper = $this->keeperDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+            $pendingReservesList = $this->loadPendingReservesList($keeper);
+            $boolean = $this->checkingRequests($keeper);
+            require_once(VIEWS_PATH . "keeper-pendingReserves.php");
         }
 
         public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep){
@@ -225,6 +244,7 @@
                         $availability->setAvailable(true);
                         $availability->setUserName(null);
                         $availability->setPetList(null);
+                        $availability->setFinalCustomers(null);
                         array_push($datesArray, $availability);
                     }
                 } 
@@ -246,10 +266,27 @@
             $availabilityArray = $keeper->getavailabilityArray();
 
             foreach($availabilityArray as $availability){
-                $booleanAvailable = $availability->getAvailable();
-                $booleanRequest = $availability->getReserveRequest();
+                
+                $arrayFinal = $availability->getFinalCustomers();
+                if($arrayFinal){
+                    foreach($arrayFinal as $customer){
+                        $availabilityAux = new Availability();
+                        $availabilityAux->setDate($availability->getDate());
+                        $availabilityAux->setUserName($customer["userName"]);
+                        $availabilityAux->setPetList($customer["petNameType"]);
+                        array_push($reservesList, $availabilityAux);
+                    }
+                }    
+            }
+            return $reservesList;
+        }
 
-                if(!$booleanAvailable || $booleanRequest){
+        public function loadPendingReservesList($keeper){
+            $availabilityArray = $keeper->getavailabilityArray();
+            $arrayToReturn = array();
+            foreach($availabilityArray as $availability){
+                $boolean = $availability->getReserveRequest();
+                if($boolean){
                     $arrayUserName = $availability->getUserName();
                     $i=0;
                         while($i<count($arrayUserName)){
@@ -260,12 +297,12 @@
                             $availabilityAux->setReserveRequest($availability->getReserveRequest());
                             $availabilityAux->setUserName($arrayUserName[$i]);
                             $availabilityAux->setPetList($arrayPets[$i]);
-                            array_push($reservesList, $availabilityAux);
+                            array_push($arrayToReturn, $availabilityAux);
                             $i++; 
                         }
                 }
             }
-            return $reservesList;
+                return $arrayToReturn;
         }
 
         public function Remove($id)
@@ -291,28 +328,31 @@
             $user = ($_SESSION["loggedUser"]);
             $keeper = new Keeper();
             $keeper->setUser($user);
-            
-            if($value==1){
-                
-            }elseif($value==2){
-                $this->cancelReserve($date, $userName, $petName, $value);
-                $keeper = $this->cancelReserve($date, $userName, $petName, $value);
-            }
-
-            $this->keeperDAO->Modify($keeper);
-            $message = 'Reserve updated!';
-            $this->ShowHomeView($message);
-        }
-
-        public function cancelReserve($date, $userName, $petName){
-            $user = new User();
-            $user = ($_SESSION["loggedUser"]);
-
-            $keeper = new Keeper();
-            $keeper->setUser($user);
             $keeper = $this->keeperDAO->GetByIdUser($user->getId());
             
             $availabilityArray=$keeper->getavailabilityArray();
+            
+            if($value==1){
+                $array = $this->confirmingReserve($availabilityArray, $date, $userName, $petName, $value);
+                if($array){
+                    $keeper->setAvailabilityArray($array);
+                    $this->keeperDAO->Modify($keeper);
+                    $message = 'Reserve updated!';
+                    $this->ShowHomeView($message);
+                }else{
+                    $message = "ERROR: either there already two pets on that date or you've try to accept another pet of the same type.";
+                    $this->ShowPendingReserves($message);
+                }
+            }elseif($value==2){
+                $arrayAux = $this->cancelingReserve($availabilityArray, $date, $userName, $petName, $value);
+                $keeper->setAvailabilityArray($arrayAux);
+                $this->keeperDAO->Modify($keeper);
+                $message = 'Reserve updated!';
+                $this->ShowHomeView($message);
+            }
+        }
+
+        public function cancelingReserve($availabilityArray, $date, $userName, $petName){
             
             foreach($availabilityArray as $availability){
                 if($availability->getDate()==$date){
@@ -321,6 +361,10 @@
                     unset($arrayUserName[$posToDelete]);
 
                     $availability->setUserName($arrayUserName);
+                    
+                    if(!$arrayUserName){
+                        $availability->setReserveRequest(false);
+                    }
 
                     $arrayPetName = $availability->getPetList();
                     $posToDeletePet = array_search($petName, array_values($arrayPetName));
@@ -329,13 +373,90 @@
                     $availability->setPetList($arrayPetName);
                 }
             }
-            $keeper->setAvailabilityArray($availabilityArray);
-            return $keeper;
+            return $availabilityArray;
         }
 
 
-        public function confirmReserve($date, $userName, $petName){
+        public function confirmingReserve($availabilityArray, $date, $userName, $petName){
             
+            foreach($availabilityArray as $availability){
+                if($availability->getDate()==$date){
+                    $arrayUserName = $availability->getUserName();
+                    $posToDelete = array_search($userName, array_values($arrayUserName));
+        
+                    $arrayPetName = $availability->getPetList();
+                    $posToDeletePet = array_search($petName, array_values($arrayPetName));
+                    
+                    $finalCustomersArray = $availability->getFinalCustomers();
+                    $boolean1 = $this->validateArraySize($finalCustomersArray);
+                    $boolean2 = $this->validateType($finalCustomersArray, $petName);
+                    if($finalCustomersArray){
+                        if($boolean1 && $boolean2){
+                            $value["userName"] = $userName;
+                            $value["petNameType"] = $petName;
+                            array_push($finalCustomersArray, $value);
+                        }else{
+                            return null;
+                        }
+                        
+                    }else{
+                        $value["userName"] = $userName;
+                        $value["petNameType"] = $petName;
+                        array_push($finalCustomersArray, $value);
+                    }
+                    
+                    unset($arrayUserName[$posToDelete]);
+                    unset($arrayPetName[$posToDeletePet]);
+                    $availability->setUserName($arrayUserName);
+                    $availability->setPetList($arrayPetName);
+                    if(!$arrayUserName){
+                        $availability->setReserveRequest(false);
+                    }
+                    $availability->setFinalCustomers($finalCustomersArray);
+                    
+                    $boolean = $this->validateArraySize($finalCustomersArray);
+                    if(!$boolean){
+                        $availability->setAvailable(false);
+                    }
+                }
+            }
+            return $availabilityArray;
+        }
+
+        public function validateType($array, $petName){
+            $boolean = true;
+            
+            $substring1 = substr($petName, -3);
+            foreach($array as $name){
+                $typeName = substr($name["petNameType"], -3);
+                if($substring1 == $typeName){
+                    $boolean = false;
+                }
+            }
+            return $boolean;
+        }
+
+        public function validateArraySize($array){
+            $count = count($array);
+            if($count>=2){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        public function checkingRequests($keeper){
+            $boolean = false;
+            $availabilityArray = $keeper->getavailabilityArray();
+            if($availabilityArray){
+                foreach($availabilityArray as $availability){
+                    $booleanAux = $availability->getReserveRequest();
+                    if($booleanAux){
+                        $boolean = true;
+                    }
+                }
+            }
+            return $boolean;
         }
 
     }

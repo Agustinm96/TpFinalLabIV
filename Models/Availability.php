@@ -11,6 +11,7 @@ class availability{
     private $reserveRequest; //boolean
     private $userName = array();  
     private $petList = array(); 
+    private $finalCustomers = array();
 
     public function getDate(){
         return $this->date;
@@ -50,6 +51,14 @@ class availability{
 
     public function setReserveRequest($reserveRequest){
         $this->reserveRequest = $reserveRequest;
+    }
+
+    public function getFinalCustomers(){
+        return $this->finalCustomers;
+    }
+
+    public function setFinalCustomers($finalCustomers){
+        $this->finalCustomers = $finalCustomers;
     }
 
 }
