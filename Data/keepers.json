@@ -30,7 +30,7 @@
             },
             {
                 "date": "2022-11-02",
-                "available": true,
+                "available": false,
                 "reserveRequest": false,
                 "userName": [],
                 "petName": [],
@@ -38,6 +38,10 @@
                     {
                         "userName": "matute",
                         "petNameType": "Pepito dog"
+                    },
+                    {
+                        "userName": "leo",
+                        "petNameType": "Coneitor dog"
                     }
                 ]
             },
@@ -47,7 +51,12 @@
                 "reserveRequest": false,
                 "userName": [],
                 "petName": [],
-                "finalCustomers": []
+                "finalCustomers": [
+                    {
+                        "userName": "leo",
+                        "petNameType": "Coneitor dog"
+                    }
+                ]
             },
             {
                 "date": "2022-11-09",

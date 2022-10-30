@@ -340,7 +340,7 @@
                     $message = 'Reserve updated!';
                     $this->ShowHomeView($message);
                 }else{
-                    $message = "ERROR: either there already two pets on that date or you've try to accept another pet of the same type.";
+                    $message = "ERROR: you can only accept pet's of the same type.";
                     $this->ShowPendingReserves($message);
                 }
             }elseif($value==2){
@@ -388,10 +388,10 @@
                     $posToDeletePet = array_search($petName, array_values($arrayPetName));
                     
                     $finalCustomersArray = $availability->getFinalCustomers();
-                    $boolean1 = $this->validateArraySize($finalCustomersArray);
+                    //$boolean1 = $this->validateArraySize($finalCustomersArray);
                     $boolean2 = $this->validateType($finalCustomersArray, $petName);
                     if($finalCustomersArray){
-                        if($boolean1 && $boolean2){
+                        if($boolean2){
                             $value["userName"] = $userName;
                             $value["petNameType"] = $petName;
                             array_push($finalCustomersArray, $value);
@@ -424,13 +424,13 @@
         }
 
         public function validateType($array, $petName){
-            $boolean = true;
+            $boolean = false;
             
             $substring1 = substr($petName, -3);
             foreach($array as $name){
                 $typeName = substr($name["petNameType"], -3);
                 if($substring1 == $typeName){
-                    $boolean = false;
+                    $boolean = true;
                 }
             }
             return $boolean;
