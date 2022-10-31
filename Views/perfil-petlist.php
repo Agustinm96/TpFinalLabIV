@@ -56,9 +56,9 @@ if (isset($message)) {
                   <th style="width: 150px;">Race</th>
                   <td><?php echo $pet->getRace() ?></td>
                 </tr>
-                <?php if (($pet->getPetType() == "dog") || ($pet->getPetType() == "cat")) { ?>
+                <?php if (($pet->getPetType()->getPetTypeId() == "0") || ($pet->getPetType()->getPetTypeId() == "1")) { ?>
                   <tr>
-                    <?php if ($pet->getPetType() == "dog") { ?>
+                    <?php if ($pet->getPetType()->getPetTypeId() == "0") { ?>
                       <th style="width: 110px;">Size</th>
                       <td><?php echo $pet->getSize() ?></td>
                   </tr>

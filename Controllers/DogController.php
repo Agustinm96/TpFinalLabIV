@@ -4,6 +4,7 @@ namespace Controllers;
 use DAO\DogDAO as DogDAO;
 use DAO\PetDAO as PetDAO;
 use MODELS\Dog as Dog;
+use MODELS\PetType as PetType;
 
 Class DogController{
 private $dogDAO;
@@ -28,10 +29,11 @@ public function __construct()
     }
 
 
-    public function Add($name, $birthDate, $observation,$size,$race){
+    public function Add($name, $birthDate, $observation,$size,$race,$petType){
     require_once (VIEWS_PATH ."validate-session.php");
     $dog = new Dog();
-    $dog->setPetType("dog");
+    $petTypeAux = new PetType();
+    $petTypeAux->setPetTypeId($petType);
     $dog->setName($name);
     $dog->setBirthDate($birthDate);
     $dog->setObservation($observation);
@@ -41,6 +43,7 @@ public function __construct()
     $dog->setSize($size);
     $dog->setVideoPet(null);
     $dog->setUserName($_SESSION["loggedUser"]->GetUserName());
+    $dog->setPetType($petTypeAux);
     $this->dogDAO->Add($dog);
     $this->ShowPerfilView("Se añadio correctamente el perro :" .$dog->getName());
     }

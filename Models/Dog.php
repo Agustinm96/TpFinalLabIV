@@ -6,20 +6,6 @@ private $size;
 private $vaccinationPlan; /// Picture Format
 private $race;
 
-
-   /* public function __construct(Pet $pet)
-    {
-     $this->setName($pet->getName());
-     $this->setPetType($pet->getPetType());
-     $this->setBirthDate($pet->getBirthDate());
-     $this->setPicture($pet->getPicture());
-     $this->setObservation($pet->getObservation());
-
-    } */ // Posible funcion que combine pet preguntar
-
-
-
-
 /**
  * Get the value of size
  */ 

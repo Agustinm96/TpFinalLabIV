@@ -1,8 +1,10 @@
 <?php 
 namespace Models;
 
+use Models\PetType as PetType;
+
 abstract Class Pet{
-private $petType;  // enum de mascota (gato perro cobayo tortuga etc.)
+private PetType $petType;  // enum de mascota (gato perro cobayo tortuga etc.)
 private $name;
 private $birthDate;
 private $picture; /// VER COMO GUARDAR FOTO
@@ -125,7 +127,7 @@ return $this->petType;
  *
  * @return  self
  */ 
-public function setPetType($petType)
+public function setPetType(PetType $petType)
 {
 $this->petType = $petType;
 

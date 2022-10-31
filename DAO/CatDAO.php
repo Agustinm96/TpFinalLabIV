@@ -9,17 +9,17 @@ class CatDAO{
     private $fileName = ROOT."Data/pets.json";
     private $petDAO;
 
+
     public function __construct()
     {
         $this->petDAO = new PetDAO();
+        $this->petTypeDAO = new PetTypeDao();
     }
 
     function Add(Cat $cat)
     {
         $this->petList = $this->petDAO->RetrieveData();
-
-        $cat->setIDPET($this->petDAO->GetNextId());
-
+        $cat->setIDPET($this->petDAO->GetNextId());  
         array_push($this->petList, $cat);
 
         $this->petDAO->SaveData($this->petList);

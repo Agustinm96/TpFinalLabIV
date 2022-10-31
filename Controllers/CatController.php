@@ -4,6 +4,7 @@ namespace Controllers;
 use DAO\CatDAO as CatDAO;
 use DAO\PetDAO as PetDAO;
 use MODELS\Cat as Cat;
+use MODELS\PetType as PetType;
 
 Class CatController{
 private $catDAO;
@@ -28,10 +29,11 @@ public function __construct()
     }
 
 
-    public function Add($name, $birthDate, $observation,$race){
+    public function Add($name, $birthDate, $observation, $race,$petType){
     require_once (VIEWS_PATH ."validate-session.php");
     $cat = new Cat(); //Deberia llegar el type
-    $cat->setPetType("cat");
+    $petTypeAux = new PetType();
+    $petTypeAux->setPetTypeId($petType);
     $cat->setName($name);
     $cat->setBirthDate($birthDate);
     $cat->setObservation($observation);
@@ -40,6 +42,8 @@ public function __construct()
     $cat->setRace($race);
     $cat->setVideoPet(null);
     $cat->setUserName($_SESSION["loggedUser"]->GetUserName());
+    var_dump($petType);
+    $cat->setPetType($petTypeAux);
     $this->catDAO->Add($cat);
     $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());
     }

@@ -4,11 +4,12 @@ namespace Controllers;
 
 
 use Models\Pet as Pet;
-use DAO\DogDAO as DogDAO;
+use Models\PetType as PetType;
 use DAO\PetDAO as PetDAO;
 
+
 class PetController {
-public $petDAO;
+private $petDAO;
 
     public function __construct()
     {
@@ -39,7 +40,7 @@ public $petDAO;
 
     public function ShowAddView() {
         require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "add-dog.php");
+        require_once(VIEWS_PATH . "add-choice.php");
     }
 
     public function ShowListView() {

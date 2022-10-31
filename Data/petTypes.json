@@ -1,0 +1,14 @@
+[
+    {
+        "petTypeId": 0,
+        "petTypeName": "Dog"
+    },
+    {
+        "petTypeId": 1,
+        "petTypeName": "Cat"
+    },
+    {
+        "petTypeId": 2,
+        "petTypeName": "GuineaPig"
+    }
+]
