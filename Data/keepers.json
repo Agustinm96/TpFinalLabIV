@@ -2,14 +2,14 @@
     {
         "idUser": 6,
         "idKeeper": 1,
-        "adress": "Palma 1320",
+        "adress": "keeper street 7",
         "petSizeToKeep": [
             "small",
             "medium"
         ],
         "priceToKeep": "1500",
-        "initDate": "2022-10-28",
-        "lastDate": "2022-12-02",
+        "initDate": "2022-11-01",
+        "lastDate": "2022-11-24",
         "daysToWork": [
             "Tuesday",
             "Wednesday"
@@ -18,52 +18,41 @@
             {
                 "date": "2022-11-01",
                 "available": true,
-                "reserveRequest": false,
+                "reserveRequest": null,
                 "userName": [],
                 "petName": [],
-                "finalCustomers": [
-                    {
-                        "userName": "leo",
-                        "petNameType": "Coneitor dog"
-                    }
-                ]
+                "finalCustomers": []
             },
             {
                 "date": "2022-11-02",
-                "available": false,
-                "reserveRequest": false,
-                "userName": [],
-                "petName": [],
-                "finalCustomers": [
-                    {
-                        "userName": "matute",
-                        "petNameType": "Pepito dog"
-                    },
-                    {
-                        "userName": "leo",
-                        "petNameType": "Coneitor dog"
-                    }
-                ]
+                "available": true,
+                "reserveRequest": true,
+                "userName": [
+                    "matute"
+                ],
+                "petName": [
+                    "Gatito - Cat"
+                ],
+                "finalCustomers": []
             },
             {
                 "date": "2022-11-08",
                 "available": true,
-                "reserveRequest": false,
+                "reserveRequest": null,
                 "userName": [],
                 "petName": [],
-                "finalCustomers": [
-                    {
-                        "userName": "leo",
-                        "petNameType": "Coneitor dog"
-                    }
-                ]
+                "finalCustomers": []
             },
             {
                 "date": "2022-11-09",
                 "available": true,
-                "reserveRequest": null,
-                "userName": [],
-                "petName": [],
+                "reserveRequest": true,
+                "userName": [
+                    "matute"
+                ],
+                "petName": [
+                    "Coneitor - Dog"
+                ],
                 "finalCustomers": []
             },
             {
@@ -77,7 +66,7 @@
             {
                 "date": "2022-11-16",
                 "available": true,
-                "reserveRequest": false,
+                "reserveRequest": null,
                 "userName": [],
                 "petName": [],
                 "finalCustomers": []
@@ -85,34 +74,19 @@
             {
                 "date": "2022-11-22",
                 "available": true,
-                "reserveRequest": false,
-                "userName": [],
-                "petName": [],
-                "finalCustomers": [
-                    {
-                        "userName": "matute",
-                        "petNameType": "Firulais dog"
-                    }
-                ]
+                "reserveRequest": true,
+                "userName": [
+                    "matute",
+                    "matute"
+                ],
+                "petName": [
+                    "Chloe - Dog",
+                    "Coneitor - Dog"
+                ],
+                "finalCustomers": []
             },
             {
                 "date": "2022-11-23",
-                "available": true,
-                "reserveRequest": null,
-                "userName": [],
-                "petName": [],
-                "finalCustomers": []
-            },
-            {
-                "date": "2022-11-29",
-                "available": true,
-                "reserveRequest": null,
-                "userName": [],
-                "petName": [],
-                "finalCustomers": []
-            },
-            {
-                "date": "2022-11-30",
                 "available": true,
                 "reserveRequest": null,
                 "userName": [],

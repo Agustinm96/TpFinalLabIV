@@ -324,7 +324,12 @@
         }
 
         public function modifyingReserve($date, $userName, $petName, $value){
-            $user = new User();
+            var_dump($date);
+            var_dump($userName);
+            var_dump($petName);
+            var_dump($value);
+
+            /*$user = new User();
             $user = ($_SESSION["loggedUser"]);
             $keeper = new Keeper();
             $keeper->setUser($user);
@@ -334,6 +339,7 @@
             
             if($value==1){
                 $array = $this->confirmingReserve($availabilityArray, $date, $userName, $petName, $value);
+                var_dump($array);
                 if($array){
                     $keeper->setAvailabilityArray($array);
                     $this->keeperDAO->Modify($keeper);
@@ -349,7 +355,7 @@
                 $this->keeperDAO->Modify($keeper);
                 $message = 'Reserve updated!';
                 $this->ShowHomeView($message);
-            }
+            }*/
         }
 
         public function cancelingReserve($availabilityArray, $date, $userName, $petName){
@@ -378,7 +384,7 @@
 
 
         public function confirmingReserve($availabilityArray, $date, $userName, $petName){
-            
+
             foreach($availabilityArray as $availability){
                 if($availability->getDate()==$date){
                     $arrayUserName = $availability->getUserName();
@@ -388,6 +394,7 @@
                     $posToDeletePet = array_search($petName, array_values($arrayPetName));
                     
                     $finalCustomersArray = $availability->getFinalCustomers();
+                    var_dump($finalCustomersArray);
                     //$boolean1 = $this->validateArraySize($finalCustomersArray);
                     $boolean2 = $this->validateType($finalCustomersArray, $petName);
                     if($finalCustomersArray){
@@ -398,7 +405,6 @@
                         }else{
                             return null;
                         }
-                        
                     }else{
                         $value["userName"] = $userName;
                         $value["petNameType"] = $petName;

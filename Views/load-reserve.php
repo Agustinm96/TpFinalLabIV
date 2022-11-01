@@ -32,18 +32,22 @@
                                     foreach ($arraySize as $sizeValue) {
                                         echo ucfirst($sizeValue) . "<br>";
                                     } ?></td>
-                <td><select name="pet[]" id="pet[]" multiple required>
+                <td>
                     <?php
-                    
-                    foreach($petList as $pet){
+                    if($petList){
+                        ?><select name="pet[]" id="pet[]" multiple required><?php
+                        foreach($petList as $pet){
                         
                         echo "<option value=".$pet->getIDPET().">".$pet->getName()."</option>";
+                        }
+                    }else{
+                        echo "UPS! No pets here! <br>";?>
+                        <a href="<?php echo FRONT_ROOT."Pet/ShowAddView" ?>">Add Pet</a><?php
                     }
-                    
                     ?>
                 </select></td>
-                <td><input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>"></td>
-                <td><input type="hidden" name="userName" value="<?php echo $userName ?>"></td>
+                <input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>">
+                <input type="hidden" name="userName" value="<?php echo $userName ?>">
             </tr>
         </tbody>
     </table>
