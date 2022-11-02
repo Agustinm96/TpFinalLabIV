@@ -126,8 +126,8 @@
                         if(is_string($pet)){
                             array_push($arrayPetName, $pet);
                         }elseif(($pet instanceof Dog) || ($pet instanceof Cat)){
-                            $petName = $pet->getName(). " ";
-                            $petName .= $pet->getPetType(); //concateno el nombre y el tipo
+                            $petName = $pet->getName(). " - ";
+                            $petName .= $pet->getPetType()->getPetTypeName(); //concateno el nombre y el tipo
                             array_push($arrayPetName, $petName);
                             }
                         }
@@ -148,6 +148,7 @@
                     array_push($array, $values);
                     }
                 $value["availabilityArray"] = $array;
+                $value["petsAmount"] = $keeper->getPetsAmount();
 
                 array_push($arrayEncode, $value);
                 }
@@ -193,6 +194,7 @@
                     }
                     
                     $keeper->setavailabilityArray($array);
+                    $keeper->setPetsAmount($value["petsAmount"]);
 
                     array_push($this->keepersList, $keeper);
                 }

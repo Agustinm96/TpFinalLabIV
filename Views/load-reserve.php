@@ -13,37 +13,42 @@
     <table>
         <thead>              
             <tr>
-                <th>Initial Date</th>
-                <th>Available keeper's days</th>
+                <th>Choose a day</th>
                 <th>Pet Size Available</th>
                 <th>Choose my pet</th>
             </tr>
         </thead>
         <tbody align="center">
             <tr>
-                <td><input type="date" name="date" id="date" min="<?php echo date('Y-m-d') ?>" ></td><!-- mostrar solo los dias disponibles del keeper -->
                 <td><?php $array = $keeper->getavailabilityArray();
-                foreach($array as $day){
-                    if($day->getAvailable()){
-                        echo $day->getDate() . '<br>';
-                    }
-                }?></td>
+                ?><select name="date" id="date">
+                    <?php foreach($array as $day){
+                            if($day->getAvailable()){
+                                echo "<option value=".$day->getDate().">".$day->getDate()."</option>";
+                                }
+                            }
+                ?></select>
+                </td>
                 <td><?php $arraySize =  $keeper->getPetSizeToKeep();
                                     foreach ($arraySize as $sizeValue) {
                                         echo ucfirst($sizeValue) . "<br>";
                                     } ?></td>
-                <td><select name="pet[]" id="pet[]" multiple required>
+                <td>
                     <?php
-                    
-                    foreach($petList as $pet){
+                    if($petList){
+                        ?><select name="pet[]" id="pet[]" multiple required><?php
+                        foreach($petList as $pet){
                         
                         echo "<option value=".$pet->getIDPET().">".$pet->getName()."</option>";
+                        }
+                    }else{
+                        echo "UPS! No pets here! <br>";?>
+                        <a href="<?php echo FRONT_ROOT."Pet/ShowAddView" ?>">Add Pet</a><?php
                     }
-                    
                     ?>
                 </select></td>
-                <td><input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>"></td>
-                <td><input type="hidden" name="userName" value="<?php echo $userName ?>"></td>
+                <input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>">
+                <input type="hidden" name="userName" value="<?php echo $userName ?>">
             </tr>
         </tbody>
     </table>
