@@ -13,6 +13,7 @@ class Keeper{
     private $priceToKeep;
     private $reserve = array();
     private $availabilityArray = array (); //arreglo de disponibilidades
+    private $petsAmount; //how many pets the keeper wants to take care of
 
     public function getUser(){
         return $this->user;
@@ -68,6 +69,14 @@ class Keeper{
 
     public function setAvailabilityArray($availabilityArray){
         $this->availabilityArray = $availabilityArray; 
+    }
+
+    public function getPetsAmount(){
+        return $this->petsAmount;
+    }
+
+    public function setPetsAmount($petsAmount){
+        $this->petsAmount = $petsAmount; 
     }
 }
 

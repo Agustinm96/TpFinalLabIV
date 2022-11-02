@@ -123,6 +123,8 @@ class OwnerController
 
         $petArray = $this->loadingPetsArray($petList);
 
+        /*chequeo de que animal no este ya en la lista de peticion de reserva o de cliente final*/ 
+
         $boolean2 = $this->checkingPetType($petArray);
 
         $boolean3 = $this->checkingPetSize($petArray, $keeper);
@@ -143,6 +145,7 @@ class OwnerController
                 $day->setUserName($arrayNames); 
 
                 $arrayPets = $day->getPetList();
+
                 foreach($petArray as $pet){
                     array_push($arrayPets, $pet);
                 }

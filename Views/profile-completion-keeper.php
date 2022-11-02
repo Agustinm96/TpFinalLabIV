@@ -17,6 +17,7 @@
                 <th>Working Days</th>
                 <th>Pet's size</th>
                 <th>Price</th>
+                <th>How many pets you want to take care</th>
             </tr>
         </thead>
         <tbody align="center">
@@ -39,6 +40,7 @@
                 <option value="big">Big</option>
                 </select>
                 <td><input type="text" name="priceToKeep" id="priceToKeep" placeholder="2.500" required/></td>
+                <td><input type="number" name="petsAmount" id="petsAmount" placeholder="min=1 max=10" min="1" max="10" required/></td>
             </tr>
         </tbody>
     </table>

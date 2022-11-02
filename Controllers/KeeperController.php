@@ -129,7 +129,7 @@
             require_once(VIEWS_PATH . "keeper-pendingReserves.php");
         }
 
-        public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep){
+        public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep, $petsAmount){
             require_once(VIEWS_PATH . "validate-session.php");
             $boolean = $this->checkingDates($initDate, $finishDate, $daysToWork);
             if($boolean){
@@ -138,7 +138,7 @@
                 
                 $keeper = new Keeper();
                 $keeper->setUser($user);
-                $keeper = $this->loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep);
+                $keeper = $this->loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep, $petsAmount);
 
                 $this->keeperDAO->Add($keeper);
 
@@ -151,13 +151,13 @@
             } 
         }
 
-        public function ModifyAvailability($idKeeper, $adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep){   
+        public function ModifyAvailability($idKeeper, $adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep, $petsAmount){   
             require_once(VIEWS_PATH . "validate-session.php");
             $boolean = $this->checkingDates($initDate, $lastDate, $daysToWork);
             if($boolean){
 
             $keeper = new Keeper();
-            $keeper = $this->loadKeeper($adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep);
+            $keeper = $this->loadKeeper($adress, $initDate, $lastDate, $daysToWork,$petSizeToKeep, $priceToKeep, $petsAmount);
             $keeper->setIdKeeper(intval($idKeeper));
 
             $this->keeperDAO->Modify($keeper);
@@ -196,7 +196,7 @@
                 }  
         }
 
-        public function loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep){
+        public function loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep, $petsAmount){
             $user = new User();
             $user = ($_SESSION["loggedUser"]);
 
@@ -228,7 +228,7 @@
 
             $datesArray = $this->valiDate($initDate, $finishDate, $daysToWork);
             $keeper->setAvailabilityArray($datesArray);
-
+            $keeper->setPetsAmount($petsAmount);
 
             return $keeper;
         }
@@ -242,6 +242,7 @@
                         $availability = new Availability();
                         $availability->setDate($startingDay);
                         $availability->setAvailable(true);
+                        $availability->setReserveRequest(false);
                         $availability->setUserName(null);
                         $availability->setPetList(null);
                         $availability->setFinalCustomers(null);
@@ -324,12 +325,8 @@
         }
 
         public function modifyingReserve($date, $userName, $petName, $value){
-            var_dump($date);
-            var_dump($userName);
-            var_dump($petName);
-            var_dump($value);
 
-            /*$user = new User();
+            $user = new User();
             $user = ($_SESSION["loggedUser"]);
             $keeper = new Keeper();
             $keeper->setUser($user);
@@ -338,16 +335,15 @@
             $availabilityArray=$keeper->getavailabilityArray();
             
             if($value==1){
-                $array = $this->confirmingReserve($availabilityArray, $date, $userName, $petName, $value);
-                var_dump($array);
-                if($array){
+                $array = $this->confirmingReserve($keeper, $availabilityArray, $date, $userName, $petName, $value);
+                if(!is_string($array)){
                     $keeper->setAvailabilityArray($array);
                     $this->keeperDAO->Modify($keeper);
                     $message = 'Reserve updated!';
                     $this->ShowHomeView($message);
                 }else{
-                    $message = "ERROR: you can only accept pet's of the same type.";
-                    $this->ShowPendingReserves($message);
+                    //$message = "ERROR: either you tried to accept a different type of pet or the date is already full.";
+                    $this->ShowPendingReserves($array);
                 }
             }elseif($value==2){
                 $arrayAux = $this->cancelingReserve($availabilityArray, $date, $userName, $petName, $value);
@@ -355,7 +351,7 @@
                 $this->keeperDAO->Modify($keeper);
                 $message = 'Reserve updated!';
                 $this->ShowHomeView($message);
-            }*/
+            }
         }
 
         public function cancelingReserve($availabilityArray, $date, $userName, $petName){
@@ -383,10 +379,12 @@
         }
 
 
-        public function confirmingReserve($availabilityArray, $date, $userName, $petName){
+        public function confirmingReserve($keeper, $availabilityArray, $date, $userName, $petName){
 
             foreach($availabilityArray as $availability){
+        
                 if($availability->getDate()==$date){
+                    
                     $arrayUserName = $availability->getUserName();
                     $posToDelete = array_search($userName, array_values($arrayUserName));
         
@@ -394,16 +392,24 @@
                     $posToDeletePet = array_search($petName, array_values($arrayPetName));
                     
                     $finalCustomersArray = $availability->getFinalCustomers();
-                    var_dump($finalCustomersArray);
-                    //$boolean1 = $this->validateArraySize($finalCustomersArray);
+                    $boolean1 = $this->validateArraySize($finalCustomersArray, $keeper->getPetsAmount());
                     $boolean2 = $this->validateType($finalCustomersArray, $petName);
+                
                     if($finalCustomersArray){
-                        if($boolean2){
+                        $boolean = $this->checkingRedundancyOnFinalCustomersArray($finalCustomersArray, $petName);
+                        if(!$boolean){
+                            $message = "ERROR: you have already accepted this pet on that date.";
+                            return $message;
+                        }elseif(!$boolean1){
+                            $message = "ERROR: the date is already full";
+                            return $message;
+                        }elseif(!$boolean2){
+                            $message = "ERROR: you can only accept another pet of the same type";
+                            return $message;
+                        }elseif($boolean && $boolean1 && $boolean2){
                             $value["userName"] = $userName;
                             $value["petNameType"] = $petName;
                             array_push($finalCustomersArray, $value);
-                        }else{
-                            return null;
                         }
                     }else{
                         $value["userName"] = $userName;
@@ -420,7 +426,7 @@
                     }
                     $availability->setFinalCustomers($finalCustomersArray);
                     
-                    $boolean = $this->validateArraySize($finalCustomersArray);
+                    $boolean = $this->validateArraySize($finalCustomersArray, $keeper->getPetsAmount());
                     if(!$boolean){
                         $availability->setAvailable(false);
                     }
@@ -428,6 +434,19 @@
             }
             return $availabilityArray;
         }
+
+        public function checkingRedundancyOnFinalCustomersArray($finalCustomersArray, $petName){
+            
+        $boolean = true;
+        if($finalCustomersArray){
+            foreach($finalCustomersArray as $customer){
+                if($petName == $customer["petNameType"]){
+                    $boolean = false;
+                }
+            }
+        }
+        return $boolean;
+    }
 
         public function validateType($array, $petName){
             $boolean = false;
@@ -442,9 +461,9 @@
             return $boolean;
         }
 
-        public function validateArraySize($array){
+        public function validateArraySize($array, $petsAmount){
             $count = count($array);
-            if($count>=2){
+            if($count>=$petsAmount){
                 return false;
             }else{
                 return true;

@@ -10,11 +10,13 @@
     {
         private $userDAO;
         private $userTypeDAO;
+        private $keeperController;
 
         public function __construct()
         {
             $this->userDAO = new UserDAO();
             $this->userTypeDAO = new UserTypeDAO();
+            $this->keeperController = new KeeperController();
         }
 
         public function ShowAddView($message="",$userType=null)
@@ -55,11 +57,9 @@
         }
 
         public function ShowHomeView($idType, $message=""){
-            if($idType==1){
-                require_once(VIEWS_PATH."owner-home.php");
-            }else if($idType==2){
-                require_once(VIEWS_PATH."keeper-home.php");
-            }else if($idType==3){
+            if($idType==1 || $idType==2){
+                require_once(VIEWS_PATH."home.php");
+            }elseif($idType==3){
                 require_once(VIEWS_PATH."admin.php");
             }
         }
@@ -67,6 +67,8 @@
         public function ShowMyProfile(){  
             require_once(VIEWS_PATH . "validate-session.php");
             $user = ($_SESSION["loggedUser"]);
+            $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
+            $boolean = $this->keeperController->checkingRequests($keeper);
             require_once(VIEWS_PATH . "profile-view.php");
         }
 

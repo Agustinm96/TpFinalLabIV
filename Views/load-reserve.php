@@ -13,21 +13,22 @@
     <table>
         <thead>              
             <tr>
-                <th>Initial Date</th>
-                <th>Available keeper's days</th>
+                <th>Choose a day</th>
                 <th>Pet Size Available</th>
                 <th>Choose my pet</th>
             </tr>
         </thead>
         <tbody align="center">
             <tr>
-                <td><input type="date" name="date" id="date" min="<?php echo date('Y-m-d') ?>" ></td><!-- mostrar solo los dias disponibles del keeper -->
                 <td><?php $array = $keeper->getavailabilityArray();
-                foreach($array as $day){
-                    if($day->getAvailable()){
-                        echo $day->getDate() . '<br>';
-                    }
-                }?></td>
+                ?><select name="date" id="date">
+                    <?php foreach($array as $day){
+                            if($day->getAvailable()){
+                                echo "<option value=".$day->getDate().">".$day->getDate()."</option>";
+                                }
+                            }
+                ?></select>
+                </td>
                 <td><?php $arraySize =  $keeper->getPetSizeToKeep();
                                     foreach ($arraySize as $sizeValue) {
                                         echo ucfirst($sizeValue) . "<br>";

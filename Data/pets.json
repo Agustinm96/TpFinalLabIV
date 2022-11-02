@@ -52,7 +52,7 @@
     },
     {
         "IDPET": 5,
-        "petType": "1",
+        "petType": 1,
         "name": "Macri",
         "observation": "",
         "birthDate": "2022-06-15",
@@ -61,5 +61,18 @@
         "race": "siames",
         "videoPet": null,
         "userName": "leo"
+    },
+    {
+        "IDPET": 6,
+        "petType": "0",
+        "name": "Lucky",
+        "observation": "",
+        "birthDate": "2022-10-19",
+        "picture": null,
+        "vaccinationPlan": null,
+        "race": "Caniche",
+        "size": "small",
+        "videoPet": null,
+        "userName": "leopold"
     }
 ]

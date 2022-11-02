@@ -8,57 +8,42 @@
             "medium"
         ],
         "priceToKeep": "1500",
-        "initDate": "2022-11-01",
-        "lastDate": "2022-11-24",
+        "initDate": "2022-11-03",
+        "lastDate": "2023-01-27",
         "daysToWork": [
             "Tuesday",
             "Wednesday"
         ],
         "availabilityArray": [
             {
-                "date": "2022-11-01",
-                "available": true,
-                "reserveRequest": null,
-                "userName": [],
-                "petName": [],
-                "finalCustomers": []
-            },
-            {
-                "date": "2022-11-02",
-                "available": true,
-                "reserveRequest": true,
-                "userName": [
-                    "matute"
-                ],
-                "petName": [
-                    "Gatito - Cat"
-                ],
-                "finalCustomers": []
-            },
-            {
                 "date": "2022-11-08",
-                "available": true,
-                "reserveRequest": null,
+                "available": false,
+                "reserveRequest": false,
                 "userName": [],
                 "petName": [],
-                "finalCustomers": []
+                "finalCustomers": [
+                    {
+                        "userName": "matute",
+                        "petNameType": "Chloe - Dog"
+                    },
+                    {
+                        "userName": "matute",
+                        "petNameType": "Coneitor - Dog"
+                    }
+                ]
             },
             {
                 "date": "2022-11-09",
                 "available": true,
-                "reserveRequest": true,
-                "userName": [
-                    "matute"
-                ],
-                "petName": [
-                    "Coneitor - Dog"
-                ],
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
                 "finalCustomers": []
             },
             {
                 "date": "2022-11-15",
                 "available": true,
-                "reserveRequest": null,
+                "reserveRequest": false,
                 "userName": [],
                 "petName": [],
                 "finalCustomers": []
@@ -66,7 +51,7 @@
             {
                 "date": "2022-11-16",
                 "available": true,
-                "reserveRequest": null,
+                "reserveRequest": false,
                 "userName": [],
                 "petName": [],
                 "finalCustomers": []
@@ -77,22 +62,177 @@
                 "reserveRequest": true,
                 "userName": [
                     "matute",
-                    "matute"
+                    "leopold"
                 ],
                 "petName": [
                     "Chloe - Dog",
-                    "Coneitor - Dog"
+                    "Lucky - Dog"
                 ],
                 "finalCustomers": []
             },
             {
                 "date": "2022-11-23",
                 "available": true,
-                "reserveRequest": null,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": [
+                    {
+                        "userName": "matute",
+                        "petNameType": "Gatito - Cat"
+                    }
+                ]
+            },
+            {
+                "date": "2022-11-29",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-11-30",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": [
+                    {
+                        "userName": "leopold",
+                        "petNameType": "Lucky - Dog"
+                    }
+                ]
+            },
+            {
+                "date": "2022-12-06",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-07",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-13",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-14",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-20",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-21",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-27",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2022-12-28",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-03",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-04",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-10",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-11",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-17",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-18",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-24",
+                "available": true,
+                "reserveRequest": false,
+                "userName": [],
+                "petName": [],
+                "finalCustomers": []
+            },
+            {
+                "date": "2023-01-25",
+                "available": true,
+                "reserveRequest": false,
                 "userName": [],
                 "petName": [],
                 "finalCustomers": []
             }
-        ]
+        ],
+        "petsAmount": "2"
     }
 ]
