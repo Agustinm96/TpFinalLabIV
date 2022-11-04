@@ -9,7 +9,7 @@ use DAO\PetDAO as PetDAO;
 
 
 class PetController {
-private $petDAO;
+public $petDAO;
 
     public function __construct()
     {
@@ -18,7 +18,7 @@ private $petDAO;
     
  public function ShowPerfilView($message = ""){
         require_once(VIEWS_PATH . "validate-session.php");
-        $petList = $this->petDAO->GetByUserName($_SESSION["loggedUser"]->GetUserName());
+        $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
     public function ShowUploadVideo($PETID) {
@@ -102,7 +102,7 @@ private $petDAO;
             $dir = IMG_PATH;
             //var_dump(IMG_PATH);
            // $filename = "video".$pet->getName(). $IDPET . ".mp4";
-            $filename = "video".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
+            $filename = "video".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".mp4";
             $newFile = $dir . $filename;
             if( move_uploaded_file($_FILES['video']['tmp_name'], $newFile) ){
                 //echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';

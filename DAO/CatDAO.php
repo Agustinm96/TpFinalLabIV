@@ -1,29 +1,50 @@
 <?php
 namespace DAO;
 
+
+use \Exception as Exception;
 use Models\Cat as Cat;
+use Models\PetType as PetType;
+use Models\User as User;
 use DAO\PetDAO as PetDAO;
+use DAO\Connection as Connection;
+use CONTROLLERS\PetController as PetController;
 
 class CatDAO{
-    private $petList = array();
-    private $fileName = ROOT."Data/pets.json";
     private $petDAO;
-
+    private $connection;
+    private $tableName = "cat";
 
     public function __construct()
     {
         $this->petDAO = new PetDAO();
-        $this->petTypeDAO = new PetTypeDao();
+        $this->connection = new Connection();
     }
 
-    function Add(Cat $cat)
+    public function Add(Cat $cat)
     {
-        $this->petList = $this->petDAO->RetrieveData();
-        $cat->setIDPET($this->petDAO->GetNextId());  
-        array_push($this->petList, $cat);
+        try
+        {
+            $query = "INSERT INTO ".$this->tableName." (race,id_Pet,vaccinationPlan)
+             VALUES (:race, :id_Pet , :vaccinationPlan)";
+            var_dump($cat->getPetType()->getPetTypeId());
+            $id = $this->petDAO->Add($cat->getName(),$cat->getBirthDate(),
+            $cat->getObservation(),$cat->getPetType()->getPetTypeId(),$cat->getId_User()->GetId());
+            var_dump($id);
+            $parameters["cat"] = $cat->getRace();
+            $parameters["vaccinationPlan"] = $cat->getVaccinationPlan();
+            $parameters["id_Pet"] = $id;
 
-        $this->petDAO->SaveData($this->petList);
+            $this->connection = Connection::GetInstance();
+
+            $var=$this->connection->ExecuteNonQuery($query, $parameters);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
+
 
 }
 ?>

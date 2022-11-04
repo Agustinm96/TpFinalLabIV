@@ -4,7 +4,8 @@ namespace Models;
 class Cat extends Pet {
 private $vaccinationPlan; /// Picture Format
 private $race;
-
+private $id_Cat;
+private $id_Pet;
 /**
  * Get the value of size
  */ 
@@ -64,6 +65,48 @@ $this->race = $race;
 
 return $this;
 }
+
+/**
+ * Get the value of id_Cat
+ */ 
+public function getId_Cat()
+{
+return $this->id_Cat;
+}
+
+/**
+ * Set the value of id_Cat
+ *
+ * @return  self
+ */ 
+public function setId_Cat($id_Cat)
+{
+$this->id_Cat = $id_Cat;
+
+return $this;
+}
+
+
+/**
+ * Get the value of id_Pet
+ */ 
+public function getId_Pet()
+{
+return $this->id_Pet;
+}
+
+/**
+ * Set the value of id_Pet
+ *
+ * @return  self
+ */ 
+public function setId_Pet($id_Pet)
+{
+$this->id_Pet = $id_Pet;
+
+return $this;
+}
+
 }
 
 ?>

@@ -1,203 +1,189 @@
 <?php
 namespace DAO;
 
+
+use \Exception as Exception;
+use Models\Pet as Pet;
 use Models\Dog as Dog;
 use Models\Cat as Cat;
-use Models\Pet as pet;
 use Models\PetType as PetType;
-use DAO\PetTypeDAO as PetTypeDAO; //consultar;
-
+use Models\User as User;
+use DAO\Connection as Connection;
 
 class PetDAO{
     private $petList = array();
     private $fileName = ROOT."Data/pets.json";
-    private $petTypeDAO;
+    private $connection;
+    private $tableName = "pet";
+    
 
     public function __construct()
     {
-        $this->petTypeDAO = new PetTypeDAO();
+        $this->connection = new Connection();
     }
 
-
-
-    function GetAll()
+    public function Add($namePet,$birthDate,$observation,$id_PetType,$id_User)
     {
-        $this->petlist = $this->RetrieveData();
-       
-        return $this->petList;
+        try
+        {
+            $query = "INSERT INTO ".$this->tableName." (namePet, birthDate, observation,id_PetType,id_User)
+             VALUES (:namePet, :birthDate, :observation, :id_PetType, :id_User);";
+            
+            $parameters["namePet"] = $namePet;
+            $parameters["birthDate"] = $birthDate;
+            $parameters["observation"] = $observation;
+            $parameters["id_PetType"] = $id_PetType; //DEBERIA PASAR SOLO ID;
+            $parameters["id_User"] = $id_User; //DEBERIA PASAR SOLO ID;
+           
+            $this->connection = Connection::GetInstance();
+
+           $id = $this->connection->ExecuteNonQuery($query, $parameters,true);
+           var_dump($id);
+           return $id;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
+    
+    public function GetById_User($id){
 
-    function GetByUserName($USERNAME)
-    {
-        $this->petList  = $this->RetrieveData();
-        $pets = array_filter($this->petList, function($pet) use($USERNAME){
-            return $pet->getUserName() == $USERNAME;
-        });
-
-        $pets = array_values($pets); //Reorderding array
-        // var_dump($pets); anda
-       /* if($pets!=null){
-            foreach($pets as $pet){
-                var_dump($pet->getPetType());
-                $petID = $this->petTypeDAO->GetById($pet->getPetType());
-                $pet->setPetType();
-            }
-        } */
-        return (count($pets) > 0) ? $pets : null;
-
+       $query = "SELECT * FROM pet WHERE $id=pet.id_User AND pet.isActive = 1";
+       try{
+        $this->connection = Connection::getInstance();
+        $contentArray = $this->connection->Execute($query);
+      //var_dump($contentArray); //ANDA
+    }catch(\PDOException $ex){
+        throw $ex;
     }
-
-
-    function GetById($ID)
-    {
-        $this->petList  = $this->RetrieveData();
-
-        $pets = array_filter($this->petList, function($pet) use($ID){
-            return $pet->getIDPET() == $ID;
-        });
-
-        $pets = array_values($pets); //Reorderding array
-
-        return (count($pets) > 0) ? $pets[0] : null;
-    }
-
-    function Remove($ID)
-    {
-        $this->petList  = $this->RetrieveData();
-
-        $this->petList = array_filter($this->petList, function($pet) use($ID){
-            return $pet->getIDPET() != $ID;
-        });
-
-        $this->SaveData($this->petList);
-    }
-
-    public function RetrieveData()
-    {
-         $this->petList = array();
-
-         if(file_exists($this->fileName))
+      $list = array();
+    if(!empty($contentArray)){
+        foreach($contentArray as $content)
          {
-             $jsonToDecode = file_get_contents($this->fileName);
+           if($content["id_PetType"]=="0"){
+            $pet = $this->SetDogToReceive($content);
+           }
+            if($content["id_PetType"]=="1"){
+                $pet = $this->SetCatToReceive($content);
+         }
+         if($content["id_PetType"]=="2"){
+            $pet = $this->SetGuineaPigToReceive($content);
+     }
+         array_push($list, $pet);
+     }
+        return $list; //?? no se si retornar la lista;
+    }else{
+        return null;
+    }
+    }
 
-             $contentArray = ($jsonToDecode) ? json_decode($jsonToDecode, true) : array();
-             
-             foreach($contentArray as $content)
+
+
+    public function GetAll(){
+
+        $query = "SELECT * FROM pet WHERE pet.isActive = 1";
+        
+        try{
+            $this->connection = Connection::getInstance();
+            $contentArray = $this->connection->Execute($query);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        
+        if(!empty($contentArray)){
+            foreach($contentArray as $content)
              {
-               if($content["petType"]=="0"){
-                $pet = $this->setDogToReceive($content);
+               if($content["id_PetType"]=="0"){
+                $pet = $this->SetDogToReceive($content);
                }
-                if($content["petType"]=="1"){
-                    $pet = $this->setCatToReceive($content);
+                if($content["id_PetType"]=="1"){
+                    $pet = $this->SetCatToReceive($content);
              }
-             if($content["petType"]=="2"){
-                $pet = $this->setGuineaPigToReceive($content);
+             if($content["id_PetType"]=="2"){
+                $pet = $this->SetGuineaPigToReceive($content);
          }
              array_push($this->petList, $pet);
          }
-         return $this->petList;
-    }
-         }
-    public function SaveData($petList)
-    {
-        $arrayToEncode = array();
-        foreach($petList as $pet)
-        {
-           // var_dump($pet->getPetType()->getPetTypeId()); //ANDA
-            if($pet->getPetType()->getPetTypeId()==0){
-                $valuesArray = $this->setDogToSave($pet);
-                array_push($arrayToEncode, $valuesArray);
-            }
-            if($pet->getPetType()->getPetTypeId()==1){
-                $valuesArray = $this->setCatToSave($pet);
-                array_push($arrayToEncode, $valuesArray);
-            }
-            if($pet->getPetType()->getPetTypeId()==2){
-                $valuesArray = $this->setGuineaPigToSave($pet);
-                array_push($arrayToEncode, $valuesArray);
-            }
+            return $this->petList; //?? no se si retornar la lista;
+        }else{
+            return null;
         }
-        // var_dump($arrayToEncode); ANDA
-        $fileContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-
-        file_put_contents($this->fileName, $fileContent);
     }
-
-    public function GetNextId()
-    {
-        $id = 0;
-
-        foreach($this->petList as $pet)
-        {
-            $id = ($pet->getIDPET() > $id) ? $pet->getIDPET() : $id;
+    
+    public function SetDogToReceive($content){
+        $id = $content['id_Pet'];
+        $query = "SELECT * FROM dog WHERE $id = dog.id_Pet";
+        
+        try{
+            $this->connection = Connection::getInstance();
+            $contentDog = $this->connection->ExecuteSingleResponse($query);
+            var_dump($contentDog); //ANDA
+        }catch(\PDOException $ex){
+            throw $ex;
         }
-
-        return $id + 1;
-    }
-
-    public function setDogToReceive($content){
+        if(!empty($contentDog)){
         $dog = new Dog();
         $petType = new PetType();
-        $petType = $this->petTypeDAO->GetById($content["petType"]);
-        // var_dump($content["petType"]); anda
-        // var_dump($petType); anda
-        $dog->setIDPET($content["IDPET"]);
+        $petType->setPetTypeId($content["id_PetType"]);
+        $user = new User();
+        $user->setId($content["id_User"]);
+        // var_dump($content["petType"]); 
+        // var_dump($petType);
+        $dog->setIsActive($content["isActive"]);
+        $dog->setId_Pet($content["id_Pet"]); //MODIFICAR
         $dog->setPetType($petType);
-        $dog->setName($content["name"]);
+        $dog->setName($content["namePet"]);
         $dog->setBirthDate($content["birthDate"]);
         $dog->setObservation($content["observation"]);
         $dog->setPicture($content["picture"]); //PREGUNTAR
-        $dog->setVaccinationPlan($content["vaccinationPlan"]);
-        $dog->setRace($content["race"]);
-        $dog->setSize($content["size"]);
-        $dog->setVideoPET($content["videoPet"]);
-        $dog->setUserName($content["userName"]);
+        $dog->setVideoPet($content["videoPet"]);
+        $dog->setId_User($user); 
+        $dog->setVaccinationPlan($contentDog['vaccinationPlan']);
+        $dog->setRace($contentDog["race"]);
+        $dog->setSize($contentDog["size"]);
         return $dog;
+        }else{
+            return "ERROR";
+        }
     }
-    public function setCatToReceive($content){
+
+    public function SetCatToReceive($content){
+        $id = $content['id_Pet'];
+        $query = "SELECT * FROM cat WHERE $id = cat.id_Pet";
+        
+        try{
+            $this->connection = Connection::getInstance();
+            $contentCatArray = $this->connection->Execute($query);
+            var_dump($contentCatArray);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($contentCatArray)){
         $cat = new Cat();
-        $cat->setIDPET($content["IDPET"]);
-        $cat->setPetType($this->petTypeDAO->GetById($content["petType"]));
-        $cat->setName($content["name"]);
+        $petType = new PetType();
+        $petType->setPetTypeId($content["id_PetType"]);
+        $user = new User();
+        $user->setId($content["id_User"]);
+        // var_dump($content["petType"]); 
+        // var_dump($petType);
+        $cat->setIsActive($content["isActive"]);
+        $cat->setId_Pet($content["id_Pet"]);
+        $cat->setPetType($petType);
+        $cat->setName($content["namePet"]);
         $cat->setBirthDate($content["birthDate"]);
         $cat->setObservation($content["observation"]);
         $cat->setPicture($content["picture"]); //PREGUNTAR
-        $cat->setVaccinationPlan($content["vaccinationPlan"]);
-        $cat->setRace($content["race"]);
-        $cat->setVideoPET($content["videoPet"]);
-        $cat->setUserName($content["userName"]);
+        $cat->setVideoPet($content["videoPet"]);
+        $cat->setId_User($user);
+        foreach($contentCatArray as $contentCat){
+        $cat->setVaccinationPlan($contentCat["vaccinationPlan"]);
+        $cat->setRace($contentCat["race"]);
+        }
         return $cat;
-    }
-
-    public function setDogToSave(Dog $dog){
-        $valuesArray = array();
-        $valuesArray["IDPET"] = $dog->getIDPET();
-        $valuesArray["petType"] = $dog->getPetType()->getPetTypeId();
-        $valuesArray["name"] = $dog->getName();
-        $valuesArray["observation"] = $dog->getObservation();
-        $valuesArray["birthDate"] = $dog->getBirthDate();
-        $valuesArray["picture"] = $dog->getPicture();
-        $valuesArray["vaccinationPlan"] = $dog->getVaccinationPlan();
-        $valuesArray["race"] = $dog->getRace();
-        $valuesArray["size"] = $dog->getSize();
-        $valuesArray["videoPet"] = $dog->getVideoPET();
-        $valuesArray["userName"] = $dog->getUserName();
-        return $valuesArray;
-    }
-    
-    public function setCatToSave(Cat $cat){
-        $valuesArray = array();
-        $valuesArray["IDPET"] = $cat->getIDPET();
-        $valuesArray["petType"] = $cat->getPetType()->getPetTypeId();
-        $valuesArray["name"] = $cat->getName();
-        $valuesArray["observation"] = $cat->getObservation();
-        $valuesArray["birthDate"] = $cat->getBirthDate();
-        $valuesArray["picture"] = $cat->getPicture();
-        $valuesArray["vaccinationPlan"] = $cat->getVaccinationPlan();
-        $valuesArray["race"] = $cat->getRace();
-        $valuesArray["videoPet"] = $cat->getVideoPET();
-        $valuesArray["userName"] = $cat->getUserName();
-        return $valuesArray;
+        }else{
+            return "ERROR";
+        }
     }
 
 }
