@@ -34,7 +34,7 @@ require_once('validate-session.php');
                   <textarea name="observation" style="margin-top: 3%;min-height: 100px;height: 75px;max-width: 500px"></textarea>
                 </td>
                 </tr>
-                <?php if($petType->getPetTypeId()==0){?>
+                <?php if($petType->getPetTypeId()==1){?>
                 <tr>
                 <th>Size</th>   
                 <td>

@@ -61,13 +61,13 @@ class PetDAO{
     if(!empty($contentArray)){
         foreach($contentArray as $content)
          {
-           if($content["id_PetType"]=="0"){
+           if($content["id_PetType"]=="1"){
             $pet = $this->SetDogToReceive($content);
            }
-            if($content["id_PetType"]=="1"){
+            if($content["id_PetType"]=="2"){
                 $pet = $this->SetCatToReceive($content);
          }
-         if($content["id_PetType"]=="2"){
+         if($content["id_PetType"]=="3"){
             $pet = $this->SetGuineaPigToReceive($content);
      }
          array_push($list, $pet);
@@ -94,13 +94,13 @@ class PetDAO{
         if(!empty($contentArray)){
             foreach($contentArray as $content)
              {
-               if($content["id_PetType"]=="0"){
+               if($content["id_PetType"]=="1"){
                 $pet = $this->SetDogToReceive($content);
                }
-                if($content["id_PetType"]=="1"){
+                if($content["id_PetType"]=="2"){
                     $pet = $this->SetCatToReceive($content);
              }
-             if($content["id_PetType"]=="2"){
+             if($content["id_PetType"]=="3"){
                 $pet = $this->SetGuineaPigToReceive($content);
          }
              array_push($this->petList, $pet);
