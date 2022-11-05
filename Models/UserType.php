@@ -4,31 +4,31 @@ namespace Models;
 use Models\User;
 
 class UserType{
-    private $id;
-    private $name;
+    private $id_userType;
+    private $typeName;
     private $description;
     
 
     public function getId()
     {
-        return $this->id;
+        return $this->id_userType;
     }
 
-    public function setId($id): self
+    public function setId($id_userType): self
     {
-        $this->id = $id;
+        $this->id_userType = $id_userType;
 
         return $this;
     }
 
     public function getName()
     {
-        return $this->name;
+        return $this->typeName;
     }
 
-    public function setName($name): self
+    public function setName($typeName): self
     {
-        $this->name = $name;
+        $this->typeName = $typeName;
 
         return $this;
     }

@@ -26,14 +26,14 @@ class PetDAO{
     {
         try
         {
-            $query = "INSERT INTO ".$this->tableName." (namePet, birthDate, observation,id_PetType,id_User)
-             VALUES (:namePet, :birthDate, :observation, :id_PetType, :id_User);";
+            $query = "INSERT INTO ".$this->tableName." (namePet, birthDate, observation,id_PetType,id_user)
+             VALUES (:namePet, :birthDate, :observation, :id_PetType, :id_user);";
             
             $parameters["namePet"] = $namePet;
             $parameters["birthDate"] = $birthDate;
             $parameters["observation"] = $observation;
             $parameters["id_PetType"] = $id_PetType; //DEBERIA PASAR SOLO ID;
-            $parameters["id_User"] = $id_User; //DEBERIA PASAR SOLO ID;
+            $parameters["id_user"] = $id_User; //DEBERIA PASAR SOLO ID;
            
             $this->connection = Connection::GetInstance();
 
@@ -47,9 +47,9 @@ class PetDAO{
         }
     }
     
-    public function GetById_User($id){
+    public function GetById_User($id_user){
 
-       $query = "SELECT * FROM pet WHERE $id=pet.id_User AND pet.isActive = 1";
+       $query = "SELECT * FROM pet WHERE $id_user=pet.id_User AND pet.isActive = 1";
        try{
         $this->connection = Connection::getInstance();
         $contentArray = $this->connection->Execute($query);
@@ -61,13 +61,13 @@ class PetDAO{
     if(!empty($contentArray)){
         foreach($contentArray as $content)
          {
-           if($content["id_PetType"]=="0"){
+           if($content["id_PetType"]=="1"){
             $pet = $this->SetDogToReceive($content);
            }
-            if($content["id_PetType"]=="1"){
+            if($content["id_PetType"]=="2"){
                 $pet = $this->SetCatToReceive($content);
          }
-         if($content["id_PetType"]=="2"){
+         if($content["id_PetType"]=="3"){
             $pet = $this->SetGuineaPigToReceive($content);
      }
          array_push($list, $pet);
@@ -94,13 +94,13 @@ class PetDAO{
         if(!empty($contentArray)){
             foreach($contentArray as $content)
              {
-               if($content["id_PetType"]=="0"){
+               if($content["id_PetType"]=="1"){
                 $pet = $this->SetDogToReceive($content);
                }
-                if($content["id_PetType"]=="1"){
+                if($content["id_PetType"]=="2"){
                     $pet = $this->SetCatToReceive($content);
              }
-             if($content["id_PetType"]=="2"){
+             if($content["id_PetType"]=="3"){
                 $pet = $this->SetGuineaPigToReceive($content);
          }
              array_push($this->petList, $pet);
@@ -127,7 +127,7 @@ class PetDAO{
         $petType = new PetType();
         $petType->setPetTypeId($content["id_PetType"]);
         $user = new User();
-        $user->setId($content["id_User"]);
+        $user->setId($content["id_user"]);
         // var_dump($content["petType"]); 
         // var_dump($petType);
         $dog->setIsActive($content["isActive"]);
@@ -164,7 +164,7 @@ class PetDAO{
         $petType = new PetType();
         $petType->setPetTypeId($content["id_PetType"]);
         $user = new User();
-        $user->setId($content["id_User"]);
+        $user->setId($content["id_user"]);
         // var_dump($content["petType"]); 
         // var_dump($petType);
         $cat->setIsActive($content["isActive"]);

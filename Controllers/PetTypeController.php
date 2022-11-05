@@ -31,7 +31,6 @@ class PetTypeController {
     }
     }
 
-
 }
 
 ?>

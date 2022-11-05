@@ -6,6 +6,7 @@
     
     $array =$keeper->getPetSizeToKeep();
     $arrayDays=$keeper->getReserve()->getArrayDays();
+    echo '<script language="javascript">alert("You have loaded reserves, if you modify your availability those reserves are going to be deleted");</script>';
 ?>
 
 <div id="breadcrumb" class="hoc clear"> 
@@ -50,6 +51,8 @@
                 <option value="big">Big</option>
                 </select>
                 <td><input type="text" name="priceToKeep" id="priceToKeep" value="<?php echo $keeper->getPriceToKeep()?>" placeholder="<?php echo $keeper->getPriceToKeep()?>" required/></td>
+                <td><input type="number" name="petsAmount" id="petsAmount" placeholder="min=1 max=10" min="1" max="10" required/></td>
+
         <div>
             <input type="submit" class="btn" value="Update Me!" style="background-color:#DC8E47;color:white;"/>
         </div>

@@ -1,121 +1,116 @@
 <?php
 
-    namespace DAO;
+namespace DAO;
 
-    use Models\Owner;
-    use Models\User;
+use Models\Owner;
+use Models\User;
+use DAO\Connection as Connection;
+use DAO\UserDAO as UserDAO;
+class OwnerDAO implements IOwnerDAO
+{
+    private $ownersList = array();
+    private $connection;
+    private $tableName = "Owner";
 
-    class OwnerDAO implements IOwnerDAO {
-        private $fileName = ROOT . "/Data/owners.json";
-        private $ownersList = array();
-
-        public function Add($owner) {
-            $this->RetrieveData();
-
-            $owner->setIdOwner($this->GetNextId());
-
-            array_push($this->ownersList, $owner);
-
-            $this->SaveData();
-        }
-
-        public function Remove($idUser) {
-            $this->RetrieveData();
-
-            $this->ownersList = array_filter($this->ownersList, function($owner) use($idUser) {
-                return $owner->getUser()->getId() != $idUser;
-            });
-
-            $this->SaveData();
-        }
-
-        public  function GetAll() {
-            $this->RetrieveData();
-            return $this->ownersList;
-        }
-
-        public function GetById($id) {
-            $this->RetrieveData();
-
-            $aux = array_filter($this->ownersList, function($owner) use($id) {
-                return $owner->getIdOwner() == $id;
-            });
-
-            $aux = array_values($aux);
-
-            return (count($aux) > 0) ? $aux[0] : null;
-        }
-
-        function GetByUserName($userName){
-        $this->RetrieveData();
-
-        $aux = array_filter($this->ownersList, function($owner) use($userName){
-            return $owner->getUserName() == $userName;
-        });
-
-        $aux = array_values($aux); //Reorderding array
-
-        return (count($aux) > 0) ? $aux[0] : null;
-
+    public function __construct(){
+        $this->userDAO = new UserDAO();
     }
 
-        public function GetByIdUser($idUser) {
-            $this->RetrieveData();
+    public function Add($owner)
+    {
+        $sql = "INSERT INTO Owner (id_owner, address, id_user) VALUES (:id_owner, :address, :id_user)";
 
-            $aux = array_filter($this->ownersList, function($owner) use($idUser) {
-                return $owner->getUser()->getId() == $idUser;
-            });
-
-            $aux = array_values($aux);
-
-            return (count($aux) > 0) ? $aux[0] : null;
-        }
-
-
-        private function SaveData() {
-            $arrayEncode = array();
-
-            foreach($this->ownersList as $owner) {
-                $value["idUser"] = $owner->getUser()->getId();
-                $value["idOwner"] = $owner->getIdOwner();
-                $value["adress"] = $owner->getAdress();
-                
-                array_push($arrayEncode, $value);
-            }
-
-            $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-            file_put_contents($this->fileName, $jsonContent);
-        }
-
-        private function RetrieveData() {
-            $this->ownersList = array();
-
-            if(file_exists($this->fileName)) {
-                $jsonContent = file_get_contents($this->fileName);
-                $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayDecode as $value) {
-                    $user=new User();
-                    $user->setId($value["idUser"]);
-
-                    $owner = new Owner();
-                    $owner->setUser($user);
-                    $owner->setIdOwner($value["idOwner"]);
-                    $owner->setAdress($value["adress"]);
-
-                    array_push($this->ownersList, $owner);
-                }
-            }
-        }
-
-        private function GetNextId() {
-            $id = 0;
-
-            foreach($this->ownersList as $owner) {
-                $id = ($owner->getIdOwner() > $id) ? $owner->getIdOwner() : $id;
-            }
-
-            return $id + 1;
+        //autoincremental Id in db
+        $parameters['id_owner'] = 0;
+        $parameters['address'] = $owner->getAdress();
+        $parameters['id_user'] = $owner->getUser()->getId();
+        try {
+            $this->connection = Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql, $parameters, true);
+        } catch (\PDOException $ex) {
+            throw $ex;
         }
     }
-?>
+
+    public function Remove($id_user)
+    {
+        $sql="DELETE FROM Owner WHERE Owner.id_user=:id_user";
+        $values['id_user'] = $id_user;
+
+        try{
+            $this->connection= Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql,$values);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+    }
+
+    public  function GetAll()
+    {
+        $sql = "SELECT * FROM Owner";
+    
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sql);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+        }
+       
+    }
+
+    protected function mapear ($value){
+
+        $value = is_array($value) ? $value : [];
+        
+        $resp = array_map(function($p){
+            $user = $this->userDAO->GetById($p['id_user']);
+            $owner = new Owner();
+            $owner->setIdOwner($p['id_owner']);
+            $owner->setAdress($p['address']);
+            $owner->setUser($user);
+            
+            return $owner;
+        }, $value);
+
+        return count($resp) > 1 ? $resp : $resp['0'];
+    }
+
+    public function GetById($id)
+    {
+        $sqlSelectId = "select * from Owner where id_owner = '".$id."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+        }
+    }
+
+
+    public function GetByIdUser($idUser)
+    {
+        $sqlSelectId = "select * from Owner where id_user = '".$idUser."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+        }
+    }
+
+}

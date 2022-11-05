@@ -5,6 +5,7 @@ use DAO\CatDAO as CatDAO;
 use DAO\PetDAO as PetDAO;
 use MODELS\Cat as Cat;
 use MODELS\PetType as PetType;
+use Models\User as User;
 
 Class CatController{
 private $catDAO;
@@ -24,7 +25,7 @@ public function __construct()
 
     public function ShowPerfilView($message = ""){
       require_once(VIEWS_PATH . "validate-session.php");
-      $petList = $this->petDAO->GetByUserName($_SESSION["loggedUser"]->GetUserName());
+      $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
@@ -34,6 +35,8 @@ public function __construct()
     $cat = new Cat(); //Deberia llegar el type
     $petTypeAux = new PetType();
     $petTypeAux->setPetTypeId($petType);
+    $user = new User();
+    $user->setId($_SESSION["loggedUser"]->GetId());
     $cat->setName($name);
     $cat->setBirthDate($birthDate);
     $cat->setObservation($observation);
@@ -41,7 +44,7 @@ public function __construct()
     $cat->setVaccinationPlan(null);
     $cat->setRace($race);
     $cat->setVideoPet(null);
-    $cat->setUserName($_SESSION["loggedUser"]->GetUserName());
+    $cat->setId_User($user);
     var_dump($petType);
     $cat->setPetType($petTypeAux);
     $this->catDAO->Add($cat);
