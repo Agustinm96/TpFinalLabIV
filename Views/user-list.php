@@ -26,6 +26,7 @@ include_once('nav-bar.php');
           </thead>
           <tbody>
             <?php
+            //var_dump($userList);
             foreach ($userList as $user) {
             ?>
               <tr>
