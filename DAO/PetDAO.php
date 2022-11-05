@@ -118,7 +118,7 @@ class PetDAO{
         try{
             $this->connection = Connection::getInstance();
             $contentDog = $this->connection->ExecuteSingleResponse($query);
-            var_dump($contentDog); //ANDA
+            //var_dump($contentDog); //ANDA
         }catch(\PDOException $ex){
             throw $ex;
         }
@@ -155,7 +155,7 @@ class PetDAO{
         try{
             $this->connection = Connection::getInstance();
             $contentCatArray = $this->connection->Execute($query);
-            var_dump($contentCatArray);
+            //var_dump($contentCatArray);
         }catch(\PDOException $ex){
             throw $ex;
         }

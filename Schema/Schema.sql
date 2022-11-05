@@ -114,3 +114,6 @@ INSERT INTO petType (petTypeName) VALUES('GuineaPig');
 SELECT * FROM pet;
 
 SELECT * from pettype;
+
+SELECT * FROM pet JOIN Owner on pet.id_user=Owner.id_user;
+SELECT p.`id_Pet`,p.`namePet`,p.`id_PetType`, u.`firstName` FROM pet p JOIN Owner o on p.id_user=o.id_user JOIN User u on o.id_user=u.id_user where o.id_owner=11;
