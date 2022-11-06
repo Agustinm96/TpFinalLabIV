@@ -20,7 +20,7 @@ use Models\Keeper;
     <!-- main body -->
     <div class="content"> 
     <div class="scrollable">
-        <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowModifyAvailabilityView"?>" method ="post">
+        <form action="<?php ECHO FRONT_ROOT . "Reserve/ShowModifyAvailabilityView"?>" method ="post">
         <table style="text-align:center;">
             <thead>
             <tr>
@@ -38,13 +38,13 @@ use Models\Keeper;
                         foreach($array as $sizeValue){
                             echo ucfirst($sizeValue). "<br>";
                         }?></td>
-                <td><?php $arrayDays = $keeper->getReserve()->getArrayDays() ?>
+                <td><?php $arrayDays = $keeper->getArrayDays() ?>
                                 <?php 
                                 foreach($arrayDays as $day){
                                             echo $day .'<br>';
                                         }?>
-                <td><?php echo $keeper->getReserve()->getStartingDate() ?></td>
-                <td><?php echo $keeper->getReserve()->getLastDate() ?></td>
+                <td><?php echo $keeper->getStartingDate() ?></td>
+                <td><?php echo $keeper->getLastDate() ?></td>
                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
         </tbody>
         </table>

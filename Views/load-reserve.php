@@ -20,9 +20,8 @@
         </thead>
         <tbody align="center">
             <tr>
-                <td><?php $array = $keeper->getavailabilityArray();
-                ?><select name="date" id="date">
-                    <?php foreach($array as $day){
+                <td><select name="date" id="date">
+                    <?php foreach($availabilityList as $day){
                             if($day->getAvailable()){
                                 echo "<option value=".$day->getDate().">".$day->getDate()."</option>";
                                 }
@@ -48,7 +47,7 @@
                     ?>
                 </select></td>
                 <input type="hidden" name="keeper" value="<?php echo $keeper->getIdKeeper() ?>">
-                <input type="hidden" name="userName" value="<?php echo $userName ?>">
+                
             </tr>
         </tbody>
     </table>

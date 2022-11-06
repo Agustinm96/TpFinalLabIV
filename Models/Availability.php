@@ -6,12 +6,20 @@ namespace Models;
 use Models\Keeper;
 
 class availability{
+    private $idKeeper;
+    public $id;
     private $date;
     private $available; //boolean
     private $reserveRequest; //boolean
-    private $userName = array();  
-    private $petList = array(); 
-    private $finalCustomers = array();
+    private $petList = array(); //guarda solo el id de la pet
+
+    public function getId(){
+        return $this->id;
+    }
+
+    public function setId($id){
+        $this->id = $id;
+    }
 
     public function getDate(){
         return $this->date;
@@ -29,12 +37,12 @@ class availability{
         $this->available = $available;
     }
 
-    public function setUserName($userName){
-        $this->userName = $userName;
+    public function setIdKeeper($idKeeper){
+        $this->idKeeper = $idKeeper;
     }
 
-    public function getUserName(){
-        return $this->userName;
+    public function getIdKeeper(){
+        return $this->idKeeper;
     }
 
     public function getPetList(){
@@ -51,14 +59,6 @@ class availability{
 
     public function setReserveRequest($reserveRequest){
         $this->reserveRequest = $reserveRequest;
-    }
-
-    public function getFinalCustomers(){
-        return $this->finalCustomers;
-    }
-
-    public function setFinalCustomers($finalCustomers){
-        $this->finalCustomers = $finalCustomers;
     }
 
 }

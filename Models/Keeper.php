@@ -11,8 +11,9 @@ class Keeper{
     private $adress;
     private $petSizeToKeep = array(); //small, medium or big
     private $priceToKeep;
-    private $reserve = array();
-    private $availabilityArray = array (); //arreglo de disponibilidades
+    private $startingDate; 
+    private $lastDate;
+    private $arrayDays = array();
     private $petsAmount; //how many pets the keeper wants to take care of
 
     public function getUser(){
@@ -47,14 +48,6 @@ class Keeper{
         $this->petSizeToKeep = $petSizeToKeep;
     }
 
-    public function getReserve(){
-        return $this->reserve;
-    }
-
-    public function setReserve(Reserve $reserve){
-        $this->reserve = $reserve;
-    }
-
     public function getPriceToKeep(){
         return $this->priceToKeep;
     }
@@ -63,20 +56,44 @@ class Keeper{
         $this->priceToKeep = $priceToKeep;
     }
 
-    public function getavailabilityArray(){
-        return $this->availabilityArray;
-    }
-
-    public function setAvailabilityArray($availabilityArray){
-        $this->availabilityArray = $availabilityArray; 
-    }
-
     public function getPetsAmount(){
         return $this->petsAmount;
     }
 
     public function setPetsAmount($petsAmount){
         $this->petsAmount = $petsAmount; 
+    }
+
+    public function getStartingDate(){
+        return $this->startingDate;
+    }
+
+    public function setStartingDate($startingDate){
+        $this->startingDate= $startingDate;
+    }
+
+    public function getLastDate(){
+        return $this->lastDate;
+    }
+
+    public function setLastDate($lastDate){
+        $this->lastDate= $lastDate;
+    }
+
+    public function getArrayDays(){
+        return $this->arrayDays;
+    }
+
+    public function setArrayDays($arrayDays){
+        $this->arrayDays= $arrayDays;
+    }
+
+    public function getIsAvailable(){
+        return $this->isAvailable;
+    }
+
+    public function setIsAvailable($isAvailable){
+        $this->isAvailable = $isAvailable;
     }
 }
 
