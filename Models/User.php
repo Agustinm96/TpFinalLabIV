@@ -5,13 +5,13 @@ namespace Models;
 use Models\UserType;
 
  class User{
-    private $id;
+    private $id_user;
     private $firstName;
     private $lastName;
     private $dni;
     private $email;
     private $phoneNumber;
-    private $userType;
+    private UserType $userType;
     private $username;
     private $password;
 
@@ -113,12 +113,12 @@ use Models\UserType;
 
     public function getId()
     {
-        return $this->id;
+        return $this->id_user;
     }
 
     public function setId($id): self
     {
-        $this->id = $id;
+        $this->id_user = $id;
 
         return $this;
     }

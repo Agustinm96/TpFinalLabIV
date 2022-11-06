@@ -27,7 +27,7 @@
             }else if($userType==2){
                 require_once(VIEWS_PATH."profile-completion-keeper.php");
             }else if($userType==3){
-                require_once(VIEWS_PATH."admin.php");
+                require_once(VIEWS_PATH."home.php");
             }
             else{
                 require_once(VIEWS_PATH."add-user.php");
@@ -37,21 +37,6 @@
         public function ShowListView()
         {
             $userList = $this->userDAO->GetAll();
-            $userTypeList = $this->userTypeDAO->GetAll();
-
-            foreach($userList as $user)
-            {
-                $userTypeId = $user->getUserType()->getId();
-                $userTypes = array_filter($userTypeList, function($userType) use($userTypeId){                    
-                    return $userType->getId() == $userTypeId;
-                });
-
-                $userTypes = array_values($userTypes); //Reordering array
-
-                $userType = (count($userTypes) > 0) ? $userTypes[0] : new UserType(); 
-
-                $user->setUserType($userType);
-            }
             
             require_once(VIEWS_PATH."user-list.php");
         }
@@ -66,9 +51,11 @@
 
         public function ShowMyProfile(){  
             require_once(VIEWS_PATH . "validate-session.php");
-            $user = ($_SESSION["loggedUser"]);
-            $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
-            $boolean = $this->keeperController->checkingRequests($keeper);
+            $user = $_SESSION["loggedUser"];
+            if($user->getUserType()->getId()==2){
+                $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
+                $boolean = $this->keeperController->checkingRequests($keeper);
+            }
             require_once(VIEWS_PATH . "profile-view.php");
         }
 
@@ -81,7 +68,7 @@
         public function Add($firstname,$lastname,$dni,$email,$phone,$userTypeId,$username,$password)
         {
             $userType = new UserType();
-            $userType->setId($userTypeId);
+            $userType = $this->userTypeDAO->GetById($userTypeId);
                         
             $user = new User();
             $user->setUserType($userType);
@@ -101,7 +88,7 @@
                 $this->ShowAddView("Ya existe un usuario con ese Email",null); 
             }
             else{
-                $this->userDAO->Add($user);
+                $user->setId($this->userDAO->Add($user));
                 $_SESSION["loggedUser"]=$user;
                 $this->ShowAddView("",$user->getUserType()->getId());
             }
