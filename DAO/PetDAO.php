@@ -46,9 +46,41 @@ class PetDAO{
             throw $ex;
         }
     }
+
+    public function uploadVideo($filename,$id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET video=$filename
+            WHERE $var.id_Pet=$id_Pet";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
+}
+
+public function uploadPicture($filename,$id_Pet){
+    $var = $this->tableName;
+    try
+    {
+        $query = "UPDATE $var SET picture=$filename
+        WHERE $var.id_Pet=$id_Pet";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
+    }
+    catch(Exception $ex)
+    {
+        throw $ex;
+    }
+
+}
     
     public function GetById_User($id){
-
+    var_dump($id);
        $query = "SELECT * FROM pet WHERE $id=pet.id_User AND pet.isActive = 1";
        try{
         $this->connection = Connection::getInstance();
@@ -184,6 +216,14 @@ class PetDAO{
         }else{
             return "ERROR";
         }
+    }
+
+    function validateDate($birthDate)
+    {
+        $birthDateAux= new DateTime($birthDate);
+        $now = new DateTime(date("Y-m-d"));
+        $dif = $now->diff($birthDate);
+        return $dif->format("%m");
     }
 
 }
