@@ -6,18 +6,18 @@ use DAO\PetDAO as PetDAO;
 use MODELS\Cat as Cat;
 use MODELS\User as User;
 use MODELS\PetType as PetType;
-use Controller\PetController as PetController;
-
+use Controllers\PetController as PetController;
+use Controllers\PetTypeController as PetTypeController;
 Class CatController{
 private $catDAO;
-private $petDAO;//no deberia ir
 private $petController;
+private $petTypeController;
 
 public function __construct()
     {
         $this->catDAO = new CatDAO();
-        $this->petDAO = new PetDAO();
         $this->petController = new PetController();
+        $this->petTypeController = new PetTypeController();
 
     }
 
@@ -33,16 +33,16 @@ public function __construct()
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
-    public function ShowAddView($message = "") {
+    public function ShowAddView(PetType $petType ,$message = "") {
       require_once(VIEWS_PATH . "validate-session.php");
-      require_once(VIEWS_PATH . "add-choice.php");
+      require_once(VIEWS_PATH . "add-pet.php");
   }
 
 
     public function Add($name, $birthDate, $observation, $race,$petType){
     require_once (VIEWS_PATH ."validate-session.php");
     $checkDate = $this->petController->petDAO->validateDate($birthDate);
-    if($checkDate>=3){
+    if($checkDate==true){
     $cat = new Cat(); //Deberia llegar el type
     $petTypeAux = new PetType();
     $petTypeAux->setPetTypeId($petType);
@@ -61,7 +61,9 @@ public function __construct()
     $this->catDAO->Add($cat);
     $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());
     }else{
-      $this->ShowAddView("Error fecha ingresada no valida \n
+      $petTypeAux = new PetType();
+      $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);
+      $this->ShowAddView($petTypeAux,"Error fecha ingresada no valida \n
       Solo se aceptan mascotas con mas de 3 meses de edad");
     }
     }

@@ -51,10 +51,13 @@ class PetDAO{
         $var = $this->tableName;
         try
         {
-            $query = "UPDATE $var SET video=$filename
+            $query = "UPDATE $var SET videoPet='$filename'
             WHERE $var.id_Pet=$id_Pet";
+            $parameters["videoPet"] = $filename;
             $this->connection = Connection::GetInstance();
-            $this->connection->execute($query);
+            $this->connection->prepare($query);
+            $this->connection->Execute($query,$parameters);
+            //$this->connection->ExecuteNonQuery($query,$parameters);
         }
         catch(Exception $ex)
         {
@@ -67,7 +70,7 @@ public function uploadPicture($filename,$id_Pet){
     $var = $this->tableName;
     try
     {
-        $query = "UPDATE $var SET picture=$filename
+        $query = "UPDATE $var SET picture='$filename'
         WHERE $var.id_Pet=$id_Pet";
         $this->connection = Connection::GetInstance();
         $this->connection->execute($query);
@@ -80,7 +83,7 @@ public function uploadPicture($filename,$id_Pet){
 }
     
     public function GetById_User($id_user){
-    var_dump($id_user);
+    //var_dump($id_user);
        $query = "SELECT * FROM pet WHERE $id_user=pet.id_user AND pet.isActive = 1";
        try{
         $this->connection = Connection::getInstance();
@@ -220,10 +223,12 @@ public function uploadPicture($filename,$id_Pet){
 
     function validateDate($birthDate)
     {
-        $birthDateAux= new DateTime($birthDate);
-        $now = new DateTime(date("Y-m-d"));
-        $dif = $now->diff($birthDate);
-        return $dif->format("%m");
+        $checkDate = date("Y-m-d",strtotime($birthDate.' + 3 months '));
+        if($checkDate>=date("Y-m-d")){
+         return false;
+        }else{
+            return true;
+        }
     }
 
 }

@@ -3,22 +3,23 @@ namespace Controllers;
 
 use DAO\DogDAO as DogDAO;
 use DAO\PetDAO as PetDAO;
-use Controller\PetController as PetController;
+use Controllers\PetController as PetController;
+use Controllers\PetTypeController as PetTypeController;
 use MODELS\Dog as Dog;
 use MODELS\User as User;
 use MODELS\PetType as PetType;
 
 Class DogController{
 private $dogDAO;
-private $petDAO; // no deberia ir
 private $petController;
+private $petTypeController;
 
 public function __construct()
 
     {
         $this->dogDAO = new DogDAO();
-        $this->petDAO = new PetDAO();
         $this->petController = new PetController();
+        $this->petTypeController = new PetTypeController();
     }
 
     /*public function ShowListView(){ //SOLO MUESTRA PERROS
@@ -33,16 +34,15 @@ public function __construct()
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
-    public function ShowAddView($message = "") {
+    public function ShowAddView(PetType $petType, $message = "") {
       require_once(VIEWS_PATH . "validate-session.php");
-      require_once(VIEWS_PATH . "add-choice.php");
+      require_once(VIEWS_PATH . "add-pet.php");
   }
 
     public function Add($name, $birthDate, $observation,$size,$race,$petType){
     require_once (VIEWS_PATH ."validate-session.php");
     $checkDate = $this->petController->petDAO->validateDate($birthDate);
-    var_dump($checkDate);
-    if($checkDate>=3){
+    if($checkDate==true){
     $dog = new Dog();
     $user = new User();
     $user->setId($_SESSION["loggedUser"]->GetId());
@@ -60,10 +60,12 @@ public function __construct()
     $dog->setPetType($petTypeAux);
     $this->dogDAO->Add($dog);
     $this->ShowPerfilView("Se añadio correctamente el perro :" .$dog->getName());
-    }else{
-      $this->ShowAddView("Error fecha ingresada no valida \n
-      Solo se aceptan mascotas con mas de 3 meses de edad");
-    }
+  }else{
+    $petTypeAux = new PetType();
+    $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);
+    $this->ShowAddView($petTypeAux,"Error fecha ingresada no valida \n
+    Solo se aceptan mascotas con mas de 3 meses de edad");
+  }
     }
 
     public function UploadVaccination($MAX_FILE_SIZE,$IDPET){

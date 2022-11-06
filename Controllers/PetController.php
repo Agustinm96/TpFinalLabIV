@@ -17,7 +17,7 @@ public $petDAO;
  public function ShowPerfilView($message = ""){
         require_once(VIEWS_PATH . "validate-session.php");
         $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
-        var_dump($petList);
+       // var_dump($petList);
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
     public function ShowUploadVideo($PETID) {
@@ -89,11 +89,12 @@ public $petDAO;
 
         public function UploadVideo($MAX_FILE_SIZE,$IDPET){
             require_once(VIEWS_PATH . "validate-session.php");
-            $pet = $this->petDAO->GetById($IDPET);
+            //$pet = $this->petDAO->GetById_User($IDPET);
             //var_dump($_FILES);
          if( isset($_FILES['video'])){
             $fileType = $_FILES['video']['type'];
-            if(!((strpos($fileType, "mp4")))){
+            var_dump($fileType);
+            if(!((strpos($fileType, "video/mp4")))){
          if( $_FILES['video']['error'] == 0){
             $dir = IMG_PATH;
             //var_dump(IMG_PATH);
@@ -102,7 +103,7 @@ public $petDAO;
             $newFile = $dir . $filename;
             if( move_uploaded_file($_FILES['video']['tmp_name'], $newFile) ){
                 //echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';
-                $petDAO->UploadVideo($filename,$IDPET);
+                $this->petDAO->UploadVideo($filename,$IDPET);
                 $this->ShowPerfilView($_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>');
             }else{
                $this->ShowPerfilView("failed to move file error");
