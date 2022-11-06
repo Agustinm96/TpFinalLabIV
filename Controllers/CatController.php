@@ -18,7 +18,6 @@ public function __construct()
         $this->catDAO = new CatDAO();
         $this->petDAO = new PetDAO();
         $this->petController = new PetController();
-
     }
 
     public function ShowListView(){ //SOLO MUESTRA GATOS
