@@ -22,7 +22,7 @@ class PetDAO{
         $this->connection = new Connection();
     }
 
-    public function Add($namePet,$birthDate,$observation,$id_PetType,$id_User)
+    public function Add($namePet,$birthDate,$observation,$id_PetType,$id_user)
     {
         try
         {
@@ -33,7 +33,7 @@ class PetDAO{
             $parameters["birthDate"] = $birthDate;
             $parameters["observation"] = $observation;
             $parameters["id_PetType"] = $id_PetType; //DEBERIA PASAR SOLO ID;
-            $parameters["id_user"] = $id_User; //DEBERIA PASAR SOLO ID;
+            $parameters["id_user"] = $id_user; //DEBERIA PASAR SOLO ID;
            
             $this->connection = Connection::GetInstance();
 
@@ -46,10 +46,42 @@ class PetDAO{
             throw $ex;
         }
     }
+
+    public function uploadVideo($filename,$id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET video=$filename
+            WHERE $var.id_Pet=$id_Pet";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
+}
+
+public function uploadPicture($filename,$id_Pet){
+    $var = $this->tableName;
+    try
+    {
+        $query = "UPDATE $var SET picture=$filename
+        WHERE $var.id_Pet=$id_Pet";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
+    }
+    catch(Exception $ex)
+    {
+        throw $ex;
+    }
+
+}
     
     public function GetById_User($id_user){
-
-       $query = "SELECT * FROM pet WHERE $id_user=pet.id_User AND pet.isActive = 1";
+    var_dump($id_user);
+       $query = "SELECT * FROM pet WHERE $id_user=pet.id_user AND pet.isActive = 1";
        try{
         $this->connection = Connection::getInstance();
         $contentArray = $this->connection->Execute($query);
@@ -184,6 +216,14 @@ class PetDAO{
         }else{
             return "ERROR";
         }
+    }
+
+    function validateDate($birthDate)
+    {
+        $birthDateAux= new DateTime($birthDate);
+        $now = new DateTime(date("Y-m-d"));
+        $dif = $now->diff($birthDate);
+        return $dif->format("%m");
     }
 
 }

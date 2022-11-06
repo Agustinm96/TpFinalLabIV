@@ -1,8 +1,6 @@
 <?php
 namespace Controllers;
 
-
-
 use Models\Pet as Pet;
 use Models\PetType as PetType;
 use DAO\PetDAO as PetDAO;
@@ -19,6 +17,7 @@ public $petDAO;
  public function ShowPerfilView($message = ""){
         require_once(VIEWS_PATH . "validate-session.php");
         $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
+        var_dump($petList);
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
     public function ShowUploadVideo($PETID) {
@@ -49,42 +48,37 @@ public $petDAO;
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
-    public function UploadPicture($MAX_FILE_SIZE,$IDPET){
+    public function UploadVaccination($MAX_FILE_SIZE,$IDPET){
         require_once(VIEWS_PATH . "validate-session.php");
-        $pet = $this->petDAO->GetById($IDPET);
-       // var_dump($_FILES);
-       /* if($_FILES['pic']['type']=="image/png" || $_FILES['pic']['type']=="image/jpg"){*/
-    if( isset($_FILES['pic'])){
+        //var_dump($_FILES);
+  if( isset($_FILES['pic'])){
+    $fileType = $_FILES['pic']['type'];
+   if(!((strpos($fileType, "gif") || strpos($fileType, "jpeg")|| strpos($fileType, "jpg")|| strpos($fileType, "png")))){
+  
     if( $_FILES['pic']['error'] == 0){
         $dir = IMG_PATH;
         //var_dump(IMG_PATH);
-        //$filename = $pet->getName(). $IDPET.".jpg";
-       $filename = $_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
+        //$filename = "VAC".$pet->getName(). $IDPET . ".jpg";
+       $filename = "VAC".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
+       //var_dump($filename);
         $newFile = $dir . $filename;
         if( move_uploaded_file($_FILES['pic']['tmp_name'], $newFile) ){
-            //echo $_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>';
-            $pet->SetPicture($filename);
-            $this->petDAO->Remove($IDPET);
-            $petList = $this->petDAO->GetAll();
-            array_push($petList,$pet);
-            $this->petDAO->SaveData($petList);
+            $this->petDAO->uploadPicture($filename,$IDPET);
+            //$this->catDAO->uploadVaccinationPlan($filename,$IDPET);
             $this->ShowPerfilView($_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>');
-        
         }else{
-            $this->ShowPerfilView("failed to move file error");
-        }
+           $this->ShowPerfilView("failed to move file error");
+        }   
     }else{
-        $this->ShowPerfilView("failed to move file error");
-    }   
-}else{
-    $this->ShowPerfilView("File NOT EXIST");
-}
-        $this->ShowPerfilView("failed to move file error"); //Modificar por user perfil
-        /*}else{
-            echo ("FORMATO NO ACEPTADO");
-            require_once(VIEWS_PATH . "perfil-petlist.php");
-        }*/
+      $this->ShowPerfilView("failed to move file error");
     }
+  }else{
+    $this->ShowPerfilView("Error formato no aceptado. Formatos aceptados:jpg,jpeg,gif,png");
+  }
+  }else{
+    $this->ShowPerfilView("failed to move file error");
+  }
+  }
 
         public function Remove($ID)
         {
@@ -98,6 +92,8 @@ public $petDAO;
             $pet = $this->petDAO->GetById($IDPET);
             //var_dump($_FILES);
          if( isset($_FILES['video'])){
+            $fileType = $_FILES['video']['type'];
+            if(!((strpos($fileType, "mp4")))){
          if( $_FILES['video']['error'] == 0){
             $dir = IMG_PATH;
             //var_dump(IMG_PATH);
@@ -106,28 +102,22 @@ public $petDAO;
             $newFile = $dir . $filename;
             if( move_uploaded_file($_FILES['video']['tmp_name'], $newFile) ){
                 //echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';
-                $pet->setVideoPet($filename);
-                $this->petDAO->Remove($IDPET);
-                $petList = $this->petDAO->GetAll();
-                array_push($petList,$pet);
-                $this->petDAO->SaveData($petList);
+                $petDAO->UploadVideo($filename,$IDPET);
                 $this->ShowPerfilView($_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>');
             }else{
                $this->ShowPerfilView("failed to move file error");
             }
-            
-            
         }else{
             $this->ShowPerfilView("error to user - file error");
         }
-        
+    }else{
+        $this->ShowPerfilView("Formato no disponible, solo se aceptan MP4");
+    }
     }else{
         $this->ShowPerfilView("failed to move file error");
-    }
-           $this->ShowPerfilView("failed to move file error");
-    
+    }    
         }
-    
+
 }
 
 
