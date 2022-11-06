@@ -18,6 +18,7 @@
         private $userDAO;
         private $petController;
         private $availabilityController;
+        private $reserveRequestController;
         
         
 
@@ -26,6 +27,7 @@
             $this->userDAO = new UserDAO();
             $this->petController = new PetController();
             $this->availabilityController = new AvailabilityController();
+            $this->reserveRequestController = new ReserveRequestController();
         }
 
         public function ShowHomeView($message = ""){
@@ -195,14 +197,7 @@
                 }
             }
             $keeper->setArrayDays($arrayDays);
-
-            $array = array();
-            if(!empty($petSizeToKeep)){
-                foreach($petSizeToKeep as $selected){
-                    array_push($array,$selected);
-                }
-            }
-            $keeper->setPetSizeToKeep($array);
+            $keeper->setPetSizeToKeep($petSizeToKeep);
             $keeper->setPriceToKeep($priceToKeep);
             $keeper->setPetsAmount($petsAmount);
 
@@ -210,34 +205,22 @@
         }
 
         public function loadPendingReservesList($keeper){
-            $availabilityArray = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeper->getIdKeeper());
             $arrayToReturn = array();
-
-            foreach($availabilityArray as $availability){
-                if($availability->getReserveRequest()){
-                    $petList = $availability->getPetList();
-                    $arrayPets = array();
-
-                    foreach($petList as $pet){
-                        $petAux = $this->petController->petDAO->GetById($pet);
-                        if($petAux->getPetType()->getPetTypeId()==0){  
-                            $dog = new Dog();
-                            $dog = $this->petController->petDAO->GetById($petAux->getIDPET());
-                            array_push($arrayPets, $dog);
-                        }else if($petAux->getPetType()->getPetTypeId()==1){
-                            $cat = new Cat();
-                            $cat = $this->petController->petDAO->GetById($petAux->getIDPET());
-                            array_push($arrayPets, $cat);
-                        }
-                    }
-                    foreach($arrayPets as $pet){
-                        $reserve["availabilityId"] = $availability->getId();
-                        $reserve["date"] = $availability->getDate();
-                        $reserve["pet"] = $pet;
-                        array_push($arrayToReturn, $reserve);
-                    }
+            $reserveRequestList = $this->reserveRequestController->reserveRequestDAO->GetAll();
+            
+            foreach($reserveRequestList as $reserve){
+                $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailabilityId());
+                
+                if($availabilityAux->getIdKeeper() == $keeper->getIdKeeper()){
+                    $petAux = $this->petController->petDAO->GetById($reserve->getPetId());
+                        $reserveToReturn["availabilityId"] = $availabilityAux->getId();
+                        $reserveToReturn["reserveId"] = $reserve->getId();
+                        $reserveToReturn["date"] = $availabilityAux->getDate();
+                        $reserveToReturn["pet"] = $petAux;
+                        array_push($arrayToReturn, $reserveToReturn);
                 }
             }
+
             return $arrayToReturn;
         }
 
@@ -256,14 +239,10 @@
 
         public function checkingRequests($keeper){
             $boolean = false;
-            $availabilityArray = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeper->getIdKeeper());
-            if($availabilityArray){
-                foreach($availabilityArray as $availability){
-                    $booleanAux = $availability->getReserveRequest();
-                    if($booleanAux){
-                        $boolean = true;
-                    }
-                }
+            $reserveRequestList = $this->reserveRequestController->reserveRequestDAO->GetAll();
+
+            if($reserveRequestList){
+                $boolean = true;
             }
             return $boolean;
         }

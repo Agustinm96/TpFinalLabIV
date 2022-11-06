@@ -110,7 +110,7 @@
                 $value["priceToKeep"] = $keeper->getPriceToKeep();
                 $value["initDate"] = $keeper->getStartingDate();
                 $value["lastDate"] = $keeper->getLastDate();
-                $value["daysToWork"] = $keeper->getArrayDays();
+                //$value["daysToWork"] = $keeper->getArrayDays();
                 $value["petsAmount"] = $keeper->getPetsAmount();
                 array_push($arrayEncode, $value);
                 }
@@ -138,7 +138,7 @@
                     $keeper->setPriceToKeep($value["priceToKeep"]);
                     $keeper->setStartingDate($value["initDate"]);
                     $keeper->setLastDate($value["lastDate"]);
-                    $keeper->setArrayDays($value["daysToWork"]);
+                    //$keeper->setArrayDays($value["daysToWork"]);
                     $keeper->setPetsAmount($value["petsAmount"]);
 
                     array_push($this->keepersList, $keeper);

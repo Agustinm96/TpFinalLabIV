@@ -28,10 +28,7 @@
                             }
                 ?></select>
                 </td>
-                <td><?php $arraySize =  $keeper->getPetSizeToKeep();
-                                    foreach ($arraySize as $sizeValue) {
-                                        echo ucfirst($sizeValue) . "<br>";
-                                    } ?></td>
+                <td><?php echo $keeper->getPetSizeToKeep() ?></td>
                 <td>
                     <?php
                     if($petList){

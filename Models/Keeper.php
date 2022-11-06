@@ -9,7 +9,8 @@ class Keeper{
     private $user;
     private $idKeeper;
     private $adress;
-    private $petSizeToKeep = array(); //small, medium or big
+    private $petSizeToKeep;
+    //private $petSizeToKeep = array(); //small, medium or big
     private $priceToKeep;
     private $startingDate; 
     private $lastDate;

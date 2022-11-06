@@ -25,7 +25,6 @@ use Models\Keeper;
                             <th style="width: 400px;">Phone Number</th>
                             <th style="width: 110px;">Adress</th>
                             <th style="width: 100px;">Pet Size that i can handle :)</th>
-                            <th style="width: 100px;">Working days</th>
                             <th style="width: 100px;">Since</th>
                             <th style="width: 100px;">To</th>
                             <th style="width: 110px;">Price</th>
@@ -41,14 +40,7 @@ use Models\Keeper;
                                 <td><?php echo $keeper->getUser()->getPhoneNumber() ?></td>
 
                                 <td><?php echo $keeper->getAdress() ?></td>
-                                <td><?php $array =  $keeper->getPetSizeToKeep();
-                                    foreach ($array as $sizeValue) {
-                                        echo ucfirst($sizeValue) . "<br>";
-                                    } ?></td>
-                                <td><?php $arrayDays = $keeper->getArrayDays();
-                                    foreach ($arrayDays as $day) {
-                                        echo $day . '<br>';
-                                    } ?>
+                                <td><?php  echo $keeper->getPetSizeToKeep() ?></td>
                                 <td><?php echo $keeper->getStartingDate() ?></td>
                                 <td><?php echo $keeper->getLastDate() ?></td>
                                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>

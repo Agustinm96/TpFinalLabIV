@@ -3,15 +3,5 @@
         "id": 1,
         "availabilityId": 1,
         "idPet": 1
-    },
-    {
-        "id": 2,
-        "availabilityId": 3,
-        "idPet": 3
-    },
-    {
-        "id": 3,
-        "availabilityId": 13,
-        "idPet": 3
     }
 ]

@@ -34,7 +34,7 @@
                 <option value="Saturday">Saturday</option>
                 <option value="Sunday">Sunday</option>
                 </select></td>
-                <td><select name="size[]" id="petSizeToKeep" multiple required>
+                <td><select name="size" id="petSizeToKeep" required>
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="big">Big</option>

@@ -36,10 +36,10 @@
         "id": 6,
         "userTypeId": "2",
         "firstName": "Agustin",
-        "lastName": "\u00c1lvarez",
+        "lastName": "Alvarez",
         "dni": "39169663",
         "email": "agustinmalvarezok@gmail.com",
-        "phoneNumber": "(223) 549-1488",
+        "phoneNumber": "+542234467738",
         "username": "agus_alvarez",
         "password": "1234"
     },
@@ -48,21 +48,10 @@
         "userTypeId": "2",
         "firstName": "Liam",
         "lastName": "Alvarez",
-        "dni": "45564156",
+        "dni": "5165133",
         "email": "liam@gmail.com",
-        "phoneNumber": "+542234467738",
+        "phoneNumber": "(223) 549-1488",
         "username": "liam",
-        "password": "1234"
-    },
-    {
-        "id": 8,
-        "userTypeId": "2",
-        "firstName": "Roberto",
-        "lastName": "Lucero",
-        "dni": "386161468",
-        "email": "rb@gmail.com",
-        "phoneNumber": "151653",
-        "username": "rober",
         "password": "1234"
     }
 ]

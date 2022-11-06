@@ -69,8 +69,6 @@ class AvailabilityController{
                     $availability->setIdKeeper($keeper->getIdKeeper());
                     $availability->setDate($startingDay);
                     $availability->setAvailable(true);
-                    $availability->setReserveRequest(false);
-                    $availability->setPetList(array());
                     array_push($datesArray, $availability);
                 }
             } 

@@ -12,12 +12,14 @@ class ReserveController{
     private $availabilityController;
     private $keeperController;
     private $petController;
+    private $reserveRequestController;
 
     public function __construct() {
         $this->reserveDAO = new ReserveDAO();
         $this->availabilityController = new AvailabilityController();
         $this->keeperController = new KeeperController();
         $this->petController = new PetController();
+        $this->reserveRequestController = new ReserveRequestController();
     }
 
     public function ShowReserveView(){
@@ -126,7 +128,7 @@ class ReserveController{
                     $petFromReserveToConfirm = $this->petController->petDAO->GetById($reserve->getPetId()); //recibo la pet que quiero aceptar reserva
                     $petAlreadyReserved = $this->petController->petDAO->GetById($doneReserves->getPetId());
 
-                    if($petFromReserveToConfirm->getPetType()->getPetTypeName() != $petAlreadyReserved->getPetType()->getPetTypeName()){
+                    if($petFromReserveToConfirm->getPetType()->getPetTypeId() != $petAlreadyReserved->getPetType()->getPetTypeId()){
                         $boolean = false;
                     }
                 }
@@ -134,40 +136,28 @@ class ReserveController{
             return $boolean;
         }
 
-        public function modifyingReserve($date, $userName, $petName, $petType, $petId, $availabilityId, $value){
-
+        public function modifyingReserve($date, $userName, $petName, $petType, $petId, $availabilityId, $reserveId, $value){
+            
             $keeper = $this->keeperController->keeperDAO->GetByIdUser($_SESSION["loggedUser"]->getId());
             $availability = $this->availabilityController->availabilityDAO->GetById($availabilityId);
             $petAux = $this->petController->petDAO->GetById($petId);
             
             if($value==1){
-                $this->confirmingReserve($keeper, $availability, $petAux);
+                $this->confirmingReserve($keeper, $availability, $petAux, $reserveId);
             }elseif($value==2){
-                $availability = $this->cancelingReserve($keeper, $availability, $petAux);
-                $this->availabilityController->availabilityDAO->Modify($availability);
-                $message = 'Reserve updated!';
-                $this->keeperController->ShowHomeView($message);
+                $this->cancelingReserve($keeper, $availability, $petAux, $reserveId);
             }
         }
 
-        public function cancelingReserve($keeper, $availability, $pet){
-            
-            $arrayPet = $availability->getPetList();
-            
-            $posToDeletePet = array_search($pet->getIDPET(), $arrayPet);
-            unset($arrayPet[$posToDeletePet]);
-                
-            $availability->setPetList($arrayPet);
+        public function cancelingReserve($keeper, $availability, $pet, $reserveId){
 
-            if(!$availability->getPetList()){
-                $availability->setReserveRequest(false);
-            }
-            
-            return $availability;
+            $this->reserveRequestController->reserveRequestDAO->Remove($reserveId);
+            $message = 'Reserve succesfully rejected!';
+            $this->keeperController->ShowPendingReserves($message);
         }
 
 
-        public function confirmingReserve($keeper, $availability, $pet){
+        public function confirmingReserve($keeper, $availability, $pet, $reserveId){
 
             $reserve = new Reserve();
             $reserve->setAvailabilityId($availability->getId());
@@ -179,16 +169,9 @@ class ReserveController{
            
 
             if($boolean && $boolean2 && $boolean3){
-    
-                $arrayPet = $availability->getPetList();
 
-                $posToDeletePet = array_search($pet->getIDPET(), $arrayPet);
-                unset($arrayPet[$posToDeletePet]);
-                $availability->setPetList($arrayPet);
+                $this->reserveRequestController->reserveRequestDAO->Remove($reserveId); //elimino de la reserve request list esa peticion de reserva
                 
-                if(!$availability->getPetList()){
-                    $availability->setReserveRequest(false);
-                }
                 $booleanAux = $this->checkingReservesAmount($keeper, $availability->getId());
                 if(!$booleanAux){
                     $availability->setAvailable(false);
@@ -198,7 +181,7 @@ class ReserveController{
                 $this->keeperController->keeperDAO->Modify($keeper);
                 $this->availabilityController->availabilityDAO->Modify($availability);
                 $message = "DONE! Accepted reserve";
-                $this->keeperController->ShowHomeView($message);
+                $this->keeperController->ShowPendingReserves($message);
             }else{
                 if(!$boolean){
                     $message = "ERROR: You've already accepted this pet on that date.";

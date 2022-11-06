@@ -29,6 +29,7 @@
                                 <td align='center'><input type="text" name="petType" value="<?php echo $reserve["pet"]->getPetType()->getPetTypeName() ?>" readonly></td>
                                 <input type="hidden" name="petId" id="petId" value="<?php echo $reserve["pet"]->getIDPET()?>">
                                 <input type="hidden" name="availabilityId" id="availabilityId" value="<?php echo $reserve["availabilityId"]?>">
+                                <input type="hidden" name="reserveId" id="reserveId" value="<?php echo $reserve["reserveId"]?>">
                                 <td>
                                 <button type="submit" name="id" class="btn" style="margin-right:5px;" value="1">Confirm</button>
                                 <button type="submit" name="id" class="btn" style="margin-left:5px;" value="2">Cancel</button>

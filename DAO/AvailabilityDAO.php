@@ -55,9 +55,6 @@ class AvailabilityDAO{
             $value["id"] = $availability->getId();
             $value["date"] = $availability->getDate();
             $value["available"] = $availability->getAvailable();
-            $value["reserveRequest"] = $availability->getReserveRequest();
-            $value["petList"] = $availability->getPetList();
-                
             array_push($arrayEncode, $value);
             }
             
@@ -79,8 +76,6 @@ class AvailabilityDAO{
                 $availability->setId($value["id"]);
                 $availability->setDate($value["date"]);
                 $availability->setAvailable($value["available"]);
-                $availability->setReserveRequest($value["reserveRequest"]);
-                $availability->setPetList($value["petList"]);
                 array_push($this->availabilityList, $availability);
             }
                 
