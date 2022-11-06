@@ -29,7 +29,7 @@ public function __construct()
 
     public function ShowPerfilView($message = ""){
       require_once(VIEWS_PATH . "validate-session.php");
-      $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());;
+      $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 

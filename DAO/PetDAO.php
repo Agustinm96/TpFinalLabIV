@@ -22,18 +22,18 @@ class PetDAO{
         $this->connection = new Connection();
     }
 
-    public function Add($namePet,$birthDate,$observation,$id_PetType,$id_User)
+    public function Add($namePet,$birthDate,$observation,$id_PetType,$id_user)
     {
         try
         {
-            $query = "INSERT INTO ".$this->tableName." (namePet, birthDate, observation,id_PetType,id_User)
-             VALUES (:namePet, :birthDate, :observation, :id_PetType, :id_User);";
+            $query = "INSERT INTO ".$this->tableName." (namePet, birthDate, observation,id_PetType,id_user)
+             VALUES (:namePet, :birthDate, :observation, :id_PetType, :id_user);";
             
             $parameters["namePet"] = $namePet;
             $parameters["birthDate"] = $birthDate;
             $parameters["observation"] = $observation;
             $parameters["id_PetType"] = $id_PetType; //DEBERIA PASAR SOLO ID;
-            $parameters["id_User"] = $id_User; //DEBERIA PASAR SOLO ID;
+            $parameters["id_user"] = $id_user; //DEBERIA PASAR SOLO ID;
            
             $this->connection = Connection::GetInstance();
 
@@ -79,9 +79,9 @@ public function uploadPicture($filename,$id_Pet){
 
 }
     
-    public function GetById_User($id){
-    var_dump($id);
-       $query = "SELECT * FROM pet WHERE $id=pet.id_User AND pet.isActive = 1";
+    public function GetById_User($id_user){
+    var_dump($id_user);
+       $query = "SELECT * FROM pet WHERE $id_user=pet.id_user AND pet.isActive = 1";
        try{
         $this->connection = Connection::getInstance();
         $contentArray = $this->connection->Execute($query);
@@ -159,7 +159,7 @@ public function uploadPicture($filename,$id_Pet){
         $petType = new PetType();
         $petType->setPetTypeId($content["id_PetType"]);
         $user = new User();
-        $user->setId($content["id_User"]);
+        $user->setId($content["id_user"]);
         // var_dump($content["petType"]); 
         // var_dump($petType);
         $dog->setIsActive($content["isActive"]);
@@ -196,7 +196,7 @@ public function uploadPicture($filename,$id_Pet){
         $petType = new PetType();
         $petType->setPetTypeId($content["id_PetType"]);
         $user = new User();
-        $user->setId($content["id_User"]);
+        $user->setId($content["id_user"]);
         // var_dump($content["petType"]); 
         // var_dump($petType);
         $cat->setIsActive($content["isActive"]);
