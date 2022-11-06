@@ -86,7 +86,7 @@
             }        	    	
         }
         
-        private function Prepare($query)
+        public function Prepare($query)
         {
             try
             {

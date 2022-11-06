@@ -50,7 +50,7 @@ class DogDAO{
         $var = $this->tableName;
         try
         {
-            $query = "UPDATE $var SET VaccinationPlan=$filename
+            $query = "UPDATE $var SET VaccinationPlan='$filename'
             WHERE $var.id_Pet=$id_Pet";
             $this->connection = Connection::GetInstance();
             $this->connection->execute($query);

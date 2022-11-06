@@ -4,7 +4,11 @@ include_once('nav-bar.php');
 require_once('validate-session.php');
 
 ?>
-
+<?php
+if (isset($message)) {
+  echo $message;
+}
+?>
 <div id="breadcrumb" class="hoc clear"> 
     <h6 class="heading">New DOG Register</h6>
   </div>
