@@ -45,16 +45,16 @@ use Models\Keeper;
                                     foreach ($array as $sizeValue) {
                                         echo ucfirst($sizeValue) . "<br>";
                                     } ?></td>
-                                <td><?php $arrayDays = $keeper->getReserve()->getArrayDays();
+                                <td><?php $arrayDays = $keeper->getArrayDays();
                                     foreach ($arrayDays as $day) {
                                         echo $day . '<br>';
                                     } ?>
-                                <td><?php echo $keeper->getReserve()->getStartingDate() ?></td>
-                                <td><?php echo $keeper->getReserve()->getLastDate() ?></td>
+                                <td><?php echo $keeper->getStartingDate() ?></td>
+                                <td><?php echo $keeper->getLastDate() ?></td>
                                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>
                                 <?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 3) { ?>
                                     <td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Remove</button></td> <?php } else if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
-                                                                                                                                                            ?><td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getUser()->getId() ?>">Request Reservation</button></td>
+                                                                                                                                                            ?><td><button type="submit" name="id" class="btn" value="<?php echo $keeper->getIdKeeper() ?>">Request Reservation</button></td>
                             </tr><?php
                                                                                                                                                         }
                                                                                                                                                     } ?>

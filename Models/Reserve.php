@@ -1,45 +1,40 @@
 <?php
 
-
 namespace Models;
 
+use Models\Availability;
+use Models\Pet;
+
 class Reserve{
-    private $startingDate;
-    private $lastDate;
-    private $arrayDays = array();
+    private $id;
+    private $availabilityId;
+    private $petId;
 
-    public function getStartingDate(){
-        return $this->startingDate;
+    public function getId(){
+        return $this->id;
     }
 
-    public function setStartingDate($startingDate){
-        $this->startingDate= $startingDate;
+    public function setId($id){
+        $this->id = $id;
     }
 
-    public function getLastDate(){
-        return $this->lastDate;
+    public function getAvailabilityId(){
+        return $this->availabilityId;
     }
 
-    public function setLastDate($lastDate){
-        $this->lastDate= $lastDate;
+    public function setAvailabilityId($availabilityId){
+        $this->availabilityId = $availabilityId;
     }
 
-    public function getArrayDays(){
-        return $this->arrayDays;
+    public function setPetId($petId){
+        $this->petId = $petId;
     }
 
-    public function setArrayDays($arrayDays){
-        $this->arrayDays= $arrayDays;
+    public function getPetId(){
+        return $this->petId;
     }
-
-    public function getIsAvailable(){
-        return $this->isAvailable;
-    }
-
-    public function setIsAvailable($isAvailable){
-        $this->isAvailable = $isAvailable;
-    }
-
+    
 }
+
 
 ?>

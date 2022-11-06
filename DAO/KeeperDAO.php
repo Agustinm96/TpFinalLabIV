@@ -6,12 +6,18 @@
     use Models\User;
     use Models\Dog;
     use Models\Cat;
-    use Models\Reserve;
     use Models\Availability;
 
     class KeeperDAO implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
         private $keepersList = array();
+        private $availabilityDAO;
+        
+
+        public function __construct(){
+            $this->availabilityDAO = new AvailabilityDAO();
+            
+        }
 
         public function Add($keeper) {
             $this->RetrieveData();
@@ -62,24 +68,34 @@
             return (count($aux) > 0) ? $aux[0] : null;
         }
 
-        public function getAvailableKeepersByDates($initDate, $lastDate){
-            $keepersList = $this->GetAll();
+        function GetByUserName($userName){
+            $this->RetrieveData();
+    
+            $aux = array_filter($this->keepersList, function($keeper) use($userName){
+                return $keeper->getUser()->getUserName() == $userName;
+            });
+    
+            $aux = array_values($aux); //Reorderding array
+    
+            return (count($aux) > 0) ? $aux[0] : null;
+    
+        }
+
+        public function getAvailableKeepersByDates($availabilityList, $initDate, $lastDate){
             $avaiableKeepersList=array();
 
             while($initDate <= $lastDate){
-                foreach($keepersList as $keeper){
-                    $arrayDates = $keeper->getAvailabilityArray();
-                    foreach($arrayDates as $date){
-                        if($date->getDate() === $initDate){
-                                array_push($avaiableKeepersList, $keeper); 
+                foreach($availabilityList as $availability){
+                        if($availability->getDate() === $initDate){
+                            $keeper = $this->GetById($availability->getIdKeeper());
+                            array_push($avaiableKeepersList, $keeper); 
                             }
                         }
+                    $initDate = date('Y-m-d', strtotime($initDate)+86400); 
                     }
-                $initDate = date('Y-m-d', strtotime($initDate)+86400);
-            }
-            
+                    
             $arrFinal = array_unique($avaiableKeepersList,SORT_REGULAR);
-            
+    
             return $arrFinal;
         }
 
@@ -92,64 +108,10 @@
                 $value["adress"] = $keeper->getAdress();
                 $value["petSizeToKeep"] = $keeper->getPetSizeToKeep();
                 $value["priceToKeep"] = $keeper->getPriceToKeep();
-                $value["initDate"] = $keeper->getReserve()->getStartingDate();
-                $value["lastDate"] = $keeper->getReserve()->getLastDate();
-                $value["daysToWork"] = $keeper->getReserve()->getArrayDays();
-
-                $array = array();
-                $availabilityArray = $keeper->getavailabilityArray();
-                
-                foreach((array)$availabilityArray as $availability){
-                    
-                    $arrayPetName = array();
-                    $arrayNames = array();
-                    $finalCustomersArray = array();
-                    $values["date"] = $availability->getDate();
-                    $values["available"] = $availability->getAvailable();
-                    $values["reserveRequest"] = $availability->getReserveRequest();
-
-                    $arrayUserName = $availability->getUserName();
-            
-                    if($arrayUserName){
-                        foreach((array)$arrayUserName as $name){
-                        $stringName = $name;
-                        array_push($arrayNames, $stringName);
-                        }
-                    }
-                    
-                    $values["userName"] = $arrayNames;
-
-                    $petArray = $availability->getPetList();
-                    
-                    if($petArray){
-                        foreach($petArray as $pet){  
-                        if(is_string($pet)){
-                            array_push($arrayPetName, $pet);
-                        }elseif(($pet instanceof Dog) || ($pet instanceof Cat)){
-                            $petName = $pet->getName(). " - ";
-                            $petName .= $pet->getPetType()->getPetTypeName(); //concateno el nombre y el tipo
-                            array_push($arrayPetName, $petName);
-                            }
-                        }
-                    }
-                    $values["petName"] = $arrayPetName;
-
-                    $customersArray = $availability->getFinalCustomers();
-                    if($customersArray){
-                        foreach($customersArray as $finalCustomers){
-                            $finalValue["userName"] = $finalCustomers["userName"];
-                            $finalValue["petNameType"] = $finalCustomers["petNameType"];
-                            array_push($finalCustomersArray, $finalValue);
-                        }
-                    }
-
-                    $values["finalCustomers"] = $finalCustomersArray;
-
-                    array_push($array, $values);
-                    }
-                $value["availabilityArray"] = $array;
+                $value["initDate"] = $keeper->getStartingDate();
+                $value["lastDate"] = $keeper->getLastDate();
+                $value["daysToWork"] = $keeper->getArrayDays();
                 $value["petsAmount"] = $keeper->getPetsAmount();
-
                 array_push($arrayEncode, $value);
                 }
 
@@ -174,26 +136,9 @@
                     $keeper->setAdress($value["adress"]);
                     $keeper->setPetSizeToKeep($value["petSizeToKeep"]);
                     $keeper->setPriceToKeep($value["priceToKeep"]);
-                    $reserve = new Reserve();
-                    $reserve->setStartingDate($value["initDate"]);
-                    $reserve->setLastDate($value["lastDate"]);
-                    $reserve->setArrayDays($value["daysToWork"]);
-                    $keeper->setReserve($reserve);
-
-                    $array=array();
-                    $availabilityArray=$value["availabilityArray"];
-                    foreach($availabilityArray as $valueD){
-                        $availability = new Availability();
-                        $availability->setDate($valueD['date']);
-                        $availability->setAvailable($valueD['available']);
-                        $availability->setReserveRequest($valueD['reserveRequest']);
-                        $availability->setUserName($valueD['userName']);
-                        $availability->setPetList($valueD['petName']);
-                        $availability->setFinalCustomers($valueD['finalCustomers']);
-                        array_push($array, $availability);
-                    }
-                    
-                    $keeper->setavailabilityArray($array);
+                    $keeper->setStartingDate($value["initDate"]);
+                    $keeper->setLastDate($value["lastDate"]);
+                    $keeper->setArrayDays($value["daysToWork"]);
                     $keeper->setPetsAmount($value["petsAmount"]);
 
                     array_push($this->keepersList, $keeper);
