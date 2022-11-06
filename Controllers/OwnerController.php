@@ -43,27 +43,13 @@ class OwnerController
     public function ShowAddView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "owner-home.php");
+        require_once(VIEWS_PATH . "home.php");
     }
 
     public function ShowListView()
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $ownersList = $this->ownerDAO->GetAll();
-        $usersList = $this->userDAO->GetAll();
-
-        foreach ($ownersList as $owner) {
-            $userId = $owner->getUser()->getId();
-            $users = array_filter($usersList, function ($user) use ($userId) {
-                return $user->getId() == $userId;
-            });
-
-            $users = array_values($users); //Reordering array
-
-            $user = (count($users) > 0) ? $users[0] : new User();
-
-            $owner->setUser($user);
-        }
 
         require_once(VIEWS_PATH . "owners-list.php");
     }
@@ -100,7 +86,7 @@ class OwnerController
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $user = new User();
-        $user->setId($_SESSION["loggedUser"]->getId());
+        $user=($_SESSION["loggedUser"]);
 
         $owner = new Owner();
         $owner->setUser($user);

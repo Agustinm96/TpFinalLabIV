@@ -5,6 +5,8 @@ class Dog extends Pet {
 private $size;
 private $vaccinationPlan; /// Picture Format
 private $race;
+private $id_Dog;
+private $id_Pet;
 
 /**
  * Get the value of size
@@ -62,6 +64,46 @@ return $this->race;
 public function setRace($race)
 {
 $this->race = $race;
+
+return $this;
+}
+
+/**
+ * Get the value of id_Dog
+ */ 
+public function getId_Dog()
+{
+return $this->id_Dog;
+}
+
+/**
+ * Set the value of id_Dog
+ *
+ * @return  self
+ */ 
+public function setId_Dog($id_Dog)
+{
+$this->id_Dog = $id_Dog;
+
+return $this;
+}
+
+/**
+ * Get the value of id_Pet
+ */ 
+public function getId_Pet()
+{
+return $this->id_Pet;
+}
+
+/**
+ * Set the value of id_Pet
+ *
+ * @return  self
+ */ 
+public function setId_Pet($id_Pet)
+{
+$this->id_Pet = $id_Pet;
 
 return $this;
 }

@@ -4,15 +4,15 @@ namespace Models;
 use Models\PetType as PetType;
 
 abstract Class Pet{
-private PetType $petType;  // enum de mascota (gato perro cobayo tortuga etc.)
+private PetType $petType;  //  $id_PetType;
 private $name;
 private $birthDate;
 private $picture; /// VER COMO GUARDAR FOTO
 private $observation;
-private $IDPET;
+private $id_Pet;
 private $videoPet;
-private $userName;
-
+private User $id_User;
+private $isActive;
 
 /**
  * Get the value of name
@@ -94,25 +94,6 @@ $this->observation = $observation;
 return $this;
 }
 
-/**
- * Get the value of IDPET
- */ 
-public function getIDPET()
-{
-return $this->IDPET;
-}
-
-/**
- * Set the value of IDPET
- *
- * @return  self
- */ 
-public function setIDPET($IDPET)
-{
-$this->IDPET = $IDPET;
-
-return $this;
-}
 
 /**
  * Get the value of petType
@@ -154,22 +135,63 @@ $this->videoPet = $videoPet;
 return $this;
 }
 
+
 /**
- * Get the value of userName
+ * Get the value of id_User
  */ 
-public function getUserName()
+public function getId_User()
 {
-return $this->userName;
+return $this->id_User;
 }
 
 /**
- * Set the value of userName
+ * Set the value of id_User
  *
  * @return  self
  */ 
-public function setUserName($userName)
+public function setId_User($id_User)
 {
-$this->userName = $userName;
+$this->id_User = $id_User;
+
+return $this;
+}
+
+/**
+ * Get the value of id_Pet
+ */ 
+public function getId_Pet()
+{
+return $this->id_Pet;
+}
+
+/**
+ * Set the value of id_Pet
+ *
+ * @return  self
+ */ 
+public function setId_Pet($id_Pet)
+{
+$this->id_Pet = $id_Pet;
+
+return $this;
+}
+
+/**
+ * Get the value of isActive
+ */ 
+public function getIsActive()
+{
+return $this->isActive;
+}
+
+/**
+ * Set the value of isActive
+ *
+ * @return  self
+ */ 
+public function setIsActive($isActive)
+{
+$this->isActive = $isActive;
 
 return $this;
 }
