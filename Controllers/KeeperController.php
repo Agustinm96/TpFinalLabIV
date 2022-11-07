@@ -208,16 +208,18 @@
             }else{
                 if($reserveRequestList){
                     $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailabilityId());
-                    $petAux = $this->petController->petDAO->GetById($reserveRequestList->getPetId());
-                    $reserveToReturn["availabilityId"] = $availabilityAux->getId();
-                    $reserveToReturn["reserveId"] = $reserveRequestList->getId();
-                    $reserveToReturn["date"] = $availabilityAux->getDate();
-                    $reserveToReturn["pet"] = $petAux;
-                    array_push($arrayToReturn, $reserveToReturn);
+                    if($availabilityAux->getIdKeeper() == $keeper->getIdKeeper()){
+                        $petAux = $this->petController->petDAO->GetById($reserveRequestList->getPetId());
+                        $reserveToReturn["availabilityId"] = $availabilityAux->getId();
+                        $reserveToReturn["reserveId"] = $reserveRequestList->getId();
+                        $reserveToReturn["date"] = $availabilityAux->getDate();
+                        $reserveToReturn["pet"] = $petAux;
+                        array_push($arrayToReturn, $reserveToReturn);
+                    }
+                    
                 }
                 
             }
-            
 
             return $arrayToReturn;
         }
@@ -239,9 +241,20 @@
             $boolean = false;
             $reserveRequestList = $this->reserveRequestController->reserveRequestDAO->GetAll();
 
-            if($reserveRequestList){
-                $boolean = true;
-            }
+            if(is_array($reserveRequestList)){
+                foreach($reserveRequestList as $reserve){
+                $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailabilityId());
+
+                if($keeper->getIdKeeper() == $availabilityAux->getIdKeeper()){
+                    $boolean = true;
+                    }
+                }
+            }elseif($reserveRequestList){
+                $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailabilityId());
+                if($keeper->getIdKeeper() == $availabilityAux->getIdKeeper()){
+                    $boolean = true;
+                    }
+                }
             return $boolean;
         }
 
