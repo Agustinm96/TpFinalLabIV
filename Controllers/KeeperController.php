@@ -66,21 +66,7 @@
             
             if($initDate <= $lastDate){
                 $keepersList = $this->keeperDAO->getAvailableKeepersByDates($availabilityList, $initDate, $lastDate);
-                $usersList = $this->userDAO->GetAll();
 
-                foreach($keepersList as $keeper)
-                {
-                    $userId = $keeper->getUser()->getId();
-                    $users = array_filter($usersList, function($user) use($userId){                    
-                        return $user->getId() == $userId;
-                    });
-
-                    $users = array_values($users); //Reordering array
-
-                    $user = (count($users) > 0) ? $users[0] : new User(); 
-
-                    $keeper->setUser($user);
-                }
                 require_once(VIEWS_PATH . "keepers-list.php");
             }else{
                 $message = "ERROR: The dates you selected are invalid! Please select them again";
@@ -111,18 +97,16 @@
             require_once(VIEWS_PATH . "keeper-pendingReserves.php");
         }
 
-        public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep, $petsAmount){
+        public function Add($adress, $initDate, $finishDate, $daysToWork, $petSizeToKeep, $priceToKeep, $petsAmount){ 
             require_once(VIEWS_PATH . "validate-session.php");
             $boolean = $this->checkingDates($initDate, $finishDate, $daysToWork);
             if($boolean){
-                $user = new User();
-                $user->setId($_SESSION["loggedUser"]->getId());
-                
                 $keeper = new Keeper();
-                $keeper->setUser($user);
                 $keeper = $this->loadKeeper($adress, $initDate, $finishDate, $daysToWork,$petSizeToKeep, $priceToKeep, $petsAmount);
 
-                $this->keeperDAO->Add($keeper);
+                $keeper->setIdKeeper($this->keeperDAO->Add($keeper));
+                
+                //$this->keeperDAO->Add($keeper);
                 $this->availabilityController->Add($keeper, $initDate, $finishDate, $daysToWork);
 
                 $message = 'Profile succesfully completed!';
@@ -208,7 +192,8 @@
             $arrayToReturn = array();
             $reserveRequestList = $this->reserveRequestController->reserveRequestDAO->GetAll();
             
-            foreach($reserveRequestList as $reserve){
+            if(is_array($reserveRequestList)){
+                foreach($reserveRequestList as $reserve){
                 $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailabilityId());
                 
                 if($availabilityAux->getIdKeeper() == $keeper->getIdKeeper()){
@@ -218,8 +203,21 @@
                         $reserveToReturn["date"] = $availabilityAux->getDate();
                         $reserveToReturn["pet"] = $petAux;
                         array_push($arrayToReturn, $reserveToReturn);
+                    }
                 }
+            }else{
+                if($reserveRequestList){
+                    $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailabilityId());
+                    $petAux = $this->petController->petDAO->GetById($reserveRequestList->getPetId());
+                    $reserveToReturn["availabilityId"] = $availabilityAux->getId();
+                    $reserveToReturn["reserveId"] = $reserveRequestList->getId();
+                    $reserveToReturn["date"] = $availabilityAux->getDate();
+                    $reserveToReturn["pet"] = $petAux;
+                    array_push($arrayToReturn, $reserveToReturn);
+                }
+                
             }
+            
 
             return $arrayToReturn;
         }

@@ -7,86 +7,130 @@
     use Models\Dog;
     use Models\Cat;
     use Models\Availability;
+    use DAO\UserDAO;
 
     class KeeperDAO implements IKeeperDAO {
-        private $fileName = ROOT . "/Data/keepers.json";
-        private $keepersList = array();
+        private $tableName = "Keeper";
         private $availabilityDAO;
+        private $connection;
+        private $userDAO;
         
 
         public function __construct(){
+            $this->userDAO = new UserDAO();
             $this->availabilityDAO = new AvailabilityDAO();
-            
+            $this->connection = new Connection();
         }
 
-        public function Add($keeper) {
-            $this->RetrieveData();
+        public function Add(Keeper $keeper) {
+            $sql = "INSERT INTO Keeper (id_Keeper, id_user, adress, petSizeToKeep, priceToKeep, startingDate, lastDate, petsAmount) VALUES (:id_Keeper, :id_user, :adress, :petSizeToKeep, :priceToKeep, :startingDate, :lastDate, :petsAmount)";
 
-            $keeper->setIdKeeper($this->GetNextId());
+        //autoincremental Id in db
+        $parameters['id_Keeper'] = 0;
+        $parameters['id_user'] =  $keeper->getUser()->getId();
+        $parameters['adress'] = $keeper->getAdress();
+        $parameters['petSizeToKeep'] = $keeper->getPetSizeToKeep();
+        $parameters['priceToKeep'] = $keeper->getPriceToKeep();
+        $parameters['startingDate'] = $keeper->getStartingDate();
+        $parameters['lastDate'] =  $keeper->getLastDate();
+        $parameters['petsAmount'] =  $keeper->getPetsAmount();
 
-            array_push($this->keepersList, $keeper);
-
-            $this->SaveData();
+        try {
+            $this->connection = Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql, $parameters, true);
+        } catch (\PDOException $ex) {
+            throw $ex;
         }
+    }
 
         public function Remove($idUser) {
-            $this->RetrieveData();
-
-            $this->keepersList = array_filter($this->keepersList, function($keeper) use($idUser) {
-                return $keeper->getUser()->getId() != $idUser;
-            });
-
-            $this->SaveData();
+            $sql="DELETE FROM Keeper WHERE Keeper.id_user=:id_user";
+            $values['id_user'] = $idUser;
+    
+            try{
+                $this->connection= Connection::getInstance();
+                return $this->connection->ExecuteNonQuery($sql,$values);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
         }
 
         public  function GetAll() {
-            $this->RetrieveData();
-            return $this->keepersList;
+            $sql = "SELECT * FROM Keeper";
+    
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sql);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
+        }
+
+        protected function mapear ($value){
+
+            $value = is_array($value) ? $value : [];
+            
+            $resp = array_map(function($p){
+                $user = new User();
+                $user = $this->userDAO->GetById($p['id_user']);
+                $keeper = new Keeper();
+                $keeper->setIdKeeper($p['id_Keeper']);
+                $keeper->setUser($user);
+
+                $keeper->setAdress($p['adress']);
+                $keeper->setPetSizeToKeep($p['petSizeToKeep']);
+                $keeper->setPriceToKeep($p["priceToKeep"]);
+                $keeper->setStartingDate($p["startingDate"]);
+                $keeper->setLastDate($p["lastDate"]);
+                $keeper->setPetsAmount($p["petsAmount"]);
+                
+                return $keeper;
+            }, $value);
+    
+            return count($resp) > 1 ? $resp : $resp['0'];
         }
 
         public function GetById($idKeeper) {
-            $this->RetrieveData();
-
-            $aux = array_filter($this->keepersList, function($keeper) use($idKeeper) {
-                return $keeper->getIdKeeper() == $idKeeper;
-            });
-
-            $aux = array_values($aux);
-
-            return (count($aux) > 0) ? $aux[0] : null;
+            $sqlSelectId = "select * from Keeper where id_Keeper = '".$idKeeper."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+            }
         }
 
         public function GetByIdUser($idUser) {
-            $this->RetrieveData();
-
-            $aux = array_filter($this->keepersList, function($keeper) use($idUser) {
-                return $keeper->getUser()->getId() == $idUser;
-            });
-
-            $aux = array_values($aux);
-
-            return (count($aux) > 0) ? $aux[0] : null;
-        }
-
-        function GetByUserName($userName){
-            $this->RetrieveData();
-    
-            $aux = array_filter($this->keepersList, function($keeper) use($userName){
-                return $keeper->getUser()->getUserName() == $userName;
-            });
-    
-            $aux = array_values($aux); //Reorderding array
-    
-            return (count($aux) > 0) ? $aux[0] : null;
-    
+            $sqlSelectId = "select * from Keeper where id_user = '".$idUser."';";
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sqlSelectId);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
         }
 
         public function getAvailableKeepersByDates($availabilityList, $initDate, $lastDate){
             $avaiableKeepersList=array();
-
+            
             while($initDate <= $lastDate){
                 foreach($availabilityList as $availability){
-                        if($availability->getDate() === $initDate){
+                        if($availability->getDate() === $initDate && $availability->getAvailable()==1){
                             $keeper = $this->GetById($availability->getIdKeeper());
                             array_push($avaiableKeepersList, $keeper); 
                             }
@@ -95,75 +139,11 @@
                     }
                     
             $arrFinal = array_unique($avaiableKeepersList,SORT_REGULAR);
-    
             return $arrFinal;
         }
 
-        private function SaveData() {
-            $arrayEncode = array();
-
-            foreach($this->keepersList as $keeper){
-                $value["idUser"] = $keeper->getUser()->getId();
-                $value["idKeeper"] = $keeper->getIdKeeper();
-                $value["adress"] = $keeper->getAdress();
-                $value["petSizeToKeep"] = $keeper->getPetSizeToKeep();
-                $value["priceToKeep"] = $keeper->getPriceToKeep();
-                $value["initDate"] = $keeper->getStartingDate();
-                $value["lastDate"] = $keeper->getLastDate();
-                //$value["daysToWork"] = $keeper->getArrayDays();
-                $value["petsAmount"] = $keeper->getPetsAmount();
-                array_push($arrayEncode, $value);
-                }
-
-            $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-            file_put_contents($this->fileName, $jsonContent);
-        }
-
-        private function RetrieveData() {
-            $this->keepersList = array();
-
-            if(file_exists($this->fileName)) {
-                $jsonContent = file_get_contents($this->fileName);
-                $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayDecode as $value) {
-                    $user=new User();
-                    $user->setId($value["idUser"]);
-
-                    $keeper = new Keeper();
-                    $keeper->setUser($user);
-                    $keeper->setIdKeeper($value["idKeeper"]);
-                    $keeper->setAdress($value["adress"]);
-                    $keeper->setPetSizeToKeep($value["petSizeToKeep"]);
-                    $keeper->setPriceToKeep($value["priceToKeep"]);
-                    $keeper->setStartingDate($value["initDate"]);
-                    $keeper->setLastDate($value["lastDate"]);
-                    //$keeper->setArrayDays($value["daysToWork"]);
-                    $keeper->setPetsAmount($value["petsAmount"]);
-
-                    array_push($this->keepersList, $keeper);
-                }
-            }
-        }
-
-        private function GetNextId() {
-            $id = 0;
-
-            foreach($this->keepersList as $keeper) {
-                $id = ($keeper->getIdKeeper() > $id) ? $keeper->getIdKeeper() : $id;
-            }
-
-            return $id + 1;
-        }
-
         public function Modify(Keeper $keeper) {
-            $this->RetrieveData();
-            
-            $this->Remove($keeper->getUser()->getId());
-
-            array_push($this->keepersList, $keeper);
-
-            $this->SaveData();
+            /**/
         }
     }
 ?>

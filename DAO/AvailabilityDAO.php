@@ -6,89 +6,111 @@ use Models\Keeper;
 use Models\Availability;
 
 class AvailabilityDAO{
-    private $fileName = ROOT . "/Data/availability.json";
-    private $availabilityList = array();
+    private $tableName = "Availability";
+    private $availabilityDAO;
+    private $connection;
+    private $reserveDAO;
+    private $reserveRequestDAO;
+
+    public function __construct(){
+        $this->connection = new Connection();
+        $this->reserveRequestDAO = new ReserveRequestDAO();
+        $this->reserveDAO = new ReserveDAO();
+    }
 
     public function Add($availability) {
-        $this->RetrieveData();        
-        
-        $availability->setId($this->GetNextId());
+        $sql = "INSERT INTO Availability (id_availability, dateSpecific, available, id_Keeper) VALUES (:id_availability, :dateSpecific, :available, :id_Keeper)";
 
-        array_push($this->availabilityList, $availability);
+        //autoincremental Id in db
+        $parameters['id_availability'] = 0;
+        $parameters['dateSpecific'] =  $availability->getDate();
+        $parameters['available'] = $availability->getAvailable();
+        $parameters['id_Keeper'] = $availability->getIdKeeper();
 
-        $this->SaveData();
+        try {
+            $this->connection = Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql, $parameters, true);
+        } catch (\PDOException $ex) {
+            throw $ex;
+        }
         
     }
 
-    public function Remove($id) {
-        $this->RetrieveData();
+    public function Remove($id_availability) {
+        $this->reserveDAO->RemoveByAvailabilityId($id_availability);
+        $this->reserveRequestDAO->RemoveByAvailabilityId($id_availability);
 
-        $this->availabilityList = array_filter($this->availabilityList, function($availability) use($id) {
-            return $availability->getId() != $id;
-        });
+        $sql="DELETE FROM Availability WHERE Availability.id_availability=:id_availability";
+        $values['id_availability'] = $id_availability;
 
-        $this->SaveData();
+        try{
+            $this->connection= Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql,$values);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
     }
 
     public  function GetAll() {
-        $this->RetrieveData();
-        return $this->availabilityList;
+        $sql = "SELECT * FROM Availability";
+    
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sql);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
     }
 
     public function GetById($availabilityId) {
-        $this->RetrieveData();
-
-        $aux = array_filter($this->availabilityList, function($availability) use($availabilityId) {
-            return $availability->getId() == $availabilityId;
-        });
-
-        $aux = array_values($aux);
-
-        return (count($aux) > 0) ? $aux[0] : null;
-    }
-
-    private function SaveData() {
-        $arrayEncode = array();
-        
-        foreach($this->availabilityList as $availability){
-            $value["idKeeper"] = $availability->getIdKeeper();
-            $value["id"] = $availability->getId();
-            $value["date"] = $availability->getDate();
-            $value["available"] = $availability->getAvailable();
-            array_push($arrayEncode, $value);
-            }
-            
-
-        $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-        file_put_contents($this->fileName, $jsonContent);
-    }
-
-    private function RetrieveData() {
-        $this->availabilityList = array();
-
-        if(file_exists($this->fileName)) {
-            $jsonContent = file_get_contents($this->fileName);
-            $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-            foreach($arrayDecode as $value) {
-                $availability = new Availability();
-                $availability->setIdKeeper($value["idKeeper"]);
-                $availability->setId($value["id"]);
-                $availability->setDate($value["date"]);
-                $availability->setAvailable($value["available"]);
-                array_push($this->availabilityList, $availability);
-            }
-                
-            }
+        $sqlSelectId = "select * from Availability where id_availability = '".$availabilityId."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
         }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+            }
+    }
 
-        public function GetByIdKeeper($idKeeper){
+    protected function mapear ($value){
+
+        $value = is_array($value) ? $value : [];
+        
+        
+        $resp = array_map(function($p){
+                $availability = new Availability();
+                $availability->setId($p['id_availability']);
+                $availability->setDate($p['dateSpecific']);
+                $availability->setAvailable($p['available']);
+                $availability->setIdKeeper($p["id_keeper"]);
+            
+                return $availability;
+            
+            
+        }, $value);
+
+        return count($resp) > 1 ? $resp : $resp['0'];
+    }
+
+
+        public function GetByIdKeeper($idKeeper){ //arreglo de keepers
+           /**/
             $availabilityList = $this->GetAll();
             $finalArray = array();
 
             foreach($availabilityList as $availability){
                 if($availability->getIdKeeper() == $idKeeper){
-                    if($availability->getAvailable()==true){
+                    if($availability->getAvailable()==1){
                         array_push($finalArray, $availability);
                     }
                 }
@@ -105,40 +127,25 @@ class AvailabilityDAO{
             };
         }
 
-
-        public function GetByKeeperUserName($userName) {
-            $this->RetrieveData();
-
-            $aux = array_filter($this->availabilityList, function($availability) use($userName) {
-                return $availability->getUserName() == $userName;
-            });
-
-            $aux = array_values($aux);
-
-            return (count($aux) > 0) ? $aux[0] : null;
-        }
-
-        private function GetNextId() {
-            $id = 0;
-
-            foreach($this->availabilityList as $availability) {
-                $id = ($availability->getId() > $id) ? $availability->getId() : $id;
-            }
-
-            return $id + 1;
-        }
-
         public function Modify(Availability $availability) {
-            $this->RetrieveData();
+            var_dump($availability);
+            $var = $this->tableName;
+            //'".$availabilityId."';";
             
-            $this->Remove($availability->getId());
-    
-            array_push($this->availabilityList, $availability);
-    
-            $this->SaveData();
+        try
+        {
+        $query = "UPDATE $var SET available='".$availability->getAvailable()."'
+        WHERE $var.id_availability='".$availability->getId()."';";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
         }
-
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
+
+}
 
     
 

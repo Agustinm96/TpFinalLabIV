@@ -35,7 +35,7 @@
                         ?><select name="pet[]" id="pet[]" multiple required><?php
                         foreach($petList as $pet){
                         
-                        echo "<option value=".$pet->getIDPET().">".$pet->getName()."</option>";
+                        echo "<option value=".$pet->getId_Pet().">".$pet->getName()."</option>";
                         }
                     }else{
                         echo "UPS! No pets here! <br>";?>

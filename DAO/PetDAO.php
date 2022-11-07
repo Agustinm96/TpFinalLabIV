@@ -81,6 +81,36 @@ public function uploadPicture($filename,$id_Pet){
     }
 
 }
+
+public function GetById($idPet){
+    //var_dump($id_user);
+       $query = "SELECT * FROM pet WHERE $idPet=pet.id_Pet AND pet.isActive = 1";
+       try{
+        $this->connection = Connection::getInstance();
+        $contentArray = $this->connection->Execute($query);
+      //var_dump($contentArray); //ANDA
+    }catch(\PDOException $ex){
+        throw $ex;
+    }
+    if(!empty($contentArray)){
+        foreach($contentArray as $content)
+         {
+           if($content["id_PetType"]=="1"){
+            $pet = $this->SetDogToReceive($content);
+           }
+            if($content["id_PetType"]=="2"){
+                $pet = $this->SetCatToReceive($content);
+         }
+         if($content["id_PetType"]=="3"){
+            $pet = $this->SetGuineaPigToReceive($content);
+     }
+        
+     }
+        return $pet; //?? no se si retornar la lista;
+    }else{
+        return null;
+    }
+    }
     
     public function GetById_User($id_user){
     //var_dump($id_user);

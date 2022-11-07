@@ -12,12 +12,14 @@ Class CatController{
 private $catDAO;
 private $petController;
 private $petTypeController;
+private $petDAO;
 
 public function __construct()
     {
         $this->catDAO = new CatDAO();
         $this->petController = new PetController();
         $this->petTypeController = new PetTypeController();
+        $this->petDAO = new PetDAO();
 
     }
 

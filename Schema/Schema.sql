@@ -71,7 +71,42 @@ CREATE TABLE
         CONSTRAINT fk_petxcat Foreign Key (id_Pet) REFERENCES pet(id_Pet)
     );
 
+create table if not exists Keeper(
+	id_Keeper int not null auto_increment primary key,
+    id_user int,
+    adress varchar(50),
+    petSizeToKeep varchar(50),
+    priceToKeep decimal,
+    startingDate date,
+    lastDate date,
+    petsAmount int,
+    constraint fk_idUser foreign key (id_user) references User(id_user)
+);
 
+
+create table if not exists Availability(
+	id_availability int not null auto_increment primary key,
+    dateSpecific date,
+    available boolean,  
+	id_keeper int,
+    constraint fk_idFromKeeper foreign key (id_keeper) references Keeper (id_Keeper)
+);
+
+create table if not exists Reserve(
+	id_reserve int not null auto_increment primary key, 
+    id_availability int,
+    id_pet int,
+    constraint fk_availability foreign key (id_availability) references Availability (id_availability),
+    constraint fk_idPet foreign key (id_pet) references Pet (id_Pet)
+);
+
+create table if not exists ReserveRequest(
+	id_ReserveRequest int not null auto_increment primary key,
+    id_availability int, 
+    id_pet int,
+    constraint fk_idAvailability foreign key (id_availability) references Availability (id_availability),
+    constraint fk_id_pet foreign key (id_pet) references Pet (id_Pet)
+);
 
 
 INSERT INTO UserType VALUES(0,'Owner');

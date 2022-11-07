@@ -7,116 +7,122 @@ use Models\Availability;
 use Models\Reserve;
 
 class ReserveDAO{
-    private $fileName = ROOT . "/Data/reserves.json";
-    private $reservesList = array();
+    private $tableName = 'Reserve';
 
-    public function Add($reserve) {
-        $this->RetrieveData();        
-        
-        $reserve->setId($this->GetNextId());
+    public function __construct(){
+        $this->connection = new Connection();
+    }
 
-        array_push($this->reservesList, $reserve);
+    public function Add(Reserve $reserve) {
+        $sql = "INSERT INTO Reserve (id_reserve, id_availability, id_pet) VALUES (:id_reserve, :id_availability, :id_pet)";
 
-        $this->SaveData();
+        //autoincremental Id in db
+        $parameters['id_reserve'] = 0;
+        $parameters['id_availability'] =  $reserve->getAvailabilityId();
+        $parameters['id_pet'] = $reserve->getPetId();
+
+        try {
+            $this->connection = Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql, $parameters, true);
+        } catch (\PDOException $ex) {
+            throw $ex;
+        }
         
     }
 
     public function Remove($id) {
-        $this->RetrieveData();
+        $sql="DELETE FROM Reserve WHERE Reserve.id_reserve=:id_reserve";
+            $values['id_reserve'] = $id;
+    
+            try{
+                $this->connection= Connection::getInstance();
+                return $this->connection->ExecuteNonQuery($sql,$values);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+    }
 
-        $this->reservesList = array_filter($this->reservesList, function($reserve) use($id) {
-            return $reserve->getId() != $id;
-        });
-
-        $this->SaveData();
+    public function RemoveByAvailabilityId($id_availability) {
+        $sql="DELETE FROM Reserve WHERE Reserve.id_availability=:id_availability";
+            $values['id_availability'] = $id_availability;
+    
+            try{
+                $this->connection= Connection::getInstance();
+                return $this->connection->ExecuteNonQuery($sql,$values);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
     }
 
     public  function GetAll() {
-        $this->RetrieveData();
-        return $this->reservesList;
+        $sql = "SELECT * FROM Reserve";
+    
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sql);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
     }
 
     public function GetById($id) {
-        $this->RetrieveData();
+        $sqlSelectId = "select * from Reserve where id_reserve = '".$id."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+            }
+    }
 
-        $aux = array_filter($this->reservesList, function($reserve) use($id) {
-            return $reserve->getId() == $id;
-        });
+    protected function mapear ($value){
 
-        $aux = array_values($aux);
+        $value = is_array($value) ? $value : [];
+        
+        $resp = array_map(function($p){
+            $reserve = new Reserve();
+            $reserve->setId($p['id_reserve']);
+            $reserve->setAvailabilityId($p["id_availability"]);
+            $reserve->setPetId($p['id_pet']);
+            
+            return $reserve;
+        }, $value);
 
-        return (count($aux) > 0) ? $aux[0] : null;
+        return count($resp) > 1 ? $resp : $resp['0'];
     }
 
     public function GetReserveArrayByAvailabilityId($availabilityId){
         $reserves=$this->GetAll();
         $arrayToReturn = array();
 
-        foreach($reserves as $reserve){
+        if(is_array($reserves)){
+            foreach($reserves as $reserve){
                     if($reserve->getAvailabilityId() === $availabilityId){
                         array_push($arrayToReturn, $reserve); 
                         }
                     }
-                
-                
-                
-        //$arrFinal = array_unique($avaiableKeepersList,SORT_REGULAR);
+        }elseif($reserves){ //porque lo devuelve como objeto
+            array_push($arrayToReturn, $reserves); 
+        }
+    
+        $arrFinal = array_unique($arrayToReturn,SORT_REGULAR);
 
-        return $arrayToReturn;
+        return $arrFinal;
     }
 
-    private function SaveData() {
-        $arrayEncode = array();
-        
-        foreach($this->reservesList as $reserve){
-            $value["id"] = $reserve->getId();
-            $value["availabilityId"] = $reserve->getAvailabilityId();
-            $value["idPet"] = $reserve->getPetId();
-                
-            array_push($arrayEncode, $value);
-            }
-            
-
-        $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-        file_put_contents($this->fileName, $jsonContent);
-    }
-
-    private function RetrieveData() {
-        $this->reservesList = array();
-
-        if(file_exists($this->fileName)) {
-            $jsonContent = file_get_contents($this->fileName);
-            $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-            foreach($arrayDecode as $value) {
-                $reserve = new Reserve();
-                $reserve->setId($value["id"]);
-                $reserve->setAvailabilityId($value["availabilityId"]);
-                $reserve->setPetId($value["idPet"]);
-
-                array_push($this->reservesList, $reserve);
-            }
-            }
-        }
-
-        private function GetNextId() {
-            $id = 0;
-
-            foreach($this->reservesList as $reserve) {
-                $id = ($reserve->getId() > $id) ? $reserve->getId() : $id;
-            }
-
-            return $id + 1;
-        }
 
         public function Modify(Reserve $reserve) {
-            $this->RetrieveData();
-            
-            $this->Remove($reserve->getId());
-    
-            array_push($this->reservesList, $reserve);
-    
-            $this->SaveData();
+           
         }
 
     }

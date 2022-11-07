@@ -13,6 +13,7 @@ Class DogController{
 private $dogDAO;
 private $petController;
 private $petTypeController;
+private $petDAO;
 
 public function __construct()
 
@@ -20,6 +21,7 @@ public function __construct()
         $this->dogDAO = new DogDAO();
         $this->petController = new PetController();
         $this->petTypeController = new PetTypeController();
+        $this->petDAO = new PetDAO();
     }
 
     /*public function ShowListView(){ //SOLO MUESTRA PERROS
@@ -30,7 +32,7 @@ public function __construct()
 
     public function ShowPerfilView($message = ""){
       require_once(VIEWS_PATH . "validate-session.php");
-      $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
+      $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->getId());
       require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 

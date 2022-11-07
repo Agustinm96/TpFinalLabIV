@@ -15,6 +15,7 @@ class AvailabilityController{
 
     public function Add ($keeper, $initDate, $finishDate, $daysToWork){
         require_once(VIEWS_PATH . "validate-session.php");
+        
         $datesArray = $this->valiDate($keeper, $initDate, $finishDate, $daysToWork);
 
         foreach($datesArray as $date){
@@ -60,6 +61,7 @@ class AvailabilityController{
     }
 
     public function valiDate($keeper, $startingDay, $finishDate, $daysToWork){
+        
         $datesArray = array();
         while($startingDay <= $finishDate){
             $string = $this->dayName($startingDay);
@@ -68,7 +70,7 @@ class AvailabilityController{
                     $availability = new Availability();
                     $availability->setIdKeeper($keeper->getIdKeeper());
                     $availability->setDate($startingDay);
-                    $availability->setAvailable(true);
+                    $availability->setAvailable(1);
                     array_push($datesArray, $availability);
                 }
             } 
