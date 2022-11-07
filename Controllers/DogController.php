@@ -76,7 +76,7 @@ public function __construct()
       //var_dump($_FILES);
 if( isset($_FILES['pic'])){
   $fileType = $_FILES['pic']['type'];
- if(!((strpos($fileType, "gif") || strpos($fileType, "jpeg")|| strpos($fileType, "jpg")|| strpos($fileType, "png")))){
+ if(!((strpos($fileType, "image/gif") || strpos($fileType, "image/jpeg")|| strpos($fileType, "image/jpg")|| strpos($fileType, "image/png")))){
 
   if( $_FILES['pic']['error'] == 0){
       $dir = IMG_PATH;
@@ -86,7 +86,7 @@ if( isset($_FILES['pic'])){
      //var_dump($filename);
       $newFile = $dir . $filename;
       if( move_uploaded_file($_FILES['pic']['tmp_name'], $newFile) ){
-          $this->petController->dogDAO->uploadVaccinationPlan($filename,$IDPET);
+          $this->dogDAO->uploadVaccinationPlan($filename,$IDPET);
           //$this->dogDAO->uploadVaccinationPlan($filename,$IDPET);
           $this->ShowPerfilView($_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>');
       }else{

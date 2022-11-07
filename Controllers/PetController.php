@@ -48,18 +48,18 @@ public $petDAO;
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
 
-    public function UploadVaccination($MAX_FILE_SIZE,$IDPET){
+    public function UploadPicture($MAX_FILE_SIZE,$IDPET){
         require_once(VIEWS_PATH . "validate-session.php");
         //var_dump($_FILES);
   if( isset($_FILES['pic'])){
     $fileType = $_FILES['pic']['type'];
-   if(!((strpos($fileType, "gif") || strpos($fileType, "jpeg")|| strpos($fileType, "jpg")|| strpos($fileType, "png")))){
+   if(!((strpos($fileType, "image/gif") || strpos($fileType, "image/jpeg")|| strpos($fileType, "image/jpg")|| strpos($fileType, "image/png")))){
   
     if( $_FILES['pic']['error'] == 0){
         $dir = IMG_PATH;
         //var_dump(IMG_PATH);
         //$filename = "VAC".$pet->getName(). $IDPET . ".jpg";
-       $filename = "VAC".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
+       $filename = "IMG".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
        //var_dump($filename);
         $newFile = $dir . $filename;
         if( move_uploaded_file($_FILES['pic']['tmp_name'], $newFile) ){
@@ -120,7 +120,3 @@ public $petDAO;
         }
 
 }
-
-
-
-?>

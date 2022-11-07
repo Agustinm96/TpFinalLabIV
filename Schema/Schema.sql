@@ -136,6 +136,9 @@ select * from User;
 
 select * from Owner;
 
+
+select * from Dog;
+
 select
     o.id_owner,
     u.id_user,
