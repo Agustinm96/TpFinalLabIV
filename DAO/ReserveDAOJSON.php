@@ -6,7 +6,7 @@ use Models\Keeper;
 use Models\Availability;
 use Models\Reserve;
 
-class ReserveDAO{
+class ReserveDAOJSON{
     private $fileName = ROOT . "/Data/reserves.json";
     private $reservesList = array();
 

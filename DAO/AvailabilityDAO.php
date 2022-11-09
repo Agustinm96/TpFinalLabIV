@@ -128,9 +128,7 @@ class AvailabilityDAO{
         }
 
         public function Modify(Availability $availability) {
-            var_dump($availability);
             $var = $this->tableName;
-            //'".$availabilityId."';";
             
         try
         {

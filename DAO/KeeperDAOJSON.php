@@ -8,7 +8,7 @@
     use Models\Cat;
     use Models\Availability;
 
-    class KeeperDAO implements IKeeperDAO {
+    class KeeperDAOJSON implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
         private $keepersList = array();
         private $availabilityDAO;

@@ -5,7 +5,7 @@ namespace DAO;
 use Models\Keeper;
 use Models\Availability;
 
-class AvailabilityDAO{
+class AvailabilityDAOJSON{
     private $fileName = ROOT . "/Data/availability.json";
     private $availabilityList = array();
 

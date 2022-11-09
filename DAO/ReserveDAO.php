@@ -9,17 +9,14 @@ use Models\Reserve;
 class ReserveDAO{
     private $tableName = 'Reserve';
 
-    public function __construct(){
-        $this->connection = new Connection();
-    }
-
     public function Add(Reserve $reserve) {
-        $sql = "INSERT INTO Reserve (id_reserve, id_availability, id_pet) VALUES (:id_reserve, :id_availability, :id_pet)";
+        $sql = "INSERT INTO Reserve (id_reserve, id_availability, id_pet, isActive) VALUES (:id_reserve, :id_availability, :id_pet, :isActive)";
 
         //autoincremental Id in db
         $parameters['id_reserve'] = 0;
         $parameters['id_availability'] =  $reserve->getAvailabilityId();
         $parameters['id_pet'] = $reserve->getPetId();
+        $parameters['isActive'] = $reserve->getIsActive();
 
         try {
             $this->connection = Connection::getInstance();
@@ -94,6 +91,7 @@ class ReserveDAO{
             $reserve->setId($p['id_reserve']);
             $reserve->setAvailabilityId($p["id_availability"]);
             $reserve->setPetId($p['id_pet']);
+            $reserve->setIsActive($p['isActive']);
             
             return $reserve;
         }, $value);
@@ -101,17 +99,18 @@ class ReserveDAO{
         return count($resp) > 1 ? $resp : $resp['0'];
     }
 
-    public function GetReserveArrayByAvailabilityId($availabilityId){
+    public function GetDoneReserveArrayByAvailabilityId($availabilityId){
         $reserves=$this->GetAll();
         $arrayToReturn = array();
 
         if(is_array($reserves)){
             foreach($reserves as $reserve){
-                    if($reserve->getAvailabilityId() === $availabilityId){
+                    if($reserve->getAvailabilityId() === $availabilityId && $reserve->getIsActive() == 0){
                         array_push($arrayToReturn, $reserve); 
                         }
                     }
-        }elseif($reserves){ //porque lo devuelve como objeto
+        }elseif($reserves){
+            if($reserves->getAvailabilityId() === $availabilityId && $reserves->getIsActive()==0)
             array_push($arrayToReturn, $reserves); 
         }
     
@@ -122,7 +121,19 @@ class ReserveDAO{
 
 
         public function Modify(Reserve $reserve) {
-           
+            $var = $this->tableName;
+            
+        try
+        {
+        $query = "UPDATE $var SET isActive='".$reserve->getIsActive()."'
+        WHERE $var.id_reserve='".$reserve->getId()."';";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
         }
 
     }

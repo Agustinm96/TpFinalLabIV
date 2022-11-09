@@ -21,7 +21,7 @@ use Models\Keeper;
     <!-- main body -->
     <div class="content"> 
     <div class="scrollable">
-        <form action="<?php ECHO FRONT_ROOT . "Reserve/ShowModifyAvailabilityView"?>" method ="post">
+        <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowModifyAvailabilityView"?>" method ="post">
         <table style="text-align:center;">
             <thead>
             <tr>

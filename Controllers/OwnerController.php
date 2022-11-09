@@ -13,7 +13,7 @@ use Models\Keeper;
 use Models\Dog;
 use Models\Cat;
 use Models\PetType;
-use Models\ReserveRequest;
+use Models\Reserve;
 
 class OwnerController
 {
@@ -22,7 +22,7 @@ class OwnerController
     private $keeperController;
     private $petController;
     private $availabilityController;
-    private $reserveRequestController;
+    private $reserveController;
 
     public function __construct()
     {
@@ -31,7 +31,7 @@ class OwnerController
         $this->keeperController = new KeeperController();
         $this->petController  = new PetController();
         $this->availabilityController = new AvailabilityController();
-        $this->reserveRequestController = new ReserveRequestController();
+        $this->reserveController = new ReserveController();
     }
 
     public function ShowHomeView($message = "")
@@ -116,29 +116,30 @@ class OwnerController
             if($availability->getDate() == $date){
 
                 $petArray = $this->loadingPetsArray($petList); //para validar el tipo y tamaño de mascota
-                $boolean2 = $this->checkingPetType($petArray);
-                $boolean3 = $this->checkingPetSize($petArray, $keeper);
+                $isPetTypeWellLoaded = $this->checkingPetType($petArray);
+                $isPetSizeOkWithKeeper = $this->checkingPetSize($petArray, $keeper);
 
-                $boolean1 = $this->checkingPetListRedundancy($availability,$petList); //para validar carga de datos repetidos, ej. si ya cargo la pet antes
+                $doesPetAlreadyMadeARequest = $this->checkingPetListRedundancy($availability,$petList); //para validar carga de datos repetidos, ej. si ya cargo la pet antes
                 
-                if($boolean1 && $boolean2 && $boolean3){
+                if($isPetTypeWellLoaded && $isPetSizeOkWithKeeper && $doesPetAlreadyMadeARequest){
                     
                     foreach($petList as $pet){
-                        $reserveRequest = new ReserveRequest();
-                        $reserveRequest->setAvailabilityId($availability->getId()); //le asigno la id de la disponibilidad
-                        $reserveRequest->setPetId($pet);
-                        $this->reserveRequestController->reserveRequestDAO->Add($reserveRequest);
+                        $reserve = new Reserve();
+                        $reserve->setAvailabilityId($availability->getId()); //le asigno la id de la disponibilidad
+                        $reserve->setPetId($pet);
+                        $reserve->setIsActive(1);
+                        $this->reserveController->reserveDAO->Add($reserve);
                     }
     
                     $message = 'Reservation successfully made';
                     $this->ShowHomeView($message); 
                 }else{
-                    if(!$boolean1){
+                    if(!$doesPetAlreadyMadeARequest){
                         $message = "ERROR: You've already request a reserve for this pet";
                     }
-                    if(!$boolean2){
+                    if(!$isPetTypeWellLoaded){
                         $message = "ERROR: You can only choose one pet type, either dog or cat.";
-                    }else if(!$boolean3){
+                    }else if(!$isPetSizeOkWithKeeper){
                         $message = "ERROR: The size of your pet doesn't match what the keeper can handle!";
                     }
                     $this->ShowGenerateReserveView($keeperId, $message);
@@ -148,7 +149,7 @@ class OwnerController
     }
 
     public function checkingPetListRedundancy($availability, $petList_loaded){
-        $reserveRequestList = $this->reserveRequestController->reserveRequestDAO->GetAll(); //puede devolver un objeto o un arreglo dependiendo si es un elemento o + de 1
+        $reserveRequestList = $this->reserveController->reserveDAO->GetAll(); //puede devolver un objeto o un arreglo dependiendo si es un elemento o + de 1
 
         $boolean = true;
         if(is_array($reserveRequestList)){ 

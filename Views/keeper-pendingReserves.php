@@ -21,7 +21,7 @@
                     <tbody>
                         <?php
                         foreach($pendingReservesList as $reserve){
-                        ?><form action="<?php echo FRONT_ROOT . "Reserve/modifyingReserve" ?>" method="post"><?php
+                        ?><form action="<?php echo FRONT_ROOT . "Keeper/modifyingReserve" ?>" method="post"><?php
                         ?><tr>
                                 <td align='center'><input type="date" name="date" value="<?php echo $reserve["date"] ?>" readonly></td>
                                 

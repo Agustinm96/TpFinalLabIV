@@ -96,16 +96,9 @@ create table if not exists Reserve(
 	id_reserve int not null auto_increment primary key, 
     id_availability int,
     id_pet int,
+    isActive boolean,
     constraint fk_availability foreign key (id_availability) references Availability (id_availability),
     constraint fk_idPet foreign key (id_pet) references Pet (id_Pet)
-);
-
-create table if not exists ReserveRequest(
-	id_ReserveRequest int not null auto_increment primary key,
-    id_availability int, 
-    id_pet int,
-    constraint fk_idAvailability foreign key (id_availability) references Availability (id_availability),
-    constraint fk_id_pet foreign key (id_pet) references Pet (id_Pet)
 );
 
 
