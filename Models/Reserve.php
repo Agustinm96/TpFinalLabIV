@@ -7,8 +7,8 @@ use Models\Pet;
 
 class Reserve{
     private $id;
-    private $availabilityId;
-    private $petId;
+    private Availability $availability;
+    private Pet $pet;
     private $isActive;
 
     public function getId(){
@@ -19,20 +19,20 @@ class Reserve{
         $this->id = $id;
     }
 
-    public function getAvailabilityId(){
-        return $this->availabilityId;
+    public function getAvailability(){
+        return $this->availability;
     }
 
-    public function setAvailabilityId($availabilityId){
-        $this->availabilityId = $availabilityId;
+    public function setAvailability($availability){
+        $this->availability = $availability;
     }
 
-    public function setPetId($petId){
-        $this->petId = $petId;
+    public function setPet($pet){
+        $this->pet = $pet;
     }
 
-    public function getPetId(){
-        return $this->petId;
+    public function getPet(){
+        return $this->pet;
     }
 
     public function setIsActive($isActive){

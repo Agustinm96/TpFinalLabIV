@@ -7,15 +7,12 @@ use Models\Availability;
 
 class AvailabilityDAO{
     private $tableName = "Availability";
-    private $availabilityDAO;
     private $connection;
-    private $reserveDAO;
-    private $reserveRequestDAO;
+    private $keeperDAO;
 
     public function __construct(){
         $this->connection = new Connection();
-        $this->reserveRequestDAO = new ReserveRequestDAO();
-        $this->reserveDAO = new ReserveDAO();
+        $this->keeperDAO = new KeeperDAO();
     }
 
     public function Add($availability) {
@@ -25,7 +22,7 @@ class AvailabilityDAO{
         $parameters['id_availability'] = 0;
         $parameters['dateSpecific'] =  $availability->getDate();
         $parameters['available'] = $availability->getAvailable();
-        $parameters['id_Keeper'] = $availability->getIdKeeper();
+        $parameters['id_Keeper'] = $availability->getKeeper()->getIdKeeper();
 
         try {
             $this->connection = Connection::getInstance();
@@ -37,8 +34,7 @@ class AvailabilityDAO{
     }
 
     public function Remove($id_availability) {
-        $this->reserveDAO->RemoveByAvailabilityId($id_availability);
-        $this->reserveRequestDAO->RemoveByAvailabilityId($id_availability);
+        //$this->reserveDAO->RemoveByAvailabilityId($id_availability);
 
         $sql="DELETE FROM Availability WHERE Availability.id_availability=:id_availability";
         $values['id_availability'] = $id_availability;
@@ -88,11 +84,12 @@ class AvailabilityDAO{
         
         
         $resp = array_map(function($p){
+                $keeper = $this->keeperDAO->GetById($p['id_keeper']);
                 $availability = new Availability();
                 $availability->setId($p['id_availability']);
                 $availability->setDate($p['dateSpecific']);
                 $availability->setAvailable($p['available']);
-                $availability->setIdKeeper($p["id_keeper"]);
+                $availability->setKeeper($keeper);
             
                 return $availability;
             
@@ -109,7 +106,7 @@ class AvailabilityDAO{
             $finalArray = array();
 
             foreach($availabilityList as $availability){
-                if($availability->getIdKeeper() == $idKeeper){
+                if($availability->getKeeper()->getIdKeeper() == $idKeeper){
                     if($availability->getAvailable()==1){
                         array_push($finalArray, $availability);
                     }

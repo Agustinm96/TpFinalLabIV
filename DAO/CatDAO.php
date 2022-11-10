@@ -27,10 +27,8 @@ class CatDAO{
         {
             $query = "INSERT INTO ".$this->tableName." (race,id_Pet,vaccinationPlan)
              VALUES (:race, :id_Pet , :vaccinationPlan)";
-            var_dump($cat->getPetType()->getPetTypeId());
             $id = $this->petDAO->Add($cat->getName(),$cat->getBirthDate(),
             $cat->getObservation(),$cat->getPetType()->getPetTypeId(),$cat->getId_User()->GetId());
-            var_dump($id);
             $parameters["race"] = $cat->getRace();
             $parameters["vaccinationPlan"] = $cat->getVaccinationPlan();
             $parameters["id_Pet"] = $id;

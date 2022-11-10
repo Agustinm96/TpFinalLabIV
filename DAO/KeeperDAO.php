@@ -18,7 +18,7 @@
 
         public function __construct(){
             $this->userDAO = new UserDAO();
-            $this->availabilityDAO = new AvailabilityDAO();
+            //$this->availabilityDAO = new AvailabilityDAO();
             $this->connection = new Connection();
         }
 
@@ -131,7 +131,7 @@
             while($initDate <= $lastDate){
                 foreach($availabilityList as $availability){
                         if($availability->getDate() === $initDate && $availability->getAvailable()==1){
-                            $keeper = $this->GetById($availability->getIdKeeper());
+                            $keeper = $this->GetById($availability->getKeeper()->getIdKeeper());
                             array_push($avaiableKeepersList, $keeper); 
                             }
                         }
@@ -143,7 +143,24 @@
         }
 
         public function Modify(Keeper $keeper) {
-            /**/
+            $var = $this->tableName;
+            
+        try
+        {
+        $query = "UPDATE $var SET adress='".$keeper->getAdress()."',
+                                petSizeToKeep='".$keeper->getPetSizeToKeep()."',
+                                priceToKeep ='".$keeper->getPriceToKeep()."',
+                                startingDate ='".$keeper->getStartingDate()."',
+                                lastDate = '".$keeper->getLastDate()."',
+                                petsAmount = '".$keeper->getPetsAmount()."'
+        WHERE $var.id_Keeper='".$keeper->getIdKeeper()."';";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
         }
     }
 ?>
