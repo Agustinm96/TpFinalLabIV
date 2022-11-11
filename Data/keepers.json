@@ -3,46 +3,20 @@
         "idUser": 6,
         "idKeeper": 1,
         "adress": "keeper street 7",
-        "petSizeToKeep": [
-            "medium"
-        ],
+        "petSizeToKeep": "medium",
         "priceToKeep": "1500",
-        "initDate": "2022-11-07",
-        "lastDate": "2022-12-16",
-        "daysToWork": [
-            "Tuesday",
-            "Wednesday"
-        ],
-        "petsAmount": "1"
+        "initDate": "2022-11-06",
+        "lastDate": "2022-12-22",
+        "petsAmount": "2"
     },
     {
         "idUser": 7,
         "idKeeper": 2,
         "adress": "keeper street 7",
-        "petSizeToKeep": [
-            "medium"
-        ],
+        "petSizeToKeep": "small",
         "priceToKeep": "1500",
         "initDate": "2022-11-06",
         "lastDate": "2022-12-15",
-        "daysToWork": [
-            "Tuesday"
-        ],
-        "petsAmount": "2"
-    },
-    {
-        "idUser": 8,
-        "idKeeper": 3,
-        "adress": "keeper street 7",
-        "petSizeToKeep": [
-            "medium"
-        ],
-        "priceToKeep": "25000",
-        "initDate": "2022-11-07",
-        "lastDate": "2022-12-24",
-        "daysToWork": [
-            "Wednesday"
-        ],
         "petsAmount": "1"
     }
 ]

@@ -4,7 +4,7 @@
     use Models\User;
 
     class Owner{
-        private $user;
+        private User $user;
         private $idOwner;
         private $adress;
 

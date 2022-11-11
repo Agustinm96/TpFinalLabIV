@@ -6,7 +6,7 @@ use DAO\PetTypeDAO as PetTypeDAO;
 
 
 class PetTypeController {
-    private $petTypeDAO;
+    public $petTypeDAO;
 
     public function __construct()
     {
@@ -19,7 +19,7 @@ class PetTypeController {
       }
 
 
-    public function Add($id,$petName){
+    public function Add($id,$petName){ //FUNCION SETEA UN PETYPE DEPENDIENDO DEL ID;
         $petType = new PetType();
         if(!is_null($id)){
             require_once(VIEWS_PATH . "validate-session.php");
@@ -30,7 +30,6 @@ class PetTypeController {
        $this->ShowAddView("ERROR AL INGRESAR TIPO DE MASCOTA");
     }
     }
-
 
 }
 

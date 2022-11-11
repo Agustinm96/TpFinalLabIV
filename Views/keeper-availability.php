@@ -7,6 +7,7 @@ require_once('validate-session.php');
 use Models\User;
 use Models\Keeper;
 
+
 ?>
 
 
@@ -20,13 +21,12 @@ use Models\Keeper;
     <!-- main body -->
     <div class="content"> 
     <div class="scrollable">
-        <form action="<?php ECHO FRONT_ROOT . "Reserve/ShowModifyAvailabilityView"?>" method ="post">
+        <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowModifyAvailabilityView"?>" method ="post">
         <table style="text-align:center;">
             <thead>
             <tr>
                 <th style="width: 110px;">Adress</th>  
                 <th style="width: 100px;">Pet Size that i can handle :)</th>
-                <th style="width: 100px;">Working days</th>
                 <th style="width: 100px;">Since</th>
                 <th style="width: 100px;">To</th>
                 <th style="width: 110px;">Price</th> 
@@ -34,15 +34,7 @@ use Models\Keeper;
             </thead>
             <tbody>
                 <td><?php echo $keeper->getAdress()?></td>
-                <td><?php $array =  $keeper->getPetSizeToKeep();
-                        foreach($array as $sizeValue){
-                            echo ucfirst($sizeValue). "<br>";
-                        }?></td>
-                <td><?php $arrayDays = $keeper->getArrayDays() ?>
-                                <?php 
-                                foreach($arrayDays as $day){
-                                            echo $day .'<br>';
-                                        }?>
+                <td><?php echo $keeper->getPetSizeToKeep() ?></td>
                 <td><?php echo $keeper->getStartingDate() ?></td>
                 <td><?php echo $keeper->getLastDate() ?></td>
                 <td>U$S<?php echo $keeper->getPriceToKeep() ?></td>

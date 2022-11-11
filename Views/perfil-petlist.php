@@ -46,7 +46,7 @@ if (isset($message)) {
                   <?php } else if ($pet->getPicture() == NULL) { ?>
                     <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadPetPicture" ?>" method="post" style="">
 
-                      <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET() ?>" />
+                      <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Pic-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
 
                     </form>
@@ -56,9 +56,9 @@ if (isset($message)) {
                   <th style="width: 150px;">Race</th>
                   <td><?php echo $pet->getRace() ?></td>
                 </tr>
-                <?php if (($pet->getPetType()->getPetTypeId() == "0") || ($pet->getPetType()->getPetTypeId() == "1")) { ?>
+                <?php if (($pet->getPetType()->getPetTypeId() == "1") || ($pet->getPetType()->getPetTypeId() == "2")) { ?>
                   <tr>
-                    <?php if ($pet->getPetType()->getPetTypeId() == "0") { ?>
+                    <?php if ($pet->getPetType()->getPetTypeId() == "1") { ?>
                       <th style="width: 110px;">Size</th>
                       <td><?php echo $pet->getSize() ?></td>
                   </tr>
@@ -69,7 +69,7 @@ if (isset($message)) {
                     <td><img src="<?php echo FRONT_ROOT . IMG_PATH . $pet->getVaccinationPlan(); ?>" alt="no-image.php" style="width: 100px;"></td>
                   <?php } else if ($pet->getVaccinationPlan() == NULL) { ?>
                     <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadPetVaccination" ?>" method="post" style="">
-                      <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET() ?>" />
+                      <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Vac-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
 
                     </form>
@@ -83,7 +83,7 @@ if (isset($message)) {
                     </td>
                   <?php } else if ($pet->getVideoPET() == NULL) { ?>
                     <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadVideo" ?>" method="post" style="">
-                      <input type="hidden" name="PETID" value="<?php echo $pet->getIDPET() ?>" />
+                      <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Video-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
                     </form>
                   <?php  } ?>

@@ -11,7 +11,8 @@ class availability{
     private $date;
     private $available; //boolean
     private $reserveRequest; //boolean
-    private $petList = array(); //guarda solo el id de la pet
+    private $petId;
+    //private $petList = array(); //guarda solo el id de la pet
 
     public function getId(){
         return $this->id;
@@ -45,12 +46,12 @@ class availability{
         return $this->idKeeper;
     }
 
-    public function getPetList(){
-        return $this->petList;
+    public function getPetId(){
+        return $this->petId;
     }
 
-    public function setPetList($petList){
-        $this->petList = $petList;
+    public function setPetId($petId){
+        $this->petId = $petId;
     }
 
     public function getReserveRequest(){

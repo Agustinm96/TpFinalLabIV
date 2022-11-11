@@ -18,7 +18,7 @@ require_once('validate-session.php');
               <tr>
               <div>
               <th>PERRO / DOG</th>
-            <input type="hidden" name="PETID" value="0" />
+            <input type="hidden" name="PETID" value="1" />
             <input type="hidden" name="namePET" value="Dog"/>
             <input type="submit" class="btnDog" value="DOG" style="background-color:#DC8E47;color:white;"/>
           </div>
@@ -28,7 +28,7 @@ require_once('validate-session.php');
               <tr>
               <div>
               <th>GATO / CAT</th>
-            <input type="hidden" name="PETID" value="1" />
+            <input type="hidden" name="PETID" value="2" />
             <input type="hidden" name="namePET" value="Cat"/>
             <input type="submit" class="btnCat" value="CAT" style="background-color:#DC8E47;color:white;"/>
           </div>
@@ -38,7 +38,7 @@ require_once('validate-session.php');
               <tr>
               <div>
               <th>COBAYA / GUINEA PIG</th>
-            <input type="hidden" name="PETID" value="2" />
+            <input type="hidden" name="PETID" value="3" />
             <input type="hidden" name="namePET" value="GuineaPig"/>
             <input type="submit" class="btnGuineaPig" value="GUINEA PIG" style="background-color:#DC8E47;color:white;"/>
           </div>

@@ -4,7 +4,11 @@ include_once('nav-bar.php');
 require_once('validate-session.php');
 
 ?>
-
+<?php
+if (isset($message)) {
+  echo $message;
+}
+?>
 <div id="breadcrumb" class="hoc clear"> 
     <h6 class="heading">New DOG Register</h6>
   </div>
@@ -34,7 +38,7 @@ require_once('validate-session.php');
                   <textarea name="observation" style="margin-top: 3%;min-height: 100px;height: 75px;max-width: 500px"></textarea>
                 </td>
                 </tr>
-                <?php if($petType->getPetTypeId()==0){?>
+                <?php if($petType->getPetTypeId()==1){?>
                 <tr>
                 <th>Size</th>   
                 <td>

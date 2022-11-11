@@ -10,5 +10,7 @@
         function GetAll();
         function GetByDNI($dni);
         function Remove($dni);
+        function GetByEmail($email);
+        function Modify(User $user);
     }
 ?>

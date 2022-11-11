@@ -3,8 +3,7 @@
     include_once('nav-bar.php'); 
 
     use Models\Keeper;
-    
-    $arraySize =$keeper->getPetSizeToKeep();
+
     $arrayDays=$keeper->getArrayDays();
 
     if(!empty($array)){
@@ -40,7 +39,7 @@
                     <input type="text" name="adress" value="<?php echo $keeper->getAdress()?>"id="adress"></td>
                 <td><input type="date" name="initDate" value = "<?php echo $keeper->getStartingDate()?>" id="initDate" min="<?php echo date('Y-m-d') ?>"></td>
                 <td><input type="date" name="finishDate"  value = "<?php echo $keeper->getLastDate()?>" id="finishDate" min="<?php echo date('Y-m-d') ?>"></td>
-                <td><select name="daysToWork[]" id="daysToWork" multiple="multiple" value="<?php foreach($arrayDays as $day){echo $day;} ?>" required>Choose the days you want to work
+                <td><select name="daysToWork[]" id="daysToWork" multiple value="<?php foreach($arrayDays as $day){echo $day;} ?>" required>Choose the days you want to work
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
                 <option value="Wednesday">Wednesday</option>
@@ -49,7 +48,7 @@
                 <option value="Saturday">Saturday</option>
                 <option value="Sunday">Sunday</option>
                 </select></td>
-                <td><select name="size[]" id="petSizeToKeep" value="<?php foreach($arraySize as $size){echo $size;}?>" multiple required>
+                <td><select name="size" id="petSizeToKeep" value="<?php echo $keeper->getPetSizeToKeep() ?>"  required>
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="big">Big</option>

@@ -13,6 +13,7 @@ use Models\Keeper;
 use Models\Dog;
 use Models\Cat;
 use Models\PetType;
+use Models\Reserve;
 
 class OwnerController
 {
@@ -21,6 +22,7 @@ class OwnerController
     private $keeperController;
     private $petController;
     private $availabilityController;
+    private $reserveController;
 
     public function __construct()
     {
@@ -29,6 +31,7 @@ class OwnerController
         $this->keeperController = new KeeperController();
         $this->petController  = new PetController();
         $this->availabilityController = new AvailabilityController();
+        $this->reserveController = new ReserveController();
     }
 
     public function ShowHomeView($message = "")
@@ -40,27 +43,13 @@ class OwnerController
     public function ShowAddView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "owner-home.php");
+        require_once(VIEWS_PATH . "home.php");
     }
 
     public function ShowListView()
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $ownersList = $this->ownerDAO->GetAll();
-        $usersList = $this->userDAO->GetAll();
-
-        foreach ($ownersList as $owner) {
-            $userId = $owner->getUser()->getId();
-            $users = array_filter($usersList, function ($user) use ($userId) {
-                return $user->getId() == $userId;
-            });
-
-            $users = array_values($users); //Reordering array
-
-            $user = (count($users) > 0) ? $users[0] : new User();
-
-            $owner->setUser($user);
-        }
 
         require_once(VIEWS_PATH . "owners-list.php");
     }
@@ -89,7 +78,8 @@ class OwnerController
         require_once(VIEWS_PATH . "validate-session.php");
         $keeper = $this->keeperController->keeperDAO->GetById($id);
         $availabilityList = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeper->getIdKeeper());
-        $petList = $this->petController->petDAO->GetByUserName($_SESSION["loggedUser"]->GetUserName());
+        
+        $petList = $this->petController->petDAO->GetById_User($_SESSION["loggedUser"]->getId());
         require_once(VIEWS_PATH . "load-reserve.php");
     }
 
@@ -97,7 +87,7 @@ class OwnerController
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $user = new User();
-        $user->setId($_SESSION["loggedUser"]->getId());
+        $user=($_SESSION["loggedUser"]);
 
         $owner = new Owner();
         $owner->setUser($user);
@@ -118,42 +108,38 @@ class OwnerController
     }
 
     public function generatingReserve($date, $petList, $keeperId){
-        
         $keeper = new Keeper();
         $keeper = $this->keeperController->keeperDAO->GetById($keeperId);
         $availabilityList = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeperId);
 
         foreach($availabilityList as $availability){
             if($availability->getDate() == $date){
-                
-                $petArray = $this->loadingPetsArray($petList); //para validar el tipo y tamaño de mascota
-                $boolean2 = $this->checkingPetType($petArray);
-                $boolean3 = $this->checkingPetSize($petArray, $keeper);
 
-                $availabilityPetList = $availability->getPetList();
-                $boolean1 = $this->checkingPetListRedundancy($availability,$petList); //para validar carga de datos repetidos, ej. si ya cargo la pet antes
-            
-                if($boolean1 && $boolean2 && $boolean3){
+                $petArray = $this->loadingPetsArray($petList); //para validar el tipo y tamaño de mascota
+                $isPetTypeWellLoaded = $this->checkingPetType($petArray);
+                $isPetSizeOkWithKeeper = $this->checkingPetSize($petArray, $keeper);
+
+                $doesPetAlreadyMadeARequest = $this->checkingPetListRedundancy($availability,$petList); //para validar carga de datos repetidos, ej. si ya cargo la pet antes
+                
+                if($isPetTypeWellLoaded && $isPetSizeOkWithKeeper && $doesPetAlreadyMadeARequest){
                     
                     foreach($petList as $pet){
-                    array_push($availabilityPetList, $pet); //cargo cada id que le pasa el owner en el petlist de esa disponibilidad/availability
-                    }
-                    $availability->setPetList($availabilityPetList); //aca hago lo que dice la 139
-                    $availability->setReserveRequest(true); //para que campanita funcione
-
-                    foreach($availabilityList as $availability){
-                        $this->availabilityController->availabilityDAO->Modify($availability);
+                        $reserve = new Reserve();
+                        $reserve->setAvailabilityId($availability->getId()); //le asigno la id de la disponibilidad
+                        $reserve->setPetId($pet);
+                        $reserve->setIsActive(1);
+                        $this->reserveController->reserveDAO->Add($reserve);
                     }
     
                     $message = 'Reservation successfully made';
                     $this->ShowHomeView($message); 
                 }else{
-                    if(!$boolean1){
+                    if(!$doesPetAlreadyMadeARequest){
                         $message = "ERROR: You've already request a reserve for this pet";
                     }
-                    elseif(!$boolean2){
+                    if(!$isPetTypeWellLoaded){
                         $message = "ERROR: You can only choose one pet type, either dog or cat.";
-                    }else if(!$boolean3){
+                    }else if(!$isPetSizeOkWithKeeper){
                         $message = "ERROR: The size of your pet doesn't match what the keeper can handle!";
                     }
                     $this->ShowGenerateReserveView($keeperId, $message);
@@ -163,30 +149,41 @@ class OwnerController
     }
 
     public function checkingPetListRedundancy($availability, $petList_loaded){
+        $reserveRequestList = $this->reserveController->reserveDAO->GetAll(); //puede devolver un objeto o un arreglo dependiendo si es un elemento o + de 1
+
         $boolean = true;
-        $petArray = $availability->getPetList();
-        foreach($petArray as $pet){
-            foreach($petList_loaded as $ownerPet){
-                if($pet == $ownerPet){
-                    $boolean = false;
+        if(is_array($reserveRequestList)){ 
+            foreach($reserveRequestList as $reserveRequest){
+            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequest->getAvailabilityId());
+            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getIdKeeper() == $availability->getIdKeeper()){
+                foreach($petList_loaded as $pet){
+                    if($reserveRequest->getPetId() == $pet){
+                        $boolean = false;
+                        }
+                    }
                 }
+            }
+        }elseif($reserveRequestList){
+            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailabilityId());
+            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getIdKeeper() == $availability->getIdKeeper()){
+            foreach($petList_loaded as $pet){
+                    if($reserveRequestList->getPetId() == $pet){
+                        $boolean = false;
+                        }
+                    }
             }
         }
         return $boolean;
     }
 
     public function checkingPetSize($petsArray, $keeper){
-        $boolean = false;
-        $sizeArray = $keeper->getPetSizeToKeep();
+        $boolean = true;
+        
         foreach($petsArray as $pet){
             if($pet->getPetType()->getPetTypeId()==1){//if cat return true (doesnt check size), else: checks size..
-                $boolean = true;
-            }else{
-                    foreach($sizeArray as $size){
-                    if($pet->getSize() == $size){
-                    $boolean = true;
+                    if($pet->getSize() != $keeper->getPetSizeToKeep()){
+                    $boolean = false;
                     }
-                }
             }
         }
         return $boolean;
@@ -199,9 +196,9 @@ class OwnerController
         $catCounter = 0;
 
         foreach($petsArray as $pet){
-            if($pet->getPetType()->getPetTypeName()=="Dog"){
+            if($pet->getPetType()->getPetTypeId()==1){
                 $dogCounter++;
-            }else if($pet->getPetType()->getPetTypeName()=="Cat"){
+            }else if($pet->getPetType()->getPetTypeId()==2){
                 $catCounter++;
             }
         }
@@ -218,14 +215,13 @@ class OwnerController
         foreach($petList as $pet){
             $petAux = $this->petController->petDAO->GetById($pet);
             
-            if($petAux->getPetType()->getPetTypeId()==0){
-                
+            if($petAux->getPetType()->getPetTypeId()==1){
                 $dog = new Dog();
-                $dog = $this->petController->petDAO->GetById($petAux->getIDPET());
+                $dog = $this->petController->petDAO->GetById($petAux->getId_Pet());
                 array_push($arrayPets, $dog);
-            }else if($petAux->getPetType()->getPetTypeId()==1){
+            }else if($petAux->getPetType()->getPetTypeId()==2){
                 $cat = new Cat();
-                $cat = $this->petController->petDAO->GetById($petAux->getIDPET());
+                $cat = $this->petController->petDAO->GetById($petAux->getId_Pet());
                 array_push($arrayPets, $cat);
             }
         }

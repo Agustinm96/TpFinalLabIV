@@ -9,6 +9,7 @@ class Reserve{
     private $id;
     private $availabilityId;
     private $petId;
+    private $isActive;
 
     public function getId(){
         return $this->id;
@@ -32,6 +33,14 @@ class Reserve{
 
     public function getPetId(){
         return $this->petId;
+    }
+
+    public function setIsActive($isActive){
+        $this->isActive = $isActive;
+    }
+
+    public function getIsActive(){
+        return $this->isActive;
     }
     
 }
