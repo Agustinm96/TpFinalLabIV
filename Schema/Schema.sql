@@ -1,6 +1,7 @@
 -- Active: 1667602921374@@127.0.0.1@3306@pethero
 
 create database pethero;
+
 use pethero;
 
 create table
@@ -29,6 +30,19 @@ create table
         address varchar(50),
         id_user int,
         constraint fk_user foreign key(id_user) references User(id_user)
+    );
+
+create table
+    if not exists Keeper(
+        id_Keeper int not null auto_increment primary key,
+        id_user int,
+        adress varchar(50),
+        petSizeToKeep varchar(50),
+        priceToKeep decimal,
+        startingDate date,
+        lastDate date,
+        petsAmount int,
+        constraint fk_idUser foreign key (id_user) references User(id_user)
     );
 
 CREATE TABLE
@@ -71,36 +85,26 @@ CREATE TABLE
         CONSTRAINT fk_petxcat Foreign Key (id_Pet) REFERENCES pet(id_Pet)
     );
 
-create table if not exists Keeper(
-	id_Keeper int not null auto_increment primary key,
-    id_user int,
-    adress varchar(50),
-    petSizeToKeep varchar(50),
-    priceToKeep decimal,
-    startingDate date,
-    lastDate date,
-    petsAmount int,
-    constraint fk_idUser foreign key (id_user) references User(id_user)
-);
 
 
-create table if not exists Availability(
-	id_availability int not null auto_increment primary key,
-    dateSpecific date,
-    available boolean,  
-	id_keeper int,
-    constraint fk_idFromKeeper foreign key (id_keeper) references Keeper (id_Keeper)
-);
+create table
+    if not exists Availability(
+        id_availability int not null auto_increment primary key,
+        dateSpecific date,
+        available boolean,
+        id_keeper int,
+        constraint fk_idFromKeeper foreign key (id_keeper) references Keeper (id_Keeper)
+    );
 
-create table if not exists Reserve(
-	id_reserve int not null auto_increment primary key, 
-    id_availability int,
-    id_pet int,
-    isActive boolean,
-    constraint fk_availability foreign key (id_availability) references Availability (id_availability),
-    constraint fk_idPet foreign key (id_pet) references Pet (id_Pet)
-);
-
+create table
+    if not exists Reserve(
+        id_reserve int not null auto_increment primary key,
+        id_availability int,
+        id_pet int,
+        isActive boolean,
+        constraint fk_availability foreign key (id_availability) references Availability (id_availability),
+        constraint fk_idPet foreign key (id_pet) references Pet (id_Pet)
+    );
 
 INSERT INTO UserType VALUES(0,'Owner');
 
@@ -128,7 +132,7 @@ select * from UserType;
 select * from User;
 
 select * from Owner;
-
+select * from Keeper;
 
 select * from Dog;
 
@@ -149,6 +153,17 @@ SELECT * FROM pet;
 
 SELECT * from pettype;
 
-SELECT * FROM pet JOIN Owner on pet.id_user=Owner.id_user;
-SELECT p.`id_Pet`,p.`namePet`,p.`id_PetType`, u.`firstName` FROM pet p JOIN Owner o on p.id_user=o.id_user JOIN User u on o.id_user=u.id_user where o.id_owner=11;
+select * from availability;
+select * from reserve;
 
+SELECT * FROM pet JOIN Owner on pet.id_user=Owner.id_user;
+
+SELECT
+    p.`id_Pet`,
+    p.`namePet`,
+    p.`id_PetType`,
+    u.`firstName`
+FROM pet p
+    JOIN Owner o on p.id_user = o.id_user
+    JOIN User u on o.id_user = u.id_user
+where o.id_owner = 11;
