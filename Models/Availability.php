@@ -4,15 +4,15 @@
 namespace Models;
 
 use Models\Keeper;
+use Models\Pet;
 
 class availability{
-    private $idKeeper;
+    private Keeper $keeper;
     public $id;
     private $date;
     private $available; //boolean
     private $reserveRequest; //boolean
-    private $petId;
-    //private $petList = array(); //guarda solo el id de la pet
+    private Pet $pet;
 
     public function getId(){
         return $this->id;
@@ -38,30 +38,21 @@ class availability{
         $this->available = $available;
     }
 
-    public function setIdKeeper($idKeeper){
-        $this->idKeeper = $idKeeper;
+    public function setKeeper($keeper){
+        $this->keeper = $keeper;
     }
 
-    public function getIdKeeper(){
-        return $this->idKeeper;
+    public function getKeeper(){
+        return $this->keeper;
     }
 
-    public function getPetId(){
-        return $this->petId;
+    public function getPet(){
+        return $this->pet;
     }
 
-    public function setPetId($petId){
-        $this->petId = $petId;
+    public function setPet($pet){
+        $this->pet = $pet;
     }
-
-    public function getReserveRequest(){
-        return $this->reserveRequest;
-    }
-
-    public function setReserveRequest($reserveRequest){
-        $this->reserveRequest = $reserveRequest;
-    }
-
 }
 
 ?>

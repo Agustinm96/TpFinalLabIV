@@ -29,7 +29,7 @@ class AvailabilityController{
 
         $availavilityList = $this->availabilityDAO->GetAll(); //primero elimino aquellas que coincidan con el id del keeper
         foreach($availavilityList as $availability){
-            if($availability->getIdKeeper() == $keeper->getIdKeeper()){
+            if($availability->getKeeper()->getIdKeeper() == $keeper->getIdKeeper()){
                 $this->availabilityDAO->Remove($availability->getId());
             }
             
@@ -68,7 +68,7 @@ class AvailabilityController{
             foreach($daysToWork as $day){
                 if($string===$day){
                     $availability = new Availability();
-                    $availability->setIdKeeper($keeper->getIdKeeper());
+                    $availability->setKeeper($keeper);
                     $availability->setDate($startingDay);
                     $availability->setAvailable(1);
                     array_push($datesArray, $availability);

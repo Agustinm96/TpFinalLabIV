@@ -5,17 +5,25 @@ namespace DAO;
 use Models\Keeper;
 use Models\Availability;
 use Models\Reserve;
+use Models\Pet;
 
 class ReserveDAO{
     private $tableName = 'Reserve';
+    private $petDAO;
+    private $availabilityDAO;
+
+    public function __construct(){
+        $this->petDAO = new PetDAO();
+        $this->availabilityDAO = new AvailabilityDAO();
+    }
 
     public function Add(Reserve $reserve) {
         $sql = "INSERT INTO Reserve (id_reserve, id_availability, id_pet, isActive) VALUES (:id_reserve, :id_availability, :id_pet, :isActive)";
 
         //autoincremental Id in db
         $parameters['id_reserve'] = 0;
-        $parameters['id_availability'] =  $reserve->getAvailabilityId();
-        $parameters['id_pet'] = $reserve->getPetId();
+        $parameters['id_availability'] =  $reserve->getAvailability()->getId();
+        $parameters['id_pet'] = $reserve->getPet()->getId_Pet();
         $parameters['isActive'] = $reserve->getIsActive();
 
         try {
@@ -87,10 +95,13 @@ class ReserveDAO{
         $value = is_array($value) ? $value : [];
         
         $resp = array_map(function($p){
+            $availability = $this->availabilityDAO->GetById($p["id_availability"]);
+            $pet = $this->petDAO->GetById($p["id_pet"]);
+
             $reserve = new Reserve();
             $reserve->setId($p['id_reserve']);
-            $reserve->setAvailabilityId($p["id_availability"]);
-            $reserve->setPetId($p['id_pet']);
+            $reserve->setAvailability($availability);
+            $reserve->setPet($pet);
             $reserve->setIsActive($p['isActive']);
             
             return $reserve;
@@ -105,12 +116,12 @@ class ReserveDAO{
 
         if(is_array($reserves)){
             foreach($reserves as $reserve){
-                    if($reserve->getAvailabilityId() === $availabilityId && $reserve->getIsActive() == 0){
+                    if($reserve->getAvailability()->getId() === $availabilityId && $reserve->getIsActive() == 0){
                         array_push($arrayToReturn, $reserve); 
                         }
                     }
         }elseif($reserves){
-            if($reserves->getAvailabilityId() === $availabilityId && $reserves->getIsActive()==0)
+            if($reserves->getAvailability()->getId() === $availabilityId && $reserves->getIsActive()==0)
             array_push($arrayToReturn, $reserves); 
         }
     

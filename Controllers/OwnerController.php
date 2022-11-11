@@ -108,7 +108,7 @@ class OwnerController
     }
 
     public function generatingReserve($date, $petList, $keeperId){
-        $keeper = new Keeper();
+
         $keeper = $this->keeperController->keeperDAO->GetById($keeperId);
         $availabilityList = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeperId);
 
@@ -123,10 +123,10 @@ class OwnerController
                 
                 if($isPetTypeWellLoaded && $isPetSizeOkWithKeeper && $doesPetAlreadyMadeARequest){
                     
-                    foreach($petList as $pet){
+                    foreach($petArray as $pet){
                         $reserve = new Reserve();
-                        $reserve->setAvailabilityId($availability->getId()); //le asigno la id de la disponibilidad
-                        $reserve->setPetId($pet);
+                        $reserve->setAvailability($availability); //le asigno la id de la disponibilidad
+                        $reserve->setPet($pet);
                         $reserve->setIsActive(1);
                         $this->reserveController->reserveDAO->Add($reserve);
                     }
@@ -150,24 +150,24 @@ class OwnerController
 
     public function checkingPetListRedundancy($availability, $petList_loaded){
         $reserveRequestList = $this->reserveController->reserveDAO->GetAll(); //puede devolver un objeto o un arreglo dependiendo si es un elemento o + de 1
-
         $boolean = true;
+
         if(is_array($reserveRequestList)){ 
             foreach($reserveRequestList as $reserveRequest){
-            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequest->getAvailabilityId());
-            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getIdKeeper() == $availability->getIdKeeper()){
+            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequest->getAvailability()->getId());
+            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getKeeper()->getIdKeeper() == $availability->getKeeper()->getIdKeeper()){
                 foreach($petList_loaded as $pet){
-                    if($reserveRequest->getPetId() == $pet){
+                    if($reserveRequest->getPet()->getId_Pet() == $pet){
                         $boolean = false;
                         }
                     }
                 }
             }
         }elseif($reserveRequestList){
-            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailabilityId());
-            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getIdKeeper() == $availability->getIdKeeper()){
+            $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserveRequestList->getAvailability()->getId());
+            if($availability->getDate() == $availabilityAux->getDate() && $availabilityAux->getKeeper()->getIdKeeper() == $availability->getKeeper()->getIdKeeper()){
             foreach($petList_loaded as $pet){
-                    if($reserveRequestList->getPetId() == $pet){
+                    if($reserveRequestList->getPet()->getId_Pet() == $pet){
                         $boolean = false;
                         }
                     }

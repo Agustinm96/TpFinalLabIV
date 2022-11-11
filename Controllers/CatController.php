@@ -58,7 +58,6 @@ public function __construct()
     $cat->setRace($race);
     $cat->setVideoPet(null);
     $cat->setId_User($user);
-    var_dump($petType);
     $cat->setPetType($petTypeAux);
     $this->catDAO->Add($cat);
     $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());

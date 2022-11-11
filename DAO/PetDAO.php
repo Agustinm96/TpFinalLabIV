@@ -38,7 +38,6 @@ class PetDAO{
             $this->connection = Connection::GetInstance();
 
            $id = $this->connection->ExecuteNonQuery($query, $parameters,true);
-           var_dump($id);
            return $id;
         }
         catch(Exception $ex)
