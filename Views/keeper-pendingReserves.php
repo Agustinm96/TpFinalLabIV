@@ -15,6 +15,7 @@
                             
                             <th style="width: 300px;">Pet name</th>
                             <th style="width: 300px;">Pet Type</th>
+                            <th style="width: 300px;">Owner</th>
                             <th style="width: 300px;">My Decision</th>
                         </tr>
                     </thead>
@@ -27,6 +28,7 @@
                                 
                                 <td align='center'><input type="text" name="petName" value="<?php echo $reserve["pet"]->getName() ?>" readonly></td>
                                 <td align='center'><input type="text" name="petType" value="<?php if($reserve["pet"]->getPetType()->getPetTypeId()==1){echo "Dog";}elseif($reserve["pet"]->getPetType()->getPetTypeId()==2){echo "Cat";} ?>" readonly></td>
+                                <td align='center'><input type="text" name="userName" value="<?php echo $reserve["pet"]->getId_User()->GetUserName() ?>" readonly></td>
                                 <input type="hidden" name="petId" id="petId" value="<?php echo $reserve["pet"]->getId_Pet()?>">
                                 <input type="hidden" name="availabilityId" id="availabilityId" value="<?php echo $reserve["availabilityId"]?>">
                                 <input type="hidden" name="reserveId" id="reserveId" value="<?php echo $reserve["reserveId"]?>">

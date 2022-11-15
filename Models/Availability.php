@@ -11,7 +11,6 @@ class availability{
     public $id;
     private $date;
     private $available; //boolean
-    private $reserveRequest; //boolean
     private Pet $pet;
 
     public function getId(){

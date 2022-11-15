@@ -14,11 +14,13 @@
     use Models\Availability;
 
     class KeeperController {
+
         public $keeperDAO;
         private $userDAO;
         private $petController;
         private $availabilityController;
         private $reserveController;
+        private $invoceController;
 
         public function __construct() {
             $this->keeperDAO = new KeeperDAO();
@@ -26,6 +28,7 @@
             $this->petController = new PetController();
             $this->availabilityController = new AvailabilityController();
             $this->reserveController = new ReserveController();
+            $this->invoiceController = new InvoiceController();
         }
 
         public function ShowHomeView($message = ""){
@@ -291,7 +294,7 @@
             return $boolean;
         }
 
-        public function modifyingReserve($date, $petName, $petType, $petId, $availabilityId, $reserveId, $value){
+        public function modifyingReserve($date, $petName, $petType, $userName, $petId, $availabilityId, $reserveId, $value){
             
             $keeper = $this->keeperDAO->GetByIdUser($_SESSION["loggedUser"]->getId());
             $availability = $this->availabilityController->availabilityDAO->GetById($availabilityId);
@@ -329,7 +332,8 @@
                     $availability->setAvailable(0);
                     $this->availabilityController->availabilityDAO->Modify($availability);
                 }
-                
+                require_once(VIEWS_PATH."generateAndSendInvoice.php");
+                //$this->invoceController->showGenerateAndSendView($reserve);
                 $message = "DONE! Accepted reserve";
                 $this->ShowPendingReserves($message);
             }else{

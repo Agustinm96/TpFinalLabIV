@@ -60,7 +60,11 @@ class ReserveDAO{
     }
 
     public  function GetAll() {
-        $sql = "SELECT * FROM Reserve";
+        $sql = "SELECT * FROM Reserve r 
+        join pet p on r.id_pet=p.id_Pet 
+        join User u on p.id_user=u.id_user
+        join Availability a on r.id_availability=a.id_availability
+        ORDER BY a.`dateSpecific`,u.id_user;";
     
             try{
                 $this->connection = Connection::getInstance();

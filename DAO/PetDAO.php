@@ -9,17 +9,23 @@ use Models\Cat as Cat;
 use Models\PetType as PetType;
 use Models\User as User;
 use DAO\Connection as Connection;
+use DAO\UserDAO as UserDAO;
+use DAO\PetTypeDAO as PetTypeDAO;
 
 class PetDAO{
     private $petList = array();
     private $fileName = ROOT."Data/pets.json";
     private $connection;
+    private $userDAO;
+    private $petTypeDAO;
     private $tableName = "pet";
     
 
     public function __construct()
     {
         $this->connection = new Connection();
+        $this->userDAO = new UserDAO;
+        $this->petTypeDAO = new PetTypeDAO();
     }
 
     public function Add($namePet,$birthDate,$observation,$id_PetType,$id_user)
@@ -196,13 +202,13 @@ public function GetById($idPet){
         // var_dump($petType);
         $dog->setIsActive($content["isActive"]);
         $dog->setId_Pet($content["id_Pet"]); //MODIFICAR
-        $dog->setPetType($petType);
+        $dog->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
         $dog->setName($content["namePet"]);
         $dog->setBirthDate($content["birthDate"]);
         $dog->setObservation($content["observation"]);
         $dog->setPicture($content["picture"]); //PREGUNTAR
         $dog->setVideoPet($content["videoPet"]);
-        $dog->setId_User($user); 
+        $dog->setId_User($this->userDAO->GetById($user->getId())); 
         $dog->setVaccinationPlan($contentDog['vaccinationPlan']);
         $dog->setRace($contentDog["race"]);
         $dog->setSize($contentDog["size"]);
@@ -233,13 +239,13 @@ public function GetById($idPet){
         // var_dump($petType);
         $cat->setIsActive($content["isActive"]);
         $cat->setId_Pet($content["id_Pet"]);
-        $cat->setPetType($petType);
+        $cat->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
         $cat->setName($content["namePet"]);
         $cat->setBirthDate($content["birthDate"]);
         $cat->setObservation($content["observation"]);
         $cat->setPicture($content["picture"]); //PREGUNTAR
         $cat->setVideoPet($content["videoPet"]);
-        $cat->setId_User($user);
+        $cat->setId_User($this->userDAO->GetById($user->getId()));
         foreach($contentCatArray as $contentCat){
         $cat->setVaccinationPlan($contentCat["vaccinationPlan"]);
         $cat->setRace($contentCat["race"]);
