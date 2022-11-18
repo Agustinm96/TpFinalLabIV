@@ -110,6 +110,21 @@ class ReserveDAO{
             }
     }
 
+    public function GetByAvailabilityId($id) {
+        $sqlSelectId = "select * from Reserve where id_availability = '".$id."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+            }
+    }
+
     protected function mapear ($value){
 
         $value = is_array($value) ? $value : [];

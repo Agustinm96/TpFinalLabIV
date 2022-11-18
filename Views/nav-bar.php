@@ -48,8 +48,8 @@
             <li class="active"><a href="<?php echo FRONT_ROOT?>Owner/ShowHomeView">Main Menu</a></li>
             <li><a class="drop" href="#">My Pets</a>
               <ul>
-                <li><a href="<?php echo FRONT_ROOT."Pet/ShowAddView" ?>">Add Pet</a></li>
-                <li><a href="<?php echo FRONT_ROOT."Pet/ShowPerfilView" ?>">List Pets</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Owner/ShowPetAddViewFromOwner" ?>">Add Pet</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Owner/ShowPerfilViewFromOwner" ?>">List Pets</a></li>
               </ul>
             </li>
             <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">Ask for a keeper</a>

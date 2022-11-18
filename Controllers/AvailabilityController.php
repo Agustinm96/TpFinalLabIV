@@ -8,9 +8,11 @@ use DAO\AvailabilityDAO;
 
 class AvailabilityController{
     public $availabilityDAO;
+    private $invoiceController;
 
     public function __construct(){
         $this->availabilityDAO = new AvailabilityDAO();
+        $this->invoiceController = new InvoiceController();
     }
 
     public function Add ($keeper, $initDate, $finishDate, $daysToWork){
@@ -30,6 +32,7 @@ class AvailabilityController{
         $availavilityList = $this->availabilityDAO->GetAll(); //primero elimino aquellas que coincidan con el id del keeper
         foreach($availavilityList as $availability){
             if($availability->getKeeper()->getIdKeeper() == $keeper->getIdKeeper()){
+                //cargar invoice a eliminar
                 $this->availabilityDAO->Remove($availability->getId());
             }
             

@@ -154,6 +154,7 @@
 
             $keepersReserveList = $this->reserveController->loadAllReservesFromKeeper($keeper->getIdKeeper());
             foreach($keepersReserveList as $reserve){ //elimino cada reserva que tenia el keeper por el id
+                $this->invoiceController->invoiceDAO->RemoveByReserveId($reserve->getId());
                 $this->reserveController->reserveDAO->Remove($reserve->getId()); //para poder modificar la disponibilidad y al keeper, foreign keys.. 
             }
             $this->availabilityController->Modify($keeper, $initDate, $lastDate, $daysToWork);

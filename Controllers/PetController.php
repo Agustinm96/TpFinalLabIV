@@ -9,6 +9,7 @@ use DAO\PetDAO as PetDAO;
 class PetController {
 public $petDAO;
 
+
     public function __construct()
     {
         $this->petDAO = new petDAO();
@@ -18,6 +19,8 @@ public $petDAO;
         require_once(VIEWS_PATH . "validate-session.php");
         $petList = $this->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
        // var_dump($petList);
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "perfil-petlist.php");
     }
     public function ShowUploadVideo($PETID) {

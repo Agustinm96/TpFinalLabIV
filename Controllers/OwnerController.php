@@ -75,6 +75,45 @@ class OwnerController
         require_once(VIEWS_PATH . "loading-dates.php");
     }
 
+    public function ShowPetAddViewFromOwner() {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "add-choice.php");
+    }
+
+    public function ShowPerfilViewFromOwner($message = ""){
+        require_once(VIEWS_PATH . "validate-session.php");
+        $petList = $this->petController->petDAO->GetById_User($_SESSION["loggedUser"]->GetId());
+       // var_dump($petList);
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "perfil-petlist.php");
+    }
+
+    public function ShowUploadVideoFromOwner($PETID) {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $PETID = $PETID;
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "video-files.php");
+    }
+
+    public function ShowUploadPetVaccinationFromOwner($PETID) {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $PETID = $PETID;
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "vaccination-files.php");
+    }
+    public function ShowUploadPetPictureFromOwner($PETID) {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $PETID = $PETID;
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "picture-files.php");
+    }
+
     public function ShowInvoicePayment($userName,$password,$receiveId)
     {
         require_once(VIEWS_PATH . "validate-session.php");
@@ -314,10 +353,16 @@ class OwnerController
     public function PayInvoice($invoiceId){
         
         $invoice = $this->invoiceController->invoiceDAO->GetById($invoiceId);
-        $invoice->setIsPayed(1);
-        $this->invoiceController->invoiceDAO->Modify($invoice);
+        
+        if($invoice->getIsPayed() == 0){
+            $message = "ERROR. You've already payed the invoice";
+        }else{
+            $invoice->setIsPayed(1);
+            $this->invoiceController->invoiceDAO->Modify($invoice);
+            $message = "Invoice successfully payed. Thank You";
+        }
 
-        $this->ShowHomeView("Invoice successfully payed. Thank You");
+        $this->ShowHomeView($message);
     }
 
     public function checkingIfAreInvoicesToPay($owner){

@@ -44,7 +44,7 @@ if (isset($message)) {
                   ?>
                     <td><img src="<?php echo FRONT_ROOT . IMG_PATH . $pet->getPicture(); ?>" alt="no-image.php" style="width: 100px;"></td>
                   <?php } else if ($pet->getPicture() == NULL) { ?>
-                    <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadPetPicture" ?>" method="post" style="">
+                    <form action="<?php echo FRONT_ROOT . "Owner/ShowUploadPetPictureFromOwner" ?>" method="post" style="">
 
                       <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Pic-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
@@ -68,7 +68,7 @@ if (isset($message)) {
                   <?php if ($pet->getVaccinationPlan()) { ?>
                     <td><img src="<?php echo FRONT_ROOT . IMG_PATH . $pet->getVaccinationPlan(); ?>" alt="no-image.php" style="width: 100px;"></td>
                   <?php } else if ($pet->getVaccinationPlan() == NULL) { ?>
-                    <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadPetVaccination" ?>" method="post" style="">
+                    <form action="<?php echo FRONT_ROOT . "Owner/ShowUploadPetVaccinationFromOwner" ?>" method="post" style="">
                       <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Vac-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
 
@@ -82,7 +82,7 @@ if (isset($message)) {
                         <source src="<?php echo FRONT_ROOT . IMG_PATH . $pet->getVideoPET(); ?>">
                     </td>
                   <?php } else if ($pet->getVideoPET() == NULL) { ?>
-                    <form action="<?php echo FRONT_ROOT . "Pet/ShowUploadVideo" ?>" method="post" style="">
+                    <form action="<?php echo FRONT_ROOT . "Owner/ShowUploadVideoFromOwner" ?>" method="post" style="">
                       <input type="hidden" name="PETID" value="<?php echo $pet->getId_Pet() ?>" />
                       <td><input type="submit" class="btn" name="PETName" value=<?php echo "Video-" . $pet->getName() ?> style="background-color:#DC8E47;color:white;" /></td>
                     </form>

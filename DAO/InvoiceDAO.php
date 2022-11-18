@@ -30,9 +30,9 @@ class InvoiceDAO{
         
     }
 
-    public function Remove($id) {
-        $sql="DELETE FROM Invoice i WHERE i.id_invoice=:id";
-            $values['id_invoice'] = $id;
+    public function RemoveByReserveId($id) {
+            $sql="DELETE FROM Invoice i WHERE i.id_reserve=:id_reserve";
+            $values['id_reserve'] = $id;
     
             try{
                 $this->connection= Connection::getInstance();
