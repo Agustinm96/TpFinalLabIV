@@ -17,12 +17,13 @@ use Models\Reserve;
 
 class OwnerController
 {
-    private $ownerDAO;
+    public $ownerDAO;
     private $userDAO;
     private $keeperController;
     private $petController;
     private $availabilityController;
     private $reserveController;
+    private $invoiceController;
 
     public function __construct()
     {
@@ -32,17 +33,22 @@ class OwnerController
         $this->petController  = new PetController();
         $this->availabilityController = new AvailabilityController();
         $this->reserveController = new ReserveController();
+        $this->invoiceController = new InvoiceController();
     }
 
     public function ShowHomeView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "home.php");
     }
 
     public function ShowAddView($message = "")
     {
         //require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "home.php");
     }
 
@@ -64,18 +70,70 @@ class OwnerController
     public function ShowAskForAKeeper($message = "")
     {
         require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "loading-dates.php");
+    }
+
+    public function ShowInvoicePayment($userName,$password,$receiveId)
+    {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $invoice = $this->invoiceController->invoiceDAO->GetByIdReserve($receiveId);
+        $reserve = $this->reserveController->reserveDAO->GetById($receiveId);
+        $availability = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailability()->getId());
+        require_once(VIEWS_PATH . "invoice-payment.php");
+    }
+
+    public function ShowInvoicePaymentFromPage($invoiceId, $petName, $date, $price)
+    {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $invoice = $this->invoiceController->invoiceDAO->GetById($invoiceId);
+        $reserve = $this->reserveController->reserveDAO->GetById($invoice->getReserve()->getId());
+        $availability = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailability()->getId());
+        require_once(VIEWS_PATH . "invoice-payment.php");
+    }
+
+    public function ShowInvoicesToPay(){
+        require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        $invoicesToPayList = $this->loadingInvoicesToPay($owner);
+        require_once(VIEWS_PATH . "invoicesToPay-list.php");
     }
 
     public function ShowMyProfile(){  
         require_once(VIEWS_PATH . "validate-session.php");
-        $owner = $this->ownerDAO->getByIdUser(($_SESSION["loggedUser"]->getId()));
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "owner-profile.php");
+    }
+
+    public function ShowAvailableListView($initDate, $lastDate){
+        require_once(VIEWS_PATH . "validate-session.php");   
+        $availabilityList = $this->availabilityController->availabilityDAO->GetAll();
+        
+        if($_SESSION["loggedUser"]->getUserType()->getId()==1){
+            $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+            $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+        }
+
+        if($initDate <= $lastDate){
+            $keepersList = $this->keeperController->keeperDAO->getAvailableKeepersByDates($availabilityList, $initDate, $lastDate);
+
+            require_once(VIEWS_PATH . "keepers-list.php");
+        }else{
+            $message = "ERROR: The dates you selected are invalid! Please select them again";
+            require_once(VIEWS_PATH . "loading-dates.php");
+        }
+        
     }
 
     public function ShowGenerateReserveView($id, $message="")
     {
         require_once(VIEWS_PATH . "validate-session.php");
+        $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+        $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
+
         $keeper = $this->keeperController->keeperDAO->GetById($id);
         $availabilityList = $this->availabilityController->availabilityDAO->GetByIdKeeper($keeper->getIdKeeper());
         
@@ -251,5 +309,63 @@ class OwnerController
             } 
             $startingDay = date('Y-m-d', strtotime($startingDay)+86400);     
         } 
+    }
+
+    public function PayInvoice($invoiceId){
+        
+        $invoice = $this->invoiceController->invoiceDAO->GetById($invoiceId);
+        $invoice->setIsPayed(1);
+        $this->invoiceController->invoiceDAO->Modify($invoice);
+
+        $this->ShowHomeView("Invoice successfully payed. Thank You");
+    }
+
+    public function checkingIfAreInvoicesToPay($owner){
+        $invoicesList = $this->invoiceController->invoiceDAO->GetAll();
+        $boolean = false;
+
+        if(is_array($invoicesList)){
+            foreach($invoicesList as $invoice){
+            if($invoice->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
+                //comprueba que invoice sea de el owner ingresado por param
+                if($invoice->getIsPayed()=='0'){
+                    $boolean = true;
+                    }
+                }
+            }
+        }elseif($invoicesList){
+            if($invoicesList->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
+                //comprueba que invoice sea de el owner ingresado por param
+                if($invoicesList->getIsPayed()=='0'){
+                    $boolean = true;
+                    }
+                }
+            }
+        return $boolean;
+    }
+
+    public function loadingInvoicesToPay($owner){
+        $invoicesList = $this->invoiceController->invoiceDAO->GetAll();
+        $arrayToReturn=array();
+
+        if(is_array($invoicesList)){
+        foreach($invoicesList as $invoice){
+            if($invoice->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
+                //comprueba que invoice sea de el owner ingresado por param
+                if($invoice->getIsPayed()==0){
+                    array_push($arrayToReturn, $invoice);
+                }
+            }
+        }
+       
+    }elseif($invoicesList){
+        if($invoice->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
+            //comprueba que invoice sea de el owner ingresado por param
+            if($invoicesList->getIsPayed()==0){
+                $boolean = true;
+                }
+            }
+        } 
+        return $arrayToReturn;
     }
 }

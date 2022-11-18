@@ -6,6 +6,7 @@ use Models\Reserve;
 use Models\Invoice;
 
 class InvoiceDAO{
+    private $tableName = 'Invoice';
     private $reserveDAO;
 
     public function __construct(){
@@ -41,8 +42,24 @@ class InvoiceDAO{
             }
     }
 
-
     public  function GetAll() {
+        $sql = "SELECT * FROM Invoice";
+    
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sql);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
+    }
+
+
+    public  function GetAll2() {
         $sql = "SELECT * FROM Invoice i
         join Reserva r on i.id_reserva=r.id_reserva 
         join pet p on r.id_pet=p.id_Pet 
@@ -78,6 +95,21 @@ class InvoiceDAO{
             }
     }
 
+    public function GetByIdReserve($id) {
+        $sqlSelectId = "select * from Invoice where id_reserve = '".$id."';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+            }
+    }
+
     protected function mapear ($value){
 
         $value = is_array($value) ? $value : [];
@@ -96,7 +128,24 @@ class InvoiceDAO{
         return count($resp) > 1 ? $resp : $resp['0'];
     }
 
+    public function Modify(Invoice $invoice) {
+        $var = $this->tableName;
+    try
+    {
+    $query = "UPDATE $var SET isPayed='".$invoice->getIsPayed()."'
+    WHERE $var.id_invoice='".$invoice->getIdInvoice()."';";
+    $this->connection = Connection::GetInstance();
+    $this->connection->execute($query);
     }
+    catch(Exception $ex)
+    {
+        throw $ex;
+    }
+    }
+
+    }
+
+
 
 
 ?>

@@ -56,6 +56,7 @@
             </li>
             <li><a href="<?php echo FRONT_ROOT."User/ShowMyProfile"?>">My Profile</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
+            <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>"><img src="<?php if(!$ownerBoolean)echo FRONT_ROOT . IMG_PATH . "bell.png"; else echo FRONT_ROOT . IMG_PATH . "notification.png";?>" alt="" style="width:20px ;"></a>
         </ul>
     </nav><?php }
     else if($_SESSION["loggedUser"]->getUserType()->getId()==2){?>

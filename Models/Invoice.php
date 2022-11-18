@@ -35,12 +35,12 @@
 
         public function getIsPayed()
         {
-                return $this->is_payed;
+                return $this->isPayed;
         }
 
-        public function setIsPayed($is_payed): self
+        public function setIsPayed($isPayed): self
         {
-                $this->is_payed = $is_payed;
+                $this->isPayed = $isPayed;
 
                 return $this;
         }

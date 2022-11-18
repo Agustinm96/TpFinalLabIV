@@ -8,7 +8,7 @@
 
 <main>
     <h1>Finding a Keeper</h1>
-    <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowAvailableListView"?>" method = "post">
+    <form action="<?php ECHO FRONT_ROOT . "Owner/ShowAvailableListView"?>" method = "post">
     <table>
         <thead>              
             <tr>

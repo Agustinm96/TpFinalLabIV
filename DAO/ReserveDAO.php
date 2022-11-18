@@ -59,12 +59,28 @@ class ReserveDAO{
             }
     }
 
-    public  function GetAll() {
+    public  function GetAll2() {
         $sql = "SELECT * FROM Reserve r 
         join pet p on r.id_pet=p.id_Pet 
         join User u on p.id_user=u.id_user
         join Availability a on r.id_availability=a.id_availability
         ORDER BY a.`dateSpecific`,u.id_user;";
+    
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($sql);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return false;
+            }
+    }
+
+    public  function GetAll() {
+        $sql = "SELECT * FROM Reserve";
     
             try{
                 $this->connection = Connection::getInstance();

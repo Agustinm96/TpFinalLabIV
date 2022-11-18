@@ -7,7 +7,7 @@
     class InvoiceController
     {
 
-        private $invoiceDAO;
+        public $invoiceDAO;
 
         public function __construct() {
             $this->invoiceDAO = new InvoiceDAO();
@@ -15,7 +15,6 @@
 
         public function showGenerateAndSendView(Reserve $reserve){
             require_once(VIEWS_PATH . "validate-session.php");
-            var_dump($reserve);
             require_once(VIEWS_PATH."generateAndSendInvoice.php");
         }
 
@@ -24,11 +23,12 @@
         {
             $invoice=new Invoice();
             $invoice->setReserve($reserve);
-            $invoice->setIsPayed(false);
+            $invoice->setIsPayed(0);
 
             $this->invoiceDAO->Add($invoice);
-            $this->showGenerateAndSendView();
         }
+
+        
 
 
     }
