@@ -2,6 +2,7 @@
     namespace Controllers;
 
     use DAO\UserDAO;
+    use DAO\OwnerDAO;
     use DAO\UserTypeDAO; 
     use Models\User;
     use Models\UserType;
@@ -9,14 +10,18 @@
     class UserController
     {
         private $userDAO;
+        private $ownerDAO;
         private $userTypeDAO;
         private $keeperController;
+        private $ownerController;
 
         public function __construct()
         {
             $this->userDAO = new UserDAO();
+            $this->ownerDAO = new OwnerDAO();
             $this->userTypeDAO = new UserTypeDAO();
             $this->keeperController = new KeeperController();
+            $this->ownerController = new OwnerController();
         }
 
         public function ShowAddView($message="",$userType=null)
@@ -55,6 +60,10 @@
             if($user->getUserType()->getId()==2){
                 $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
                 $boolean = $this->keeperController->checkingRequests($keeper);
+            }
+            else if($user->getUserType()->getId()==1){
+                $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+                $ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
             }
             require_once(VIEWS_PATH . "profile-view.php");
         }
@@ -123,4 +132,3 @@
             $this->ShowListView();
         }
     }
-?>

@@ -404,10 +404,10 @@ class OwnerController
         }
        
     }elseif($invoicesList){
-        if($invoice->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
+        if($invoicesList->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
             //comprueba que invoice sea de el owner ingresado por param
             if($invoicesList->getIsPayed()==0){
-                $boolean = true;
+                array_push($arrayToReturn, $invoicesList);
                 }
             }
         } 
