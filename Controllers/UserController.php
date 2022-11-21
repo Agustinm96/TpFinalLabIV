@@ -8,7 +8,7 @@
 
     class UserController
     {
-        private $userDAO;
+        public $userDAO;
         private $userTypeDAO;
         private $keeperController;
 

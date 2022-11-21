@@ -62,7 +62,6 @@ if (isset($message)) {
               </tbody>
 </table>
 <div>
-    <?php var_dump($petType->getPetTypeId()); ?>
             <input type="hidden" name="petType" value= "<?php echo( $petType->getPetTypeId());?>" />
             <input type="submit" class="btn" value="Register" style="background-color:#DC8E47;color:white;"/>
           </div>

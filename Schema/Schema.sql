@@ -85,8 +85,6 @@ CREATE TABLE
         CONSTRAINT fk_petxcat Foreign Key (id_Pet) REFERENCES pet(id_Pet)
     );
 
-
-
 create table
     if not exists Availability(
         id_availability int not null auto_increment primary key,
@@ -104,6 +102,33 @@ create table
         isActive boolean,
         constraint fk_availability foreign key (id_availability) references Availability (id_availability),
         constraint fk_idPet foreign key (id_pet) references Pet (id_Pet)
+    );
+
+create table
+    if not exists Invoice(
+        id_invoice int not null auto_increment primary key,
+        id_reserve int,
+        isPayed boolean default false,
+        constraint fk_idReserve foreign key (id_reserve) references Reserve (id_reserve)
+    );
+    
+        CREATE TABLE
+    IF NOT EXISTS chat (
+     
+        id_Owner int,
+        id_Keeper int,
+        id_Chat  int NOT NULL auto_increment PRIMARY KEY,
+        CONSTRAINT fk_owenerxchat Foreign Key (id_Owner) REFERENCES User(id_user),
+        CONSTRAINT fk_keepertxchat Foreign Key (id_Keeper) REFERENCES User(id_user)
+    );
+    
+       CREATE TABLE
+    IF NOT EXISTS chatMessage (
+        id_ChatMessage  int NOT NULL auto_increment PRIMARY KEY,
+        userName varchar(50),
+        id_Chat int,
+        dataTime date,
+        CONSTRAINT fk_chatMSGxchat Foreign Key (id_Chat) REFERENCES chat(id_Chat)
     );
 
 INSERT INTO UserType VALUES(0,'Owner');
@@ -132,6 +157,7 @@ select * from UserType;
 select * from User;
 
 select * from Owner;
+
 select * from Keeper;
 
 select * from Dog;
@@ -154,6 +180,7 @@ SELECT * FROM pet;
 SELECT * from pettype;
 
 select * from availability;
+
 select * from reserve;
 
 SELECT * FROM pet JOIN Owner on pet.id_user=Owner.id_user;
@@ -167,3 +194,14 @@ FROM pet p
     JOIN Owner o on p.id_user = o.id_user
     JOIN User u on o.id_user = u.id_user
 where o.id_owner = 11;
+
+SELECT *
+FROM Reserve r
+    join pet p on r.id_pet = p.id_Pet
+    join User u on p.id_user = u.id_user
+    join Availability a on r.id_availability = a.id_availability
+ORDER BY
+    a.`dateSpecific`,
+    u.id_user;
+
+    select * from Invoice;

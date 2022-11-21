@@ -110,6 +110,7 @@
             }
         }
 
+    
         public function GetByIdUser($idUser) {
             $sqlSelectId = "select * from Keeper where id_user = '".$idUser."';";
             try{
@@ -162,5 +163,7 @@
             throw $ex;
         }
         }
+
+       
     }
 ?>

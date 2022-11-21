@@ -165,4 +165,21 @@ class UserDAO implements IUserDAO
     {
         
     }
+
+    public function getByNameOrLastName($parameters) {
+        $sqlSelectId = "select * from User where firstName like '%".$parameters."%' 
+        || lastName like '%".$parameters."%'
+        and id_userType = '2';";
+        try{
+            $this->connection = Connection::getInstance();
+            $result = $this->connection->Execute($sqlSelectId);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($result)){
+            return $this->mapear($result);
+        }else{
+            return false;
+        }
+    }
 }
