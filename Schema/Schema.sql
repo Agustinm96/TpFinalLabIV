@@ -1,4 +1,4 @@
--- Active: 1667602921374@@127.0.0.1@3306@pethero
+-- Active: 1669139443062@@127.0.0.1@3306@pethero
 
 create database pethero;
 
@@ -126,6 +126,7 @@ create table
     IF NOT EXISTS chatMessage (
         id_ChatMessage  int NOT NULL auto_increment PRIMARY KEY,
         userName varchar(50),
+        msg varchar(100) default null,
         id_Chat int,
         dataTime date,
         CONSTRAINT fk_chatMSGxchat Foreign Key (id_Chat) REFERENCES chat(id_Chat)
