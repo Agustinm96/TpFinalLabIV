@@ -28,11 +28,11 @@ require_once('validate-session.php');
               <thead>
                 <tr>
                   <th style="width: 100px;">Keeper: </th>
-                  <td><?php echo $result->getLastName() . " " 
-                      .$result->getFirstName() ?></td>
+                  <td><?php echo $result->getUser()->getLastName() . " " 
+                      .$result->getUser()->getFirstName() ?></td>
                   </tr>
                       <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
-                        <input type="hidden" name="id_User" value="<?php echo $result->getId()?>" />
+                        <input type="hidden" name="id_User" value="<?php echo $result->getUser()->getId()?>" />
                        <td><input type="submit" class="btn"  
                        value= "START CHAT"
                      style="background-color:#DC8E47;color:white;" />
@@ -45,10 +45,10 @@ require_once('validate-session.php');
               <thead>
                 <tr>
                   <th style="width: 100px;">Keeper: </th>
-                  <td><?php echo $user->getLastName() . " " .$user->getFirstName() ?></td>
+                  <td><?php echo $user->getUser()->getLastName() . " " .$user->getUser()->getFirstName() ?></td>
                 </tr>
                 <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
-                      <input type="hidden" name="id_User" value="<?php echo $user->getId()?>" />
+                      <input type="hidden" name="id_User" value="<?php echo $user->getUser()->getId()?>" />
                       <td><input type="submit" class="btn"  
                       value= "START CHAT"
                    style="background-color:#DC8E47;color:white;" /></td>

@@ -34,15 +34,18 @@ Class ChatController{
 
       public function getAllKeepers(){
          require_once(VIEWS_PATH . "validate-session.php");
-         $keeperList = $this->keeperDAO->GetAll();
-         
+         $result = $this->keeperDAO->GetAll();
+         $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Owner");
          require_once(VIEWS_PATH . "chat-list.php");
       }
 
       public function lookForKeeper($searchParameter){
          require_once(VIEWS_PATH . "validate-session.php");
-         $result = null;
-         $result = $this->userController->userDAO->getByNameOrLastName($searchParameter);
+         if(!$searchParameter){
+          $result = $this->keeperDAO->GetAll();
+         }else{
+         $result = $this->keeperDAO->getByNameOrLastName($searchParameter);
+         }
          if($_SESSION["loggedUser"]->getUserType()->getId()==1){
             $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Owner");
             }
