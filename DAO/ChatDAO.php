@@ -25,8 +25,10 @@ class ChatDAO{
         {
             $query = "INSERT INTO ".$this->tableName." (id_Owner,id_Keeper)
              VALUES (:id_Owner, :id_Keeper)";
-            $parameters["id_Owner"] = $newChat->getId_Owner();
-            $parameters["id_Keeper"] = $newChat->getId_Keeper();
+            $parameters["id_Owner"] = $newChat->getId_Owner()->getId();
+            var_dump($parameters["id_Owner"]);
+            $parameters["id_Keeper"] = $newChat->getId_Keeper()->getId();
+            var_dump($parameters["id_Keeper"]);
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);
@@ -37,13 +39,16 @@ class ChatDAO{
             throw $ex;
         }
     }
-
+ 
+    public function clearList(){
+        $this->chatList = array();
+    }
     
 
     public function GetById_User($id,$parameter)
     {
         $query = "SELECT * FROM chat WHERE $id = chat.$parameter";
-        
+        $this->clearList();
         try{
             $this->connection = Connection::getInstance();
             $contentArray = $this->connection->Execute($query);
@@ -60,9 +65,8 @@ class ChatDAO{
             $chat->setId_Owner($userOwner);
             $chat->setId_Keeper($userKeeper);
              array_push($this->chatList, $chat);
-             return $this->chatList;
-
          }
+         return $this->chatList;
     }else{
         return null;
     }
@@ -88,10 +92,8 @@ public function getById_Chat($id)
         $chat->setId_Chat($content['id_Chat']);
         $chat->setId_Owner($userOwner);
         $chat->setId_Keeper($userKeeper);
-         array_push($this->chatList, $chat);
-         return $chat;
-
      }
+     return $chat;
 }else{
     return null;
 }

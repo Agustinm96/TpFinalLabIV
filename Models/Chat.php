@@ -4,8 +4,8 @@ namespace Models;
 use Models\User as User;
 
 class Chat {
-private User $id_Owner; 
-private User $id_Keeper;
+private User $id_Owner; //Mismo nombre que base de datos.
+private User $id_Keeper; //Mismo nombre que base de datos.
 private $id_Chat;
 
 /**

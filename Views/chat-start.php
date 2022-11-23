@@ -57,6 +57,7 @@ if (!isset($chat)) { ?>
                       <td><input type="submit" class="btn" name="StartingChat" 
                       value=" SEND "
                    style="background-color:#DC8E47;color:white;" /></td>
+                </form>
        </thead>
       </div>
     </div>

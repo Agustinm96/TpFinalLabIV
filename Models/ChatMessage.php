@@ -4,7 +4,7 @@ namespace Models;
 use Models\Chat as Chat;
 
 class ChatMessage {
-private Chat $id_Chat;
+private Chat $id_Chat; //Mismo nombre que base de datos.
 private $id_ChatMessage;
 private $userName;
 private $dataTime;

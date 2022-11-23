@@ -4,6 +4,7 @@ namespace Controllers;
 use DAO\ChatDAO as ChatDAO;
 use DAO\keeperDAO as keeperDAO;
 use MODELS\User as User;
+use MODELS\Chat as Chat;
 
 Class ChatController{
     private $userController;
@@ -28,15 +29,6 @@ Class ChatController{
         if($_SESSION["loggedUser"]->getUserType()->getId()==2){
             $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Keeper");
             }
-        if($chatList==NULL){
-            if($message == ""){
-        $message ="NO DISPONE DE CHATS ACTIVOS";
-            }
-        }else{
-            if($message == ""){
-            $message = "Seleccione un chat para comenzar";  
-        }
-        }
         require_once(VIEWS_PATH . "chat-list.php");
       }
 
@@ -49,6 +41,7 @@ Class ChatController{
 
       public function lookForKeeper($searchParameter){
          require_once(VIEWS_PATH . "validate-session.php");
+         $result = null;
          $result = $this->userController->userDAO->getByNameOrLastName($searchParameter);
          if($_SESSION["loggedUser"]->getUserType()->getId()==1){
             $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Owner");
@@ -61,10 +54,11 @@ Class ChatController{
       public function Add($id_Keeper){
       $newchat = new Chat();
       $userAux = new User();
-      $userAux->setId_user($id_Keeper); // ID keeper
-      $newchat->setId_Keeper($userAux);
-      $userAux->setId_user($_SESSION["loggedUser"]->getId());
-      $newchat->setId_Owner($userAux); // ID OWNER que esta logeado
+      $userAux2 = new User();
+      $userAux->setId($id_Keeper); // ID keeper
+      $newchat->setId_Keeper($userAux); //seteo el ID del keeper
+      $userAux2->setId($_SESSION["loggedUser"]->getId()); //cambio al ID logeado
+      $newchat->setId_Owner($userAux2); // ID OWNER que esta logeado
       $this->chatDAO->Add($newchat);
       }
 
@@ -72,16 +66,18 @@ Class ChatController{
       public function NewChat($id_nonloggedUser){
       require_once(VIEWS_PATH . "validate-session.php");
       $flag = 0;
-      $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Keeper");
+      $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(),"id_Owner");
+      if($chatList!=null){
       foreach($chatList as $chat){
         if($chat->getId_Keeper()->getId()==$id_nonloggedUser){
         $flag =1;
         }
       }
+    }
       if($flag==1){
       $this->ShowChatView("Ya posees un chat iniciado con este usuario");
       }else{
-      $this->add($id_nonloggedUser);
+      $this->Add($id_nonloggedUser);
       $this->ShowChatView();
       }
       }

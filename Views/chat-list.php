@@ -4,7 +4,7 @@ include_once('nav-bar.php');
 require_once('validate-session.php');
 
 ?>
-<!--
+
 <div>
 <?php if ($_SESSION["loggedUser"]->getUserType()->getId()==1) { ?>
   <table>
@@ -14,14 +14,32 @@ require_once('validate-session.php');
                  <form action="<?php echo FRONT_ROOT . "Chat/LookForKeeper" ?>" method="post" style="">    
                   <input type="text" name="searchParameter" size="22" min="0" style="max-width: 180px">
                   <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:green;"/>
+</form>
                 </td>
 </div>
 </tbody>
 </table>
 <?php } ?>
-<?php if (isset($result)) { ?>
+<?php if (isset($result)&&($result)) { ?>
   <div id="breadcrumb" class="hoc clear">
-  <h2 class="heading">KEEPER RESULT</h2>
+     <h2 class="heading">KEEPER RESULT</h2>
+      <?php if(is_object($result)){ ?>
+          <table style="text-align:left;">
+              <thead>
+                <tr>
+                  <th style="width: 100px;">Keeper: </th>
+                  <td><?php echo $result->getLastName() . " " 
+                      .$result->getFirstName() ?></td>
+                  </tr>
+                      <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
+                        <input type="hidden" name="id_User" value="<?php echo $result->getId()?>" />
+                       <td><input type="submit" class="btn"  
+                       value= "START CHAT"
+                     style="background-color:#DC8E47;color:white;" />
+                  </td>
+                      </form>
+           </table>
+        <?php } ?>
   <?php foreach($result as $user){ ?>
                 <table style="text-align:left;">
               <thead>
@@ -30,16 +48,16 @@ require_once('validate-session.php');
                   <td><?php echo $user->getLastName() . " " .$user->getFirstName() ?></td>
                 </tr>
                 <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
-                      <input type="hidden" name="id_Chat" value="<?php echo $user->getId() ?>" />
-                      <td><input type="submit" class="btn" name="StartingChat" 
-                      value=" START CHAT"
+                      <input type="hidden" name="id_User" value="<?php echo $user->getId()?>" />
+                      <td><input type="submit" class="btn"  
+                      value= "START CHAT"
                    style="background-color:#DC8E47;color:white;" /></td>
+  </form>
               </table>
               <?php } ?>
 
-  <?php }
-?>
--->
+  <?php } ?>
+
 </div>
 
 <div id="breadcrumb" class="hoc clear">
@@ -65,7 +83,7 @@ if (isset($message)) { ?>
               <thead>
                 <tr>
                 </tr>
-                <form target="_parent" action="<?php echo FRONT_ROOT . "ChatMessage/ShowChatStarted" ?>" method="post" style="">
+                <form target="_blank" action="<?php echo FRONT_ROOT . "ChatMessage/ShowChatStarted" ?>" method="post" style="">
                       <input type="hidden" name="id_Chat" value="<?php echo $chat->getId_Chat() ?>" />
                       <?php if($_SESSION["loggedUser"]->getUserType()->getId()==1) {?>
                       <td><input type="submit" class="btn" name="StartingChat" 
@@ -79,6 +97,7 @@ if (isset($message)) { ?>
                   " " . $chat->getId_Owner()->getFirstName();?>"
                    style="background-color:#DC8E47;color:GREEN;" /></td>
              <?php }?>
+             </form>
               </table>
               <?php } ?>
 

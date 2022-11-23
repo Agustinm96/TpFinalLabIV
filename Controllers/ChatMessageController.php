@@ -28,7 +28,7 @@ Class ChatMessageController{
      require_once(VIEWS_PATH . "validate-session.php");
      $chat = $this->chatDAO->getById_Chat($id_Chat);
      $msgList = $this->chatMessageDAO->getById_Chat($id_Chat);
-     require_once(VIEWS_PATH . "chat-start.php");
+     require_once(VIEWS_PATH . "chat-front.php");
     }
 
     public function Chating($newMSG,$id_Chat){
