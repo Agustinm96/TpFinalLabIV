@@ -13,6 +13,7 @@ include_once('nav-bar.php');
             <li><a href="<?php echo FRONT_ROOT . "Pet/ShowPerfilView" ?>">PET LIST</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowListView" ?>">KEEPERS LIST</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper" ?>">ASK FOR A KEEPER</a></li>
+            <li><a href="<?php echo FRONT_ROOT . "Chat/ShowChatView" ?>">START YOUR CHAT!</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Home/Logout" ?>">LOGOUT</a></li>
         </ul>
         <?php
@@ -27,6 +28,8 @@ include_once('nav-bar.php');
         <ul>
             <li><a href="<?php echo FRONT_ROOT . "User/ShowMyProfile" ?>">MY PROFILE</a></li>
             <li><a href="<?php echo FRONT_ROOT . "Keeper/ShowMyAvailability" ?>">AVAILABILITY</a></li>
+            <li><a href="<?php echo FRONT_ROOT . "Chat/ShowChatView" ?>">START YOUR CHAT!</a></li>
+
             <li><a href="<?php echo FRONT_ROOT . "Home/Logout" ?>">LOGOUT</a></li>
         </ul>
         <?php

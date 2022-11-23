@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 -- Active: 1668912442106@@127.0.0.1@3306
+=======
+-- Active: 1669139443062@@127.0.0.1@3306@pethero
+>>>>>>> Chat
 
 create database pethero;
 
@@ -110,6 +114,26 @@ create table
         id_reserve int,
         isPayed boolean default false,
         constraint fk_idReserve foreign key (id_reserve) references Reserve (id_reserve)
+    );
+    
+        CREATE TABLE
+    IF NOT EXISTS chat (
+     
+        id_Owner int,
+        id_Keeper int,
+        id_Chat  int NOT NULL auto_increment PRIMARY KEY,
+        CONSTRAINT fk_owenerxchat Foreign Key (id_Owner) REFERENCES User(id_user),
+        CONSTRAINT fk_keepertxchat Foreign Key (id_Keeper) REFERENCES User(id_user)
+    );
+    
+       CREATE TABLE
+    IF NOT EXISTS chatMessage (
+        id_ChatMessage  int NOT NULL auto_increment PRIMARY KEY,
+        userName varchar(50),
+        msg varchar(100) default null,
+        id_Chat int,
+        dataTime date,
+        CONSTRAINT fk_chatMSGxchat Foreign Key (id_Chat) REFERENCES chat(id_Chat)
     );
 
 INSERT INTO UserType VALUES(0,'Owner');
