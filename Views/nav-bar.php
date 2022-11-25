@@ -10,7 +10,6 @@
       </div>
     </div>
   </div>
-
   <div class="wrapper row1">
     <header id="header" class="hoc clear"> 
       <div id="logo" class="fl_left">
@@ -42,29 +41,60 @@
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
         </ul>
     </nav><?php }
-    else if($_SESSION["loggedUser"]->getUserType()->getId()==1){?>
+    if($_SESSION["loggedUser"]->getUserType()->getId()==1){?>
     <nav id="mainav" class="fl_right">
         <ul class="clear">
             <li class="active"><a href="<?php echo FRONT_ROOT?>Owner/ShowHomeView">Main Menu</a></li>
             <li><a class="drop" href="#">My Pets</a>
               <ul>
-                <li><a href="<?php echo FRONT_ROOT."Pet/ShowAddView" ?>">Add Pet</a></li>
-                <li><a href="<?php echo FRONT_ROOT."Pet/ShowPerfilView" ?>">List Pets</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Owner/ShowPetAddViewFromOwner" ?>">Add Pet</a></li>
+                <li><a href="<?php echo FRONT_ROOT."Owner/ShowPerfilViewFromOwner" ?>">List Pets</a></li>
               </ul>
             </li>
             <li><a href="<?php echo FRONT_ROOT . "Owner/ShowAskForAKeeper"?>">Ask for a keeper</a>
             </li>
             <li><a href="<?php echo FRONT_ROOT."User/ShowMyProfile"?>">My Profile</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
+            <?php if(isset($ownerBoolean)){ ?>
+             <?php if($ownerBoolean){ ?>
+            <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "notification.png"; ?>"
+            alt="" style="width:20px ;"></a>
+            <?php }else{ ?>
+             <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"; ?>"
+            alt="" style="width:20px ;"></a>
+              <?php } ?>
+            <?php }else{?>
+              <?php $ownerBoolean=false ?>
+              <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"; ?>"
+            alt="" style="width:20px ;"></a>
+              <?php } ?>
         </ul>
     </nav><?php }
-    else if($_SESSION["loggedUser"]->getUserType()->getId()==2){?>
+    if($_SESSION["loggedUser"]->getUserType()->getId()==2){?>
     <nav id="mainav" class="fl_right">
         <ul class="clear">
             <li class="active"><a href="<?php echo FRONT_ROOT?>Keeper/ShowHomeView">Main Menu</a></li>
             <li><a href="<?php echo FRONT_ROOT. "Keeper/ShowReserveView"?>">See reserves</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
-            <a href="<?php echo FRONT_ROOT . "Keeper/ShowPendingReserves"?>"><img src="<?php if(!$boolean)echo FRONT_ROOT . IMG_PATH . "bell.png"; else echo FRONT_ROOT . IMG_PATH . "notification.png";?>" alt="" style="width:20px ;"></a>
+            <?php if(isset($boolean)){ ?>
+             <?php if($boolean){ ?>
+            <a href="<?php echo FRONT_ROOT . "Keeper/ShowPendingReserves"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "notification.png"; ?>"
+            alt="" style="width:20px ;"></a>
+            <?php }else{ ?>
+             <a href="<?php echo FRONT_ROOT . "Keeper/ShowPendingReserves"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"; ?>"
+            alt="" style="width:20px ;"></a>
+              <?php } ?>
+            <?php }else{?>
+              <?php $boolean = false?>
+              <a href="<?php echo FRONT_ROOT . "Keeper/ShowPendingReserves"?>">
+            <img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"; ?>"
+            alt="" style="width:20px ;"></a>
+              <?php } ?>
             
         </ul>
     </nav> 

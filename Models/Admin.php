@@ -3,7 +3,7 @@
 
     use Models\User;
 
-    class Owner{
+    class Admin{
         private $user;
         private $idAdmin;
 

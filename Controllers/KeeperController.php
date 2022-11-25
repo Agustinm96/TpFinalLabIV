@@ -14,11 +14,14 @@
     use Models\Availability;
 
     class KeeperController {
+
         public $keeperDAO;
         private $userDAO;
         private $petController;
         private $availabilityController;
         private $reserveController;
+        private $invoiceController;
+        private $emailController;
 
         public function __construct() {
             $this->keeperDAO = new KeeperDAO();
@@ -26,6 +29,9 @@
             $this->petController = new PetController();
             $this->availabilityController = new AvailabilityController();
             $this->reserveController = new ReserveController();
+            $this->invoiceController = new InvoiceController();
+            $this->emailController = new EmailController();
+            
         }
 
         public function ShowHomeView($message = ""){
@@ -62,6 +68,11 @@
             require_once(VIEWS_PATH . "validate-session.php");   
             $availabilityList = $this->availabilityController->availabilityDAO->GetAll();
             
+            if($_SESSION["loggedUser"]->getUserType()->getId()==1){
+                $owner = $this->ownerController->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+                $ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
+            }
+
             if($initDate <= $lastDate){
                 $keepersList = $this->keeperDAO->getAvailableKeepersByDates($availabilityList, $initDate, $lastDate);
 
@@ -143,6 +154,7 @@
 
             $keepersReserveList = $this->reserveController->loadAllReservesFromKeeper($keeper->getIdKeeper());
             foreach($keepersReserveList as $reserve){ //elimino cada reserva que tenia el keeper por el id
+                $this->invoiceController->invoiceDAO->RemoveByReserveId($reserve->getId());
                 $this->reserveController->reserveDAO->Remove($reserve->getId()); //para poder modificar la disponibilidad y al keeper, foreign keys.. 
             }
             $this->availabilityController->Modify($keeper, $initDate, $lastDate, $daysToWork);
@@ -209,7 +221,7 @@
         public function loadPendingReservesList($keeper){
             $arrayToReturn = array();
             $reserveRequestList = $this->reserveController->reserveDAO->GetAll();
-            
+
             if(is_array($reserveRequestList)){
                 foreach($reserveRequestList as $reserve){
                 $availabilityAux = $this->availabilityController->availabilityDAO->GetById($reserve->getAvailability()->getId());
@@ -291,7 +303,7 @@
             return $boolean;
         }
 
-        public function modifyingReserve($date, $petName, $petType, $petId, $availabilityId, $reserveId, $value){
+        public function modifyingReserve($date, $petName, $petType, $userName, $petId, $availabilityId, $reserveId, $value){
             
             $keeper = $this->keeperDAO->GetByIdUser($_SESSION["loggedUser"]->getId());
             $availability = $this->availabilityController->availabilityDAO->GetById($availabilityId);
@@ -316,19 +328,23 @@
             $reserve = $this->reserveController->reserveDAO->GetById($reserveId);
             $reserve->setIsActive(0);
 
+            $user = $this->userDAO->GetById($pet->getId_User()->getId());
+
             $doesPetAlreadyMadeAReserve = $this->checkingReserveRedundancy($reserve);
             $isReserveDayFullLoaded =  $this->reserveController->checkingReservesAmount($keeper, $availability->getId());
             $isPetTypeWellLoaded = $this->reserveController->validatePetType($reserve, $keeper);
 
             if($doesPetAlreadyMadeAReserve && $isReserveDayFullLoaded && $isPetTypeWellLoaded){
 
-                $this->reserveController->reserveDAO->Modify($reserve);
+                $this->reserveController->reserveDAO->Modify($reserve); //al confirmar modifica el estado de la reserva
                 $isReserveDayFullLoaded = $this->reserveController->checkingReservesAmount($keeper, $availability->getId());
                 
-                if(!$isReserveDayFullLoaded){
+                if(!$isReserveDayFullLoaded){ //si el keeper tiene ese dia completo, se anula la disponibilidad de esa fecha
                     $availability->setAvailable(0);
                     $this->availabilityController->availabilityDAO->Modify($availability);
                 }
+                $this->invoiceController->Add($reserve);
+                $this->emailController->sendPaymentCoupon($user, $reserve, null);
                 
                 $message = "DONE! Accepted reserve";
                 $this->ShowPendingReserves($message);

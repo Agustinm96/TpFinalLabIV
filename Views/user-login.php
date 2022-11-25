@@ -1,6 +1,7 @@
 <?php
 include_once('header.php');
 ?>
+
 <div class="wrapper row1">
   <header id="header" class="clear">
     <div id="logo" class="fl_left">

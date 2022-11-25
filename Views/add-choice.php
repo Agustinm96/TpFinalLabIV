@@ -7,8 +7,7 @@ require_once('validate-session.php');
 
 <div id="breadcrumb" class="hoc clear"> 
     <h6 class="heading">PET REGISTER</h6>
-  </div>
-</div>
+  
 <main class="registerDog" style="width: 95%; max-width: 1200px;"> 
 <div class="content" >
 <div id="comments" style="align-items:center;">
@@ -49,6 +48,7 @@ require_once('validate-session.php');
         </form>
         </div>
 
+</div>
 </div>
 </main
 

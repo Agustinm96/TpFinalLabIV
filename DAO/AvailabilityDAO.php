@@ -9,6 +9,7 @@ class AvailabilityDAO{
     private $tableName = "Availability";
     private $connection;
     private $keeperDAO;
+    
 
     public function __construct(){
         $this->connection = new Connection();
@@ -34,6 +35,9 @@ class AvailabilityDAO{
     }
 
     public function Remove($id_availability) {
+        //$reserve = $this->reserveDAO->GetByAvailabilityId($id_availability);
+
+        //$this->invoiceDAO->RemoveByIdReserve($reserve->getId());
         //$this->reserveDAO->RemoveByAvailabilityId($id_availability);
 
         $sql="DELETE FROM Availability WHERE Availability.id_availability=:id_availability";

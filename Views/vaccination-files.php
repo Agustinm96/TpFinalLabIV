@@ -11,7 +11,7 @@ require_once('validate-session.php');
 </head>
 <body>
     <h1>PHP File Uploads</h1>
-    <form action="<?php echo FRONT_ROOT."Dog/UploadVaccination" ?>" method="post" enctype="multipart/form-data">
+    <form action="<?php echo FRONT_ROOT. $pet->getPetType()->getPetTypeName()."/UploadVaccination" ?>" method="post" enctype="multipart/form-data">
        <input type="hidden" name="MAX_FILE_SIZE" value="20000000"/>
         <p>
             <label for="pic">VACCINATION PLAN</label>
@@ -19,7 +19,7 @@ require_once('validate-session.php');
         </p>
         <p>
             <input type="submit" value="Upload" />
-            <input type="hidden" name="PETID" value = <?php echo $PETID ?> />
+            <input type="hidden" name="PETID" value = <?php echo $pet->getId_Pet() ?> />
         </p>
     </form>
 </body>

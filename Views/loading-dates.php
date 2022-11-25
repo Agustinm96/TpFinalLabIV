@@ -5,10 +5,10 @@
     include_once('nav-bar.php');
 
 ?>
-
+<div id="breadcrumb" class="hoc clear"> 
 <main>
     <h1>Finding a Keeper</h1>
-    <form action="<?php ECHO FRONT_ROOT . "Keeper/ShowAvailableListView"?>" method = "post">
+    <form action="<?php ECHO FRONT_ROOT . "Owner/ShowAvailableListView"?>" method = "post">
     <table>
         <thead>              
             <tr>
@@ -35,7 +35,7 @@
         }
     ?>
 </main>
-
+    </div>
 <?php
 
 //require_once('footer.php');

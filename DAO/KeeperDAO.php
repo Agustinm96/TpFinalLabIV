@@ -110,6 +110,7 @@
             }
         }
 
+    
         public function GetByIdUser($idUser) {
             $sqlSelectId = "select * from Keeper where id_user = '".$idUser."';";
             try{
@@ -162,5 +163,25 @@
             throw $ex;
         }
         }
+
+
+        public function getByNameOrLastName($parameters) {
+
+            $query = "SELECT * FROM Keeper JOIN User on Keeper.id_user=User.id_user
+            WHERE User.firstName LIKE '%".$parameters."%' 
+            OR User.lastName LIKE '%".$parameters."%' ";
+            try{
+                $this->connection = Connection::getInstance();
+                $result = $this->connection->Execute($query);
+            }catch(\PDOException $ex){
+                throw $ex;
+            }
+            if(!empty($result)){
+                return $this->mapear($result);
+            }else{
+                return null;
+            }
+        }
+       
     }
 ?>

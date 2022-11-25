@@ -99,7 +99,8 @@ class OwnerDAO implements IOwnerDAO
 
     public function GetByIdUser($idUser)
     {
-        $sqlSelectId = "select * from Owner where id_user = '".$idUser."';";
+        $var = $this->tableName;
+        $sqlSelectId = "SELECT * FROM $var WHERE id_user = '".$idUser."';";
         try{
             $this->connection = Connection::getInstance();
             $result = $this->connection->Execute($sqlSelectId);

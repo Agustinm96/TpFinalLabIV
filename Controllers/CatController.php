@@ -60,7 +60,7 @@ public function __construct()
     $cat->setId_User($user);
     $cat->setPetType($petTypeAux);
     $this->catDAO->Add($cat);
-    $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());
+    $this->ShowPerfilView("Se añadio correctamente el gato: " .$cat->getName());
     }else{
       $petTypeAux = new PetType();
       $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);
@@ -69,24 +69,31 @@ public function __construct()
     }
     }
 
+    public function Modify($id_pet,$name, $birthDate, $observation,$race){
+      require_once (VIEWS_PATH ."validate-session.php");
+      $checkDate = $this->petController->petDAO->validateDate($birthDate);
+      if($checkDate==true){
+      $this->catDAO->Modify($name, $birthDate, $observation,$race, $id_pet);
+      $this->ShowPerfilView("Se modifico correctamente el perro ");
+    }else{
+      $this->ShowPerfilView("Error fecha ingresada no valida \n
+      Solo se aceptan mascotas con mas de 3 meses de edad");
+    }
+      }
+
     public function UploadVaccination($MAX_FILE_SIZE,$IDPET){
       require_once(VIEWS_PATH . "validate-session.php");
-      //$pet = $this->petDAO->GetById($IDPET);
-      //var_dump($_FILES);
 if( isset($_FILES['pic'])){
   $fileType = $_FILES['pic']['type'];
- if(!((strpos($fileType, "gif") || strpos($fileType, "jpeg")|| strpos($fileType, "jpg")|| strpos($fileType, "png")))){
+  if(($fileType == "image/gif")||($fileType== "image/jpeg")
+  ||($fileType == "image/jpg")|| ($fileType == "image/png")){
 
   if( $_FILES['pic']['error'] == 0){
       $dir = IMG_PATH;
-      //var_dump(IMG_PATH);
-      //$filename = "VAC".$pet->getName(). $IDPET . ".jpg";
      $filename = "VAC".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
-     //var_dump($filename);
       $newFile = $dir . $filename;
       if( move_uploaded_file($_FILES['pic']['tmp_name'], $newFile) ){
-          $this->petController->catDAO->uploadVaccinationPlan($filename,$IDPET);
-          //$this->catDAO->uploadVaccinationPlan($filename,$IDPET);
+          $this->catDAO->uploadVaccinationPlan($filename,$IDPET);
           $this->ShowPerfilView($_FILES['pic']['name'] . ' was uploaded and saved as '. $filename . '</br>');
       }else{
          $this->ShowPerfilView("failed to move file error");

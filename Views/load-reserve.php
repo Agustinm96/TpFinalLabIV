@@ -4,9 +4,10 @@
     include_once('header.php');
     include_once('nav-bar.php');
 
+
     $userName = ($_SESSION["loggedUser"]->getUserName());
 ?>
-
+<div id="breadcrumb" class="hoc clear"> 
 <main>
     <h1>Loading reserve</h1>
     <form action="<?php ECHO FRONT_ROOT . "Owner/generatingReserve"?>" method = "post">
@@ -59,7 +60,7 @@
         }
     ?>
 </main>
-
+    </div>
 <?php
 
 //require_once('footer.php');

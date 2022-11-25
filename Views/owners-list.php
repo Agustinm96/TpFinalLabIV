@@ -8,7 +8,7 @@ use Models\User;
 use Models\Owner;
 
 ?>
-
+<div id="breadcrumb" class="hoc clear">
 <div>
     <main>
         <div>
@@ -46,8 +46,8 @@ use Models\Owner;
     </main>
 </div>
 
+</div>
 <?php
-
 require_once('footer.php');
 
 ?>

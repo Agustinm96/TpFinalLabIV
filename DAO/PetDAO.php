@@ -6,20 +6,27 @@ use \Exception as Exception;
 use Models\Pet as Pet;
 use Models\Dog as Dog;
 use Models\Cat as Cat;
+use Models\GuineaPig as GuineaPig;
 use Models\PetType as PetType;
 use Models\User as User;
 use DAO\Connection as Connection;
+use DAO\UserDAO as UserDAO;
+use DAO\PetTypeDAO as PetTypeDAO;
 
 class PetDAO{
     private $petList = array();
     private $fileName = ROOT."Data/pets.json";
     private $connection;
+    private $userDAO;
+    private $petTypeDAO;
     private $tableName = "pet";
     
 
     public function __construct()
     {
         $this->connection = new Connection();
+        $this->userDAO = new UserDAO;
+        $this->petTypeDAO = new PetTypeDAO();
     }
 
     public function Add($namePet,$birthDate,$observation,$id_PetType,$id_user)
@@ -105,7 +112,7 @@ public function GetById($idPet){
      }
         
      }
-        return $pet; //?? no se si retornar la lista;
+        return $pet;
     }else{
         return null;
     }
@@ -196,13 +203,13 @@ public function GetById($idPet){
         // var_dump($petType);
         $dog->setIsActive($content["isActive"]);
         $dog->setId_Pet($content["id_Pet"]); //MODIFICAR
-        $dog->setPetType($petType);
+        $dog->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
         $dog->setName($content["namePet"]);
         $dog->setBirthDate($content["birthDate"]);
         $dog->setObservation($content["observation"]);
         $dog->setPicture($content["picture"]); //PREGUNTAR
         $dog->setVideoPet($content["videoPet"]);
-        $dog->setId_User($user); 
+        $dog->setId_User($this->userDAO->GetById($user->getId())); 
         $dog->setVaccinationPlan($contentDog['vaccinationPlan']);
         $dog->setRace($contentDog["race"]);
         $dog->setSize($contentDog["size"]);
@@ -233,18 +240,57 @@ public function GetById($idPet){
         // var_dump($petType);
         $cat->setIsActive($content["isActive"]);
         $cat->setId_Pet($content["id_Pet"]);
-        $cat->setPetType($petType);
+        $cat->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
         $cat->setName($content["namePet"]);
         $cat->setBirthDate($content["birthDate"]);
         $cat->setObservation($content["observation"]);
         $cat->setPicture($content["picture"]); //PREGUNTAR
         $cat->setVideoPet($content["videoPet"]);
-        $cat->setId_User($user);
+        $cat->setId_User($this->userDAO->GetById($user->getId()));
         foreach($contentCatArray as $contentCat){
         $cat->setVaccinationPlan($contentCat["vaccinationPlan"]);
         $cat->setRace($contentCat["race"]);
         }
         return $cat;
+        }else{
+            return "ERROR";
+        }
+    }
+
+    
+    public function SetGuineaPigToReceive($content){
+        $id = $content['id_Pet'];
+        $query = "SELECT * FROM guineaPig WHERE $id = guineaPig.id_Pet";
+        
+        try{
+            $this->connection = Connection::getInstance();
+            $contentCatArray = $this->connection->Execute($query);
+            //var_dump($contentCatArray);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($contentCatArray)){
+        $guineaPig = new GuineaPig();
+        $petType = new PetType();
+        $petType->setPetTypeId($content["id_PetType"]);
+        $user = new User();
+        $user->setId($content["id_user"]);
+        // var_dump($content["petType"]); 
+        // var_dump($petType);
+        $guineaPig->setIsActive($content["isActive"]);
+        $guineaPig->setId_Pet($content["id_Pet"]);
+        $guineaPig->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
+        $guineaPig->setName($content["namePet"]);
+        $guineaPig->setBirthDate($content["birthDate"]);
+        $guineaPig->setObservation($content["observation"]);
+        $guineaPig->setPicture($content["picture"]); //PREGUNTAR
+        $guineaPig->setVideoPet($content["videoPet"]);
+        $guineaPig->setId_User($this->userDAO->GetById($user->getId()));
+        foreach($contentCatArray as $contentCat){
+        $guineaPig->setHeno($contentCat["heno"]);
+        $guineaPig->setGender($contentCat["gender"]);
+        }
+        return $guineaPig;
         }else{
             return "ERROR";
         }
@@ -260,6 +306,39 @@ public function GetById($idPet){
         }
     }
 
+    public function modify($name, $birthDate, $observation, $id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET 
+                                    birthDate='$birthDate',
+                                    namePet='$name',
+                                    observation= '$observation'
+            WHERE pet.id_Pet='$id_Pet' ;";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function Remove($id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET isActive=0
+            WHERE $var.id_Pet=$id_Pet";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    
+    }
 }
 
 ?>

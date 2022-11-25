@@ -11,8 +11,7 @@ class availability{
     public $id;
     private $date;
     private $available; //boolean
-    private $reserveRequest; //boolean
-    private Pet $pet;
+    //private Pet $pet;
 
     public function getId(){
         return $this->id;
@@ -46,13 +45,13 @@ class availability{
         return $this->keeper;
     }
 
-    public function getPet(){
+    /*public function getPet(){
         return $this->pet;
     }
 
     public function setPet($pet){
         $this->pet = $pet;
-    }
+    }*/
 }
 
 ?>

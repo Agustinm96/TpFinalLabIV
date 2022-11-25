@@ -27,10 +27,8 @@ class DogDAO{
         {
             $query = "INSERT INTO ".$this->tableName." (size,race,id_Pet,vaccinationPlan)
              VALUES (:size, :race, :id_Pet , :vaccinationPlan)";
-            var_dump($dog->getPetType()->getPetTypeId());
             $id = $this->petDAO->Add($dog->getName(),$dog->getBirthDate(),
             $dog->getObservation(),$dog->getPetType()->getPetTypeId(),$dog->getId_User()->GetId());
-            var_dump($id);
             $parameters["size"] = $dog->getSize();
             $parameters["race"] = $dog->getRace();
             $parameters["vaccinationPlan"] = $dog->getVaccinationPlan();
@@ -45,6 +43,25 @@ class DogDAO{
             throw $ex;
         }
     }
+
+    public function modify($name, $birthDate, $observation,$size,$race, $id_Pet){
+        $var = $this->tableName;
+        $this->petDAO->Modify($name, $birthDate, $observation, $id_Pet);
+        try
+        {
+            $query = "UPDATE $var SET 
+                                    size='$size', 
+                                    race='$race'
+            WHERE $var.id_Pet='$id_Pet';";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
+}
 
     public function uploadVaccinationPlan($filename,$id_Pet){
         $var = $this->tableName;
