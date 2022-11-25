@@ -14,6 +14,7 @@ use Models\Dog;
 use Models\Cat;
 use Models\PetType;
 use Models\Reserve;
+use Models\GuineaPig;
 
 class OwnerController
 {
@@ -320,7 +321,12 @@ class OwnerController
                 $cat = new Cat();
                 $cat = $this->petController->petDAO->GetById($petAux->getId_Pet());
                 array_push($arrayPets, $cat);
+            }else if($petAux->getPetType()->getPetTypeId()==3){
+                $guineaPig = new GuineaPig();
+                $guineaPig = $this->petController->petDAO->GetById($petAux->getId_Pet());
+                array_push($arrayPets, $guineaPig);
             }
+
         }
         return $arrayPets;
     }
@@ -354,7 +360,7 @@ class OwnerController
         
         $invoice = $this->invoiceController->invoiceDAO->GetById($invoiceId);
         
-        if($invoice->getIsPayed() == 0){
+        if($invoice->getIsPayed() == 1){
             $message = "ERROR. You've already payed the invoice";
         }else{
             $invoice->setIsPayed(1);

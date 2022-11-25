@@ -55,6 +55,16 @@ CREATE TABLE
         petTypeName varchar(50)
     );
 
+
+CREATE TABLE
+    IF NOT EXISTS guineaPig (
+        id_GuineaPig int NOT NULL auto_increment PRIMARY KEY,
+        id_Pet int,
+        heno varchar(50) default null,
+        gender varchar(50),
+        CONSTRAINT fk_petxguineapig Foreign Key (id_Pet) REFERENCES pet(id_Pet)
+    );
+
 CREATE TABLE
     IF NOT EXISTS pet (
         id_Pet int NOT NULL auto_increment primary key,
@@ -134,6 +144,18 @@ create table
         id_Chat int,
         dataTime date,
         CONSTRAINT fk_chatMSGxchat Foreign Key (id_Chat) REFERENCES chat(id_Chat)
+    );
+
+    CREATE TABLE
+    IF NOT EXISTS review (
+        id_Review int not null auto_increment PRIMARY KEY,
+        id_Owner  int(10) ,
+        id_Keeper int(10),
+        reviewMsg varchar(100) default null,
+        score int(5) default 0,
+        switchOwnerKeeper boolean default 0,
+        CONSTRAINT fk_owenerxreview Foreign Key (id_Owner) REFERENCES User(id_user),
+        CONSTRAINT fk_keepertxreview Foreign Key (id_Keeper) REFERENCES User(id_user)
     );
 
 INSERT INTO UserType VALUES(0,'Owner');

@@ -4,6 +4,7 @@
     include_once('header.php');
     include_once('nav-bar.php');
 
+
     $userName = ($_SESSION["loggedUser"]->getUserName());
 ?>
 <div id="breadcrumb" class="hoc clear"> 

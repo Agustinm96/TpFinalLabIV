@@ -184,6 +184,7 @@ a{
 
 .msg {
     background: white;
+    margin-top: 30px;
     min-width: 50px;
     padding: 10px;
     border-radius: 2px;

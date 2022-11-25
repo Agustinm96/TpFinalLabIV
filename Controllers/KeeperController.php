@@ -343,7 +343,6 @@
                     $availability->setAvailable(0);
                     $this->availabilityController->availabilityDAO->Modify($availability);
                 }
-                //require_once(VIEWS_PATH."generateAndSendInvoice.php");
                 $this->invoiceController->Add($reserve);
                 $this->emailController->sendPaymentCoupon($user, $reserve, null);
                 

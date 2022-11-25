@@ -55,8 +55,8 @@
             </li>
             <li><a href="<?php echo FRONT_ROOT."User/ShowMyProfile"?>">My Profile</a></li>
             <li><a href="<?php echo FRONT_ROOT."Home/Logout"?>">Logout</a></li>
-            <?php if(isset($booleanOwner)){ ?>
-             <?php if($booleanOwner){ ?>
+            <?php if(isset($ownerBoolean)){ ?>
+             <?php if($ownerBoolean){ ?>
             <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>">
             <img src="<?php echo FRONT_ROOT . IMG_PATH . "notification.png"; ?>"
             alt="" style="width:20px ;"></a>
@@ -66,7 +66,7 @@
             alt="" style="width:20px ;"></a>
               <?php } ?>
             <?php }else{?>
-              <?php $booleanOwner=false ?>
+              <?php $ownerBoolean=false ?>
               <a href="<?php echo FRONT_ROOT . "Owner/ShowInvoicesToPay"?>">
             <img src="<?php echo FRONT_ROOT . IMG_PATH . "bell.png"; ?>"
             alt="" style="width:20px ;"></a>

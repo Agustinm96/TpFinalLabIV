@@ -3,6 +3,8 @@ include_once('header.php');
 include_once('nav-bar.php');
 require_once('validate-session.php');
 
+var_dump($petList);
+
 ?>
 <!-- Se modifico el Owner show de aca ojo test -->
 <?php
