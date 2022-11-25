@@ -38,7 +38,7 @@ class OwnerController
 
     public function ShowHomeView($message = "")
     {
-        //require_once(VIEWS_PATH . "validate-session.php");
+        require_once(VIEWS_PATH . "validate-session.php");
         $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
         $ownerBoolean = $this->checkingIfAreInvoicesToPay($owner);
         require_once(VIEWS_PATH . "home.php");
@@ -368,7 +368,7 @@ class OwnerController
     public function checkingIfAreInvoicesToPay($owner){
         $invoicesList = $this->invoiceController->invoiceDAO->GetAll();
         $boolean = false;
-
+  if(is_object($owner)){  //parche momentaneo
         if(is_array($invoicesList)){
             foreach($invoicesList as $invoice){
             if($invoice->getReserve()->getPet()->getId_User()->getId() == $owner->getUser()->getId()){ 
@@ -387,6 +387,9 @@ class OwnerController
                 }
             }
         return $boolean;
+  }else{
+    return $boolean;
+  }
     }
 
     public function loadingInvoicesToPay($owner){

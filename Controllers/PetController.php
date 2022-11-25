@@ -2,20 +2,17 @@
 namespace Controllers;
 
 use Models\Pet as Pet;
-use Controllers\OwnerController as OwnerController;
 use DAO\OwnerDAO as OwnerDAO;
 use DAO\PetDAO as PetDAO;
 
 
 class PetController {
 public $petDAO;
-//private $ownerController;
 
 
     public function __construct()
     {
         $this->petDAO = new petDAO();
-        //$this->ownerController = new OwnerController();
     }
     
  public function ShowPerfilView($message = ""){
@@ -31,14 +28,14 @@ public $petDAO;
 
     public function ShowUploadPetVaccination($PETID) {
         require_once(VIEWS_PATH . "validate-session.php");
-        $PETID = $PETID;
+        $pet = $this->petDAO->GetById($PETID);;
         require_once(VIEWS_PATH . "vaccination-files.php");
     }
     public function ShowUploadPetPicture($PETID) {
         require_once(VIEWS_PATH . "validate-session.php");
         $PETID = $PETID;
         require_once(VIEWS_PATH . "picture-files.php");
-    }  // SE IMPLEMENTO EN OWNER PARA PODER MANTENER ACTIVA LA NOTIFICACIONES.
+    }
 
     public function ShowAddView() {
         require_once(VIEWS_PATH . "validate-session.php");
@@ -60,11 +57,10 @@ public $petDAO;
 
     public function UploadPicture($MAX_FILE_SIZE,$IDPET){
         require_once(VIEWS_PATH . "validate-session.php");
-        var_dump($_FILES);
-  if( isset($_FILES['pic'])){
-    $fileType = $_FILES['pic']['type'];
-   if(!((strpos($fileType, "image/gif") || strpos($fileType, "image/jpeg")|| strpos($fileType, "image/jpg")|| strpos($fileType, "image/png")))){
-  
+         if( isset($_FILES['pic'])){
+           $fileType = $_FILES['pic']['type'];
+        if(($fileType=="image/gif")||($fileType =="image/jpeg")||
+         ($fileType=="image/jpg")|| ($fileType== "image/png")){
     if( $_FILES['pic']['error'] == 0){
         $dir = IMG_PATH;
        $filename = "IMG".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".jpg";
@@ -97,15 +93,13 @@ public $petDAO;
             require_once(VIEWS_PATH . "validate-session.php");
          if( isset($_FILES['video'])){
             $fileType = $_FILES['video']['type'];
-            if(!((strpos($fileType, "video/mp4")))){
+            var_dump($fileType);
+            if($fileType =="video/mp4"){
          if( $_FILES['video']['error'] == 0){
             $dir = IMG_PATH;
-            //var_dump(IMG_PATH);
-           // $filename = "video".$pet->getName(). $IDPET . ".mp4";
             $filename = "video".$_SESSION["loggedUser"]->GetUserName(). $IDPET . ".mp4";
             $newFile = $dir . $filename;
             if( move_uploaded_file($_FILES['video']['tmp_name'], $newFile) ){
-                //echo $_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>';
                 $this->petDAO->UploadVideo($filename,$IDPET);
                 $this->ShowPerfilView($_FILES['video']['name'] . ' was uploaded and saved as '. $filename . '</br>');
             }else{

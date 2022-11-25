@@ -22,17 +22,23 @@ include_once('header.php');
                                 <td><?php echo $score ?></td>
                                 <td><?php echo $scoreCount?></td>
                     </tbody>
+                    <tr>
                     <th style="width: 100px;">Comentarios</th>
                    <?php if(!is_null($reviewList)){ ?>
+                    </tr>
                     <?php foreach($reviewList as $review){ ?>
-                        <th style="width: 100px;">User</th>
+                        <tr> 
+                        <th style="width: 100px;">User</th>        
                         <th style="width: 170px;">Comentario</th>
-                        <td><?php echo $review->getId_Owner()->getLatstName() . " " .
+                        <td><?php echo $review->getId_Owner()->getLastName() . " " .
                          $review->getId_Owner()->getFirstName() ?></td>
-                                <td><?php echo $review->getReview() ?></td>
+                                <td><?php echo $review->getReviewMsg() ?></td>
+                    </tr>
                         <?php } ?>
                         <?php }else{ ?>
+                            <tr>
                             <th style="width: 170px;">Este keeper No posee Comentarios Aun</th>
+                        </tr>
                             <?php } ?>
                 </table>
 

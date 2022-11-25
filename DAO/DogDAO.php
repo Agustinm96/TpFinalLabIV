@@ -27,10 +27,8 @@ class DogDAO{
         {
             $query = "INSERT INTO ".$this->tableName." (size,race,id_Pet,vaccinationPlan)
              VALUES (:size, :race, :id_Pet , :vaccinationPlan)";
-            var_dump($dog->getPetType()->getPetTypeId());
             $id = $this->petDAO->Add($dog->getName(),$dog->getBirthDate(),
             $dog->getObservation(),$dog->getPetType()->getPetTypeId(),$dog->getId_User()->GetId());
-            var_dump($id);
             $parameters["size"] = $dog->getSize();
             $parameters["race"] = $dog->getRace();
             $parameters["vaccinationPlan"] = $dog->getVaccinationPlan();

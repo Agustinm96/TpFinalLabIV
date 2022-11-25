@@ -63,6 +63,7 @@ Class ReviewController{
                 $score = $score + $review->getScore();
                 $scoreCount++;
             }
+            $score = $score/$scoreCount;
         }
         require_once(VIEWS_PATH . "view-infokeeper.php");
       }

@@ -11,7 +11,6 @@ if (!isset($chat)) { ?>
 </table>
 <?php }
 ?>
-<div id="breadcrumb" class="hoc clear"> 
 <div class="contenedorchat" style="position:relative; max-weight:800px; margin:auto;">
     <div class="menu">
         <link rel="stylesheet" href="<?php echo CSS_PATH;?>chatcss.css">    
@@ -65,4 +64,3 @@ if (!isset($chat)) { ?>
     <input type="hidden" name="id_Chat" value="<?php echo $chat->getId_Chat() ?>" />
                    </form>
 </div>
-    </div>
