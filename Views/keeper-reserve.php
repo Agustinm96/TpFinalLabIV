@@ -25,7 +25,7 @@
                         ?><tr>
                                 <td align='center'><input type="date" name="date" value="<?php echo $reserve["date"] ?>" readonly></td>
                                 <td align='center'><input type="text" name="petName" value="<?php echo $reserve["petName"] ?>" align='center' readonly></td>
-                                <td align='center'><input type="text" name="petNameType" value="<?php if($reserve["petType"]==1){echo "Dog";}elseif($reserve["petType"]==2){echo "Cat";}  ?>" align='center' readonly></td>   
+                                <td align='center'><input type="text" name="petNameType" value="<?php if($reserve["petType"]==1){echo "Dog";}elseif($reserve["petType"]==2){echo "Cat";} elseif($reserve["petType"]==3){echo "Guinea Pig";} ?>" align='center' readonly></td>   
                                     
                                     <?php $date=date('Y-m-d'); 
                                     if($reserve["date"]>=$date){

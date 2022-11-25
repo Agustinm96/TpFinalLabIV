@@ -55,7 +55,7 @@ public function __construct()
     $guineaPig->setId_User($user);
     $guineaPig->setPetType($petTypeAux);
     $this->guineapigDAO->Add($guineaPig);
-    $this->ShowPerfilView("Se añadio correctamente el gato :" .$guineaPig->getName());
+    $this->ShowPerfilView("Se añadio correctamente el cobayo: " .$guineaPig->getName());
     }else{
       $petTypeAux = new PetType();
       $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);

@@ -61,7 +61,7 @@ public function __construct()
     $dog->setId_User($user);
     $dog->setPetType($petTypeAux);
     $this->dogDAO->Add($dog);
-    $this->ShowPerfilView("Se añadio correctamente el perro :" .$dog->getName());
+    $this->ShowPerfilView("Se añadio correctamente el perro: " .$dog->getName());
   }else{
     $petTypeAux = new PetType();
     $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);

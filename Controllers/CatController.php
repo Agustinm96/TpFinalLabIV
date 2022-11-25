@@ -60,7 +60,7 @@ public function __construct()
     $cat->setId_User($user);
     $cat->setPetType($petTypeAux);
     $this->catDAO->Add($cat);
-    $this->ShowPerfilView("Se añadio correctamente el gato :" .$cat->getName());
+    $this->ShowPerfilView("Se añadio correctamente el gato: " .$cat->getName());
     }else{
       $petTypeAux = new PetType();
       $petTypeAux = $this->petTypeController->petTypeDAO->GetByPetTypeId($petType);

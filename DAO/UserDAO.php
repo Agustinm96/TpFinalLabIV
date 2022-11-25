@@ -163,7 +163,24 @@ class UserDAO implements IUserDAO
 
     public function Modify(User $user)
     {
-        
+        try
+        {
+        $query = "UPDATE User SET firstName='".$user->getFirstName()."',
+                                lastName='".$user->getLastName()."',
+                                dni ='".$user->getDni()."',
+                                email ='".$user->getEmail()."',
+                                phoneNumber = '".$user->getPhoneNumber()."',
+                                userName = '".$user->getUsername()."',
+                                pass= '".$user->getPassword()."'
+        WHERE User.id_user='".$user->getId()."';";
+        $this->connection = Connection::GetInstance();
+        $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
     }
 
 

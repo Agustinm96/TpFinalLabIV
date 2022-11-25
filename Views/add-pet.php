@@ -10,7 +10,7 @@ if (isset($message)) {
 }
 ?>
 <div id="breadcrumb" class="hoc clear"> 
-    <h6 class="heading">New DOG Register</h6>
+    <h6 class="heading">New <?php $petType->getPetTypeName() ?> Register</h6>
   </div>
 <main class="registerDog" style="width: 95%; max-width: 1200px;"> 
 <div id="breadcrumb" class="hoc clear">
