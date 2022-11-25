@@ -46,6 +46,25 @@ class DogDAO{
         }
     }
 
+    public function modify($name, $birthDate, $observation,$size,$race, $id_Pet){
+        $var = $this->tableName;
+        $this->petDAO->Modify($name, $birthDate, $observation, $id_Pet);
+        try
+        {
+            $query = "UPDATE $var SET 
+                                    size='$size', 
+                                    race='$race'
+            WHERE $var.id_Pet='$id_Pet';";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
+}
+
     public function uploadVaccinationPlan($filename,$id_Pet){
         $var = $this->tableName;
         try

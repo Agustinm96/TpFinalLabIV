@@ -7,7 +7,7 @@ use Models\User;
 use Models\Keeper;
 
 ?>
-
+<div id="breadcrumb" class="hoc clear"> 
 <div>
     <main>
         <div>
@@ -58,7 +58,7 @@ use Models\Keeper;
         </div>
     </main>
 </div>
-
+</div>
 <?php
 
 require_once('footer.php');

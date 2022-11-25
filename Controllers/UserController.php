@@ -4,16 +4,18 @@
     use DAO\UserDAO;
     use DAO\OwnerDAO;
     use DAO\UserTypeDAO; 
+    use DAO\ReviewDAO; 
     use Models\User;
     use Models\UserType;
 
     class UserController
     {
-        private $userDAO;
+        public $userDAO;
         private $ownerDAO;
         private $userTypeDAO;
         private $keeperController;
         private $ownerController;
+        private $reviewDAO;
 
         public function __construct()
         {
@@ -22,6 +24,7 @@
             $this->userTypeDAO = new UserTypeDAO();
             $this->keeperController = new KeeperController();
             $this->ownerController = new OwnerController();
+            $this->reviewDAO= new ReviewDAO();
         }
 
         public function ShowAddView($message="",$userType=null)
@@ -64,6 +67,7 @@
             else if($user->getUserType()->getId()==1){
                 $owner = $this->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
                 $ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
+                $review= $this->reviewDAO->checkReviewAvariableFromOwner($_SESSION["loggedUser"]->getId());
             }
             require_once(VIEWS_PATH . "profile-view.php");
         }

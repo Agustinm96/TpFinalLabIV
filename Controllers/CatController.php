@@ -69,6 +69,18 @@ public function __construct()
     }
     }
 
+    public function Modify($id_pet,$name, $birthDate, $observation,$race){
+      require_once (VIEWS_PATH ."validate-session.php");
+      $checkDate = $this->petController->petDAO->validateDate($birthDate);
+      if($checkDate==true){
+      $this->catDAO->Modify($name, $birthDate, $observation,$race, $id_pet);
+      $this->ShowPerfilView("Se modifico correctamente el perro ");
+    }else{
+      $this->ShowPerfilView("Error fecha ingresada no valida \n
+      Solo se aceptan mascotas con mas de 3 meses de edad");
+    }
+      }
+
     public function UploadVaccination($MAX_FILE_SIZE,$IDPET){
       require_once(VIEWS_PATH . "validate-session.php");
       //$pet = $this->petDAO->GetById($IDPET);

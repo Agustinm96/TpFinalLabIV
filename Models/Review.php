@@ -9,7 +9,6 @@ private User $id_Keeper; //Mismo nombre que base de datos.
 private $id_Review;
 private $score;
 private $reviewMsg;
-private $dateShowReview;
 private $switchOwnerKeeper; // valor 0 para owners 1 para keepers.
 //ESTE SWITCH TENDRA LA FUNCION DE DETERMINAR SI SE MUESTRA EN LAVISTA DEL OWNER;
 //O SE TENDRA EN CONSIDERACION PARA LA CALIFICACION FINAL DEL KEEPER;
@@ -132,26 +131,6 @@ return $this->switchOwnerKeeper;
 public function setSwitchOwnerKeeper($switchOwnerKeeper)
 {
 $this->switchOwnerKeeper = $switchOwnerKeeper;
-
-return $this;
-}
-
-/**
- * Get the value of dateShowReview
- */ 
-public function getDateShowReview()
-{
-return $this->dateShowReview;
-}
-
-/**
- * Set the value of dateShowReview
- *
- * @return  self
- */ 
-public function setDateShowReview($dateShowReview)
-{
-$this->dateShowReview = $dateShowReview;
 
 return $this;
 }

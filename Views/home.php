@@ -4,7 +4,7 @@ include_once('nav-bar.php');
 ?>
 
 <h1 align='center'>Welcome <?php echo $_SESSION["loggedUser"]->getFirstName() ?></h1>
-
+<div id="" class="hoc clear">
 <?php if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) { ?>
 
     <li><a href="#">Menu</a>
@@ -42,3 +42,4 @@ include_once('nav-bar.php');
         require_once(VIEWS_PATH . "footer.php");
         ?>
     <?php } ?>
+    </div>

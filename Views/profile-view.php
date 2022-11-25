@@ -49,7 +49,22 @@ use Models\Keeper;
         </form>
     </div>
     </div>
+    <div class="hoc">
+    <?php  if(isset($review)) {?>
+        <td>Usted posee Reviews para contestar de :</td>
+        <div>
+                <form action="<?php echo FRONT_ROOT . "Review/ShowReview" ?>" method="post">
+                 
+                    <input type="hidden" name="id_Review" value= "<?php echo $review->getId_Review() ?>"  />
+                    <<<input type="submit" class="btn" 
+                    value="<?php echo $review->getId_Keeper()->getLastName(). " " .$review->getId_Keeper()->getFirstName()  ?>"
+                     style="background-color:#DC8E47;color:white;"/>>>
+                     
+                 </form>         
+         </div>
+        <?php } ?>
     <!-- / main body -->
+     </div>
     <div class="clear"></div>
 </main>
 </div>

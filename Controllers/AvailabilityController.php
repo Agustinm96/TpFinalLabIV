@@ -12,7 +12,7 @@ class AvailabilityController{
 
     public function __construct(){
         $this->availabilityDAO = new AvailabilityDAO();
-        $this->invoiceController = new InvoiceController();
+        $this->invoiceController = new InvoiceController(); //??? no se usa
     }
 
     public function Add ($keeper, $initDate, $finishDate, $daysToWork){

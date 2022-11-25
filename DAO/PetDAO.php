@@ -6,6 +6,7 @@ use \Exception as Exception;
 use Models\Pet as Pet;
 use Models\Dog as Dog;
 use Models\Cat as Cat;
+use Models\GuineaPig as GuineaPig;
 use Models\PetType as PetType;
 use Models\User as User;
 use DAO\Connection as Connection;
@@ -111,7 +112,7 @@ public function GetById($idPet){
      }
         
      }
-        return $pet; //?? no se si retornar la lista;
+        return $pet;
     }else{
         return null;
     }
@@ -256,6 +257,45 @@ public function GetById($idPet){
         }
     }
 
+    
+    public function SetGuineaPigToReceive($content){
+        $id = $content['id_Pet'];
+        $query = "SELECT * FROM guineaPig WHERE $id = guineaPig.id_Pet";
+        
+        try{
+            $this->connection = Connection::getInstance();
+            $contentCatArray = $this->connection->Execute($query);
+            //var_dump($contentCatArray);
+        }catch(\PDOException $ex){
+            throw $ex;
+        }
+        if(!empty($contentCatArray)){
+        $guineaPig = new GuineaPig();
+        $petType = new PetType();
+        $petType->setPetTypeId($content["id_PetType"]);
+        $user = new User();
+        $user->setId($content["id_user"]);
+        // var_dump($content["petType"]); 
+        // var_dump($petType);
+        $guineaPig->setIsActive($content["isActive"]);
+        $guineaPig->setId_Pet($content["id_Pet"]);
+        $guineaPig->setPetType($this->petTypeDAO->GetByPetTypeId($petType->getPetTypeId()));
+        $guineaPig->setName($content["namePet"]);
+        $guineaPig->setBirthDate($content["birthDate"]);
+        $guineaPig->setObservation($content["observation"]);
+        $guineaPig->setPicture($content["picture"]); //PREGUNTAR
+        $guineaPig->setVideoPet($content["videoPet"]);
+        $guineaPig->setId_User($this->userDAO->GetById($user->getId()));
+        foreach($contentCatArray as $contentCat){
+        $guineaPig->setHeno($contentCat["heno"]);
+        $guineaPig->setGender($contentCat["gender"]);
+        }
+        return $guineaPig;
+        }else{
+            return "ERROR";
+        }
+    }
+
     function validateDate($birthDate)
     {
         $checkDate = date("Y-m-d",strtotime($birthDate.' + 3 months '));
@@ -266,6 +306,39 @@ public function GetById($idPet){
         }
     }
 
+    public function modify($name, $birthDate, $observation, $id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET 
+                                    birthDate='$birthDate',
+                                    namePet='$name',
+                                    observation= '$observation'
+            WHERE pet.id_Pet='$id_Pet' ;";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function Remove($id_Pet){
+        $var = $this->tableName;
+        try
+        {
+            $query = "UPDATE $var SET isActive=0
+            WHERE $var.id_Pet=$id_Pet";
+            $this->connection = Connection::GetInstance();
+            $this->connection->execute($query);
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    
+    }
 }
 
 ?>

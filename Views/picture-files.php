@@ -4,6 +4,7 @@ include_once('nav-bar.php');
 require_once('validate-session.php');
 
 ?>
+<div id="breadcrumb" class="hoc clear">
 <head>
     <meta charset="UTF-8">
     <title>PHP File Uploads</title>
@@ -12,6 +13,7 @@ require_once('validate-session.php');
 </head>
 <body>
     <h1>PHP File Uploads</h1>
+    <h2>Solo se acepta formato jpg, jpeg, png , gif</h2>
     <form action="<?php echo FRONT_ROOT."Pet/UploadPicture" ?>" method="post" enctype="multipart/form-data">
        <input type="hidden" name="MAX_FILE_SIZE" value="20000000"/>
         <p>
@@ -24,4 +26,5 @@ require_once('validate-session.php');
         </p>
     </form>
 </body>
+</div>
 </html>

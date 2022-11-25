@@ -5,7 +5,7 @@ require_once('validate-session.php');
 
 ?>
 
-<div>
+<div id="" class="hoc clear">
 <?php if ($_SESSION["loggedUser"]->getUserType()->getId()==1) { ?>
   <table>
 <tbody>
@@ -16,28 +16,40 @@ require_once('validate-session.php');
                   <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:green;"/>
 </form>
                 </td>
-</div>
+
 </tbody>
 </table>
+</div>
 <?php } ?>
+<div id="" class="hoc clear">
 <?php if (isset($result)&&($result)) { ?>
-  <div id="breadcrumb" class="hoc clear">
      <h2 class="heading">KEEPER RESULT</h2>
       <?php if(is_object($result)){ ?>
-          <table style="text-align:left;">
+          <table style="text-align:center;">
               <thead>
                 <tr>
                   <th style="width: 100px;">Keeper: </th>
                   <td><?php echo $result->getUser()->getLastName() . " " 
                       .$result->getUser()->getFirstName() ?></td>
                   </tr>
+                  <div>
                       <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
                         <input type="hidden" name="id_User" value="<?php echo $result->getUser()->getId()?>" />
                        <td><input type="submit" class="btn"  
-                       value= "START CHAT"
+                       value= "ADD CHAT"
                      style="background-color:#DC8E47;color:white;" />
                   </td>
                       </form>
+                  </div>
+                  <div>
+                  <form target="_blank" action="<?php echo FRONT_ROOT . "Chat/ViewInfo" ?>" method="post" style="">
+                        <input type="hidden" name="id_User" value="<?php echo $result->getUser()->getId()?>" />
+                       <td><input type="submit" class="btn"  
+                       value= "View Info"
+                     style="background-color:#DC8E47;color:white;" />
+                  </td>
+                      </form>
+                      </div>
            </table>
         <?php } ?>
   <?php foreach($result as $user){ ?>
@@ -47,12 +59,23 @@ require_once('validate-session.php');
                   <th style="width: 100px;">Keeper: </th>
                   <td><?php echo $user->getUser()->getLastName() . " " .$user->getUser()->getFirstName() ?></td>
                 </tr>
+                <div>
                 <form action="<?php echo FRONT_ROOT . "Chat/NewChat" ?>" method="post" style="">
                       <input type="hidden" name="id_User" value="<?php echo $user->getUser()->getId()?>" />
                       <td><input type="submit" class="btn"  
-                      value= "START CHAT"
+                      value= "ADD CHAT"
                    style="background-color:#DC8E47;color:white;" /></td>
-  </form>
+                </form>
+                </div>
+                <div>
+                  <form target="_blank" action="<?php echo FRONT_ROOT . "Review/ViewInfo" ?>" method="post" style="">
+                        <input type="hidden" name="id_User" value="<?php echo $user->getUser()->getId()?>" />
+                       <td><input type="submit" class="btn"  
+                       value= "View Info"
+                     style="background-color:#DC8E47;color:white;" />
+                  </td>
+                      </form>
+                      </div>
               </table>
               <?php } ?>
 
@@ -62,7 +85,7 @@ require_once('validate-session.php');
 
 <div id="breadcrumb" class="hoc clear">
   <h6 class="heading">CHATS</h6>
-</div>
+
 <?php
 if (isset($message)) { ?>
   <table style="text-align:center;">
@@ -108,4 +131,4 @@ if (isset($message)) { ?>
     </div>
     </aside>
 </div>
-
+</div>

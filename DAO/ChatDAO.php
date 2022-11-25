@@ -26,9 +26,9 @@ class ChatDAO{
             $query = "INSERT INTO ".$this->tableName." (id_Owner,id_Keeper)
              VALUES (:id_Owner, :id_Keeper)";
             $parameters["id_Owner"] = $newChat->getId_Owner()->getId();
-            var_dump($parameters["id_Owner"]);
+            //var_dump($parameters["id_Owner"]);
             $parameters["id_Keeper"] = $newChat->getId_Keeper()->getId();
-            var_dump($parameters["id_Keeper"]);
+            //var_dump($parameters["id_Keeper"]);
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);

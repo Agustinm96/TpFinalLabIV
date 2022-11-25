@@ -4,7 +4,7 @@
     require_once('nav-bar.php');
 
 ?>
-
+<div id="" class="hoc clear"> 
 <div>
     <main>
         <div>
@@ -51,3 +51,4 @@
     ?>
     </main>
 </div>
+    </div>

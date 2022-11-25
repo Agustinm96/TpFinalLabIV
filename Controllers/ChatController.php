@@ -11,18 +11,16 @@ class ChatController
 {
   private $userController;
   private $keeperController;
-  private $ownerController;
-  private $keeperDAO;
+ // private $ownerController;
   private $chatDAO;
 
   public function __construct()
 
   {
     $this->chatDAO = new ChatDAO();
-    $this->keeperDAO = new KeeperDAO();
     $this->userController = new UserController();
     $this->keeperController = new KeeperController();
-    $this->ownerController = new OwnerController();
+    //$this->ownerController = new OwnerController();
   }
 
 
@@ -32,12 +30,12 @@ class ChatController
 
     $user = $_SESSION["loggedUser"];
     if ($user->getUserType()->getId() == 2) {
-      $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
-      $boolean = $this->keeperController->checkingRequests($keeper);
+     // $keeper = $this->keeperController->keeperDAO->GetByIdUser($user->getId());
+     // $boolean = $this->keeperController->checkingRequests($keeper);
       $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(), "id_Keeper");
     } else if ($user->getUserType()->getId() == 1) {
-      $owner = $this->ownerController->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
-      $ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
+      //$owner = $this->ownerController->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+      //$ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
       $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(), "id_Owner");
     }
 
@@ -47,22 +45,24 @@ class ChatController
   public function getAllKeepers()
   {
     require_once(VIEWS_PATH . "validate-session.php");
-    $result = $this->keeperDAO->GetAll();
+    $result = $this->keeperController->keeperDAO->GetAll();
     $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(), "id_Owner");
     require_once(VIEWS_PATH . "chat-list.php");
   }
+
+
 
   public function lookForKeeper($searchParameter)
   {
     require_once(VIEWS_PATH . "validate-session.php");
     if (!$searchParameter) {
-      $result = $this->keeperDAO->GetAll();
+      $result = $this->keeperController->keeperDAO->GetAll();
     } else {
-      $result = $this->keeperDAO->getByNameOrLastName($searchParameter);
+      $result = $this->keeperController->keeperDAO->getByNameOrLastName($searchParameter);
     }
     if ($_SESSION["loggedUser"]->getUserType()->getId() == 1) {
-      $owner = $this->ownerController->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
-      $ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
+      //$owner = $this->ownerController->ownerDAO->GetByIdUser(($_SESSION["loggedUser"]->getId()));
+      //$ownerBoolean = $this->ownerController->checkingIfAreInvoicesToPay($owner);
       $chatList = $this->chatDAO->GetById_User($_SESSION["loggedUser"]->getId(), "id_Owner");
     }
     require_once(VIEWS_PATH . "chat-list.php");

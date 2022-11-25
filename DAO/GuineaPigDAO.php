@@ -3,17 +3,17 @@ namespace DAO;
 
 
 use \Exception as Exception;
-use Models\Cat as Cat;
+use Models\GuineaPig as GuineaPig;
 use Models\PetType as PetType;
 use Models\User as User;
 use DAO\PetDAO as PetDAO;
 use DAO\Connection as Connection;
 use CONTROLLERS\PetController as PetController;
 
-class CatDAO{
+class GuineaPigDAO{
     private $petDAO;
     private $connection;
-    private $tableName = "cat";
+    private $tableName = "guineaPig";
 
     public function __construct()
     {
@@ -21,16 +21,16 @@ class CatDAO{
         $this->connection = new Connection();
     }
 
-    public function Add(Cat $cat)
+    public function Add(GuineaPig $guineaPig)
     {
         try
         {
-            $query = "INSERT INTO ".$this->tableName." (race,id_Pet,vaccinationPlan)
-             VALUES (:race, :id_Pet , :vaccinationPlan)";
-            $id = $this->petDAO->Add($cat->getName(),$cat->getBirthDate(),
-            $cat->getObservation(),$cat->getPetType()->getPetTypeId(),$cat->getId_User()->GetId());
-            $parameters["race"] = $cat->getRace();
-            $parameters["vaccinationPlan"] = $cat->getVaccinationPlan();
+            $query = "INSERT INTO ".$this->tableName." (heno,id_Pet,gender)
+             VALUES (:heno, :id_Pet , :gender)";
+            $id = $this->petDAO->Add($guineaPig->getName(),$guineaPig->getBirthDate(),
+            $guineaPig->getObservation(),$guineaPig->getPetType()->getPetTypeId(),$guineaPig->getId_User()->GetId());
+            $parameters["heno"] = $guineaPig->getHeno();
+            $parameters["gender"] = $guineaPig->getGender();
             $parameters["id_Pet"] = $id;
 
             $this->connection = Connection::GetInstance();
@@ -43,15 +43,15 @@ class CatDAO{
         }
     }
 
-
-    public function modify($name, $birthDate, $observation,$race, $id_Pet){
+    public function modify($name, $birthDate, $observation,$heno,$gender, $id_Pet){
         $var = $this->tableName;
         $this->petDAO->Modify($name, $birthDate, $observation, $id_Pet);
         try
         {
             $query = "UPDATE $var SET 
                                      
-                                    race='$race'
+                                    heno='$heno',
+                                    gender='$gender'
             WHERE $var.id_Pet='$id_Pet';";
             $this->connection = Connection::GetInstance();
             $this->connection->execute($query);
@@ -63,21 +63,6 @@ class CatDAO{
 
 }
 
-    public function uploadVaccinationPlan($filename,$id_Pet){
-        $var = $this->tableName;
-        try
-        {
-            $query = "UPDATE $var SET VaccinationPlan='$filename'
-            WHERE $var.id_Pet=$id_Pet";
-            $this->connection = Connection::GetInstance();
-            $this->connection->execute($query);
-        }
-        catch(Exception $ex)
-        {
-            throw $ex;
-        }
-
-}
 
 }
 ?>
