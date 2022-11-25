@@ -42,7 +42,7 @@ require_once('validate-session.php');
                       </form>
                   </div>
                   <div>
-                  <form target="_blank" action="<?php echo FRONT_ROOT . "Chat/ViewInfo" ?>" method="post" style="">
+                  <form target="_blank" action="<?php echo FRONT_ROOT . "Review/ViewInfo" ?>" method="post" style="">
                         <input type="hidden" name="id_User" value="<?php echo $result->getUser()->getId()?>" />
                        <td><input type="submit" class="btn"  
                        value= "View Info"
